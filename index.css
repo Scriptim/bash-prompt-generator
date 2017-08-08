@@ -6,7 +6,6 @@ body {
 }
 
 #container {
-  box-sizing: border-box;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -38,10 +37,12 @@ h1 {
   display: inline-block;
   height: 100%;
   margin: 0 1%;
+  vertical-align: top;
 }
 
 #elements {
   width: 30%;
+  text-align: left;
   background-color: lightcyan;
 }
 
@@ -67,4 +68,17 @@ h1 {
 
 #command {
   background-color: lightsteelblue;
+}
+
+#elements > span {
+  display: inline-block;
+  margin: 0.2em;
+  padding: 0.2em 0.5em;
+  border-radius: 0.5em;
+  background-color: #dfdfdf;
+}
+
+#elements > span:hover {
+  cursor: pointer;
+  background-color: #cacaca;
 }
