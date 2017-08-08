@@ -1,0 +1,70 @@
+/* TODO: remove background-color properties */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+}
+
+h1 {
+  width: 90%;
+  margin: 1em auto 0;
+}
+
+#input {
+  width: 90%;
+  height: 50%;
+  margin: 1em auto 0;
+  padding: 0.2em;
+  text-align: center;
+  background-color: lightcoral;
+}
+
+#output {
+  width: 90%;
+  height: 30%;
+  margin: 0 auto;
+  background-color: lightsalmon;
+}
+
+#elements, #inputarea, #properties {
+  display: inline-block;
+  height: 100%;
+  margin: 0 1%;
+}
+
+#elements {
+  width: 30%;
+  background-color: lightcyan;
+}
+
+#inputarea {
+  width: 40%;
+  background-color: lightgoldenrodyellow;
+}
+
+#properties {
+  width: 20%;
+  background-color: lightpink;
+}
+
+#preview, #command {
+  width: 90%;
+  height: 4em;
+  margin: 1em auto;
+}
+
+#preview {
+  background-color: lightyellow;
+}
+
+#command {
+  background-color: lightsteelblue;
+}
