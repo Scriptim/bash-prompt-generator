@@ -19,7 +19,7 @@ h1 {
 
 #input {
   width: 90%;
-  height: 50%;
+  min-height: 50%;
   margin: 1em auto 0;
   padding: 0.2em;
   text-align: center;
