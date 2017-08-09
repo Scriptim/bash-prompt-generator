@@ -105,6 +105,28 @@ h1 {
   font-size: 1em;
 }
 
+#properties > label,
+#properties > input {
+  display: inline-block;
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#properties > label {
+  margin-top: 0.8em;
+  font-size: 0.9em;
+}
+
+#properties > input {
+  height: 2em;
+  padding: 0 0.4em;
+  border: none;
+  border-left: 16px solid rgba(0, 0, 0, 0);
+  background-color: #efefef;
+  letter-spacing: 2px;
+}
+
 #description {
   font-size: 0.8em;
   line-height: 1;
@@ -119,4 +141,52 @@ h1 {
 #footnote > p {
   margin: 0.5em;
   line-height: 1;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.ui-dialog {
+  opacity: 0.85;
+  border: 2px solid #bebebe;
+  border-radius: 0.2em;
+  background-color: #ebebeb;
+}
+
+.ui-dialog:focus,
+.ui-dialog:hover {
+  opacity: 1;
+  outline: none;
+  border-color: #d0d0d0;
+}
+
+.ui-dialog-titlebar {
+  height: 20px;
+  padding: 6px 8px 14px;
+  text-align: center;
+  background-color: #bebebe;
+}
+
+.ui-dialog-title {
+  font-size: 18px;
+}
+
+#dialog-color-container {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  width: 90%;
+  height: 90%;
+  padding: 5%;
+}
+
+#dialog-color-container > span:hover {
+  cursor: pointer;
+  border: 2px dashed #d0d0d0;
+  border-radius: 0.1em;
+  -ms-transform: scale(1.4);
+  -webkit-transform: scale(1.4);
+  -moz-transform: scale(1.4);
+  -o-transform: scale(1.4);
+  transform: scale(1.4);
 }
