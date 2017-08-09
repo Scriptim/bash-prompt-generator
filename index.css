@@ -82,3 +82,14 @@ h1 {
   cursor: pointer;
   background-color: #cacaca;
 }
+
+#footnote {
+  width: 90%;
+  margin: 1em auto;
+  text-align: center;
+}
+
+#footnote > p {
+  margin: 0.5em;
+  line-height: 1;
+}
