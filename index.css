@@ -48,6 +48,7 @@ h1 {
 
 #inputarea {
   width: 40%;
+  text-align: left;
   background-color: lightgoldenrodyellow;
 }
 
@@ -70,17 +71,28 @@ h1 {
   background-color: lightsteelblue;
 }
 
-#elements > span {
+#elements > span,
+#inputarea > span {
   display: inline-block;
   margin: 0.2em;
   padding: 0.2em 0.5em;
+  color: #404040;
   border-radius: 0.5em;
   background-color: #dfdfdf;
 }
 
-#elements > span:hover {
+#elements > span:hover,
+#inputarea > span:hover {
   cursor: pointer;
   background-color: #cacaca;
+}
+
+#inputarea > span > i {
+  color: #808080;
+}
+
+#inputarea > span > i:hover {
+  color: #000;
 }
 
 #footnote {
