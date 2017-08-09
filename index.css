@@ -87,6 +87,10 @@ h1 {
   background-color: #cacaca;
 }
 
+#inputarea > span[data-selected=true] {
+  background-color: #9a9a9a;
+}
+
 #inputarea > span > i {
   margin-left: 0.2em;
   color: #808080;
@@ -94,6 +98,16 @@ h1 {
 
 #inputarea > span > i:hover {
   color: #000;
+}
+
+#properties > h2 {
+  line-height: 1;
+  font-size: 1em;
+}
+
+#description {
+  font-size: 0.8em;
+  line-height: 1;
 }
 
 #footnote {
