@@ -88,6 +88,7 @@ h1 {
 }
 
 #inputarea > span > i {
+  margin-left: 0.2em;
   color: #808080;
 }
 
