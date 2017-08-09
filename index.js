@@ -2,7 +2,10 @@ const inputarea = $('#inputarea')
 const properties = $('#properties')
 
 inputarea.sortable({
-  revert: true
+  addClasses: false,
+  distance: 20,
+  opacity: 0.9,
+  revert: true,
 })
 
 inputarea.disableSelection()
