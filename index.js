@@ -41,8 +41,8 @@ function updateProperties(element) {
   properties.append('<h2>' + element.html().replace(/\s*<i.*<\/i>/gi, '') + '</h2 > ')
   properties.append('<p id="description">' + element.attr('data-description') + '</p>')
 
-  properties.append('<label for="input-fg">FG Color</label><input id="input-fg"></input>')
-  properties.append('<label for="input-bg">BG Color</label><input id="input-bg"></input>')
+  properties.append('<label for="input-fg">FG Color</label><input id="input-fg">')
+  properties.append('<label for="input-bg">BG Color</label><input id="input-bg">')
 
   $('#input-fg').click(function () {
     dialog_color.dialog('option', 'title', 'Foreground Color')
@@ -60,7 +60,6 @@ function updateProperties(element) {
       $(this).val('0, 0, 0')
     }
     $(this).css('border-left-color', 'rgb(' + $(this).val() + ')')
-    $(this).attr('data-fg-color', $(this).val())
   })
 
   $('#input-bg').change(function () {
@@ -69,7 +68,6 @@ function updateProperties(element) {
       $(this).val('0, 0, 0')
     }
     $(this).css('border-left-color', 'rgb(' + $(this).val() + ')')
-    $(this).attr('data-bg-color', $(this).val())
   })
 
   if (element.attr('data-fg-color')) {
