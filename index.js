@@ -44,6 +44,13 @@ function updateProperties(element) {
   properties.append('<label for="input-fg">FG Color</label><input id="input-fg">')
   properties.append('<label for="input-bg">BG Color</label><input id="input-bg">')
 
+  properties.append('<input id="check-bold" type="checkbox"><label for="check-bold">bold</label>')
+  properties.append('<input id="check-dim" type="checkbox"><label for="check-dim">dim</label>')
+  properties.append('<input id="check-italic" type="checkbox"><label for="check-italic">italic</label>')
+  properties.append('<input id="check-underline" type="checkbox"><label for="check-underline">underline</label>')
+  properties.append('<input id="check-blink" type="checkbox"><label for="check-blink">blink</label>')
+  properties.append('<input id="check-reverse" type="checkbox"><label for="check-reverse">reverse</label>')
+
   $('#input-fg').click(function () {
     dialog_color.dialog('option', 'title', 'Foreground Color')
     dialog_color.dialog('open')
@@ -79,6 +86,40 @@ function updateProperties(element) {
     $('#input-bg').val(element.attr('data-bg-color'))
     $('#input-bg').trigger('change')
   }
+
+
+  $('input[type=checkbox]').change(function () {
+    switch ($(this).attr('id')) {
+      case 'check-bold':
+        element.attr('data-bold', $(this).prop('checked'))
+        break
+      case 'check-dim':
+        element.attr('data-dim', $(this).prop('checked'))
+        break
+      case 'check-italic':
+        element.attr('data-italic', $(this).prop('checked'))
+        break
+      case 'check-underline':
+        element.attr('data-underline', $(this).prop('checked'))
+        break
+      case 'check-blink':
+        element.attr('data-blink', $(this).prop('checked'))
+        break
+      case 'check-reverse':
+        element.attr('data-reverse', $(this).prop('checked'))
+        break
+      default:
+        alert('Could not set text formatting')
+    }
+  })
+
+  $('#check-bold').prop('checked', element.attr('data-bold') === 'true')
+  $('#check-dim').prop('checked', element.attr('data-dim') === 'true')
+  $('#check-italic').prop('checked', element.attr('data-italic') === 'true')
+  $('#check-underline').prop('checked', element.attr('data-underline') === 'true')
+  $('#check-blink').prop('checked', element.attr('data-blink') === 'true')
+  $('#check-reverse').prop('checked', element.attr('data-reverse') === 'true')
+
 }
 
 $('#dialog-color-container > span').click(function () {

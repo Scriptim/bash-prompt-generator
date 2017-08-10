@@ -127,6 +127,29 @@ h1 {
   letter-spacing: 2px;
 }
 
+#properties > input[type=checkbox] {
+  width: 21%;
+  margin: 0 5%;
+  padding: 0;
+  vertical-align: middle;
+}
+
+#properties > input[type=checkbox] + label {
+  width: 50%;
+  margin: 0 5% 0 -10%;
+  text-align: left;
+  vertical-align: middle;
+}
+
+#properties > input[type=checkbox]:focus {
+  outline: none;
+}
+
+#check-bold,
+label[for=check-bold] {
+  margin-top: 2em !important;
+}
+
 #description {
   font-size: 0.8em;
   line-height: 1;
