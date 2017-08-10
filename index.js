@@ -64,17 +64,19 @@ function updateProperties(element) {
   $('#input-fg').change(function () {
     validateColors()
     if (!$(this).val()) {
-      $(this).val('0, 0, 0')
+      dialog_color.dialog('close')
     }
-    $(this).css('border-left-color', 'rgb(' + $(this).val() + ')')
+    $(this).css('border-left-color', $(this).val() ? 'rgb(' + $(this).val() + ')' : '')
+    $('#inputarea > span[data-selected=true]').attr('data-fg-color', $(this).val())
   })
 
   $('#input-bg').change(function () {
     validateColors()
     if (!$(this).val()) {
-      $(this).val('0, 0, 0')
+      dialog_color.dialog('close')
     }
-    $(this).css('border-left-color', 'rgb(' + $(this).val() + ')')
+    $(this).css('border-left-color', $(this).val() ? 'rgb(' + $(this).val() + ')' : '')
+    $('#inputarea > span[data-selected=true]').attr('data-bg-color', $(this).val())
   })
 
   if (element.attr('data-fg-color')) {
@@ -89,6 +91,7 @@ function updateProperties(element) {
 
 
   $('input[type=checkbox]').change(function () {
+    dialog_color.dialog('close')
     switch ($(this).attr('id')) {
       case 'check-bold':
         element.attr('data-bold', $(this).prop('checked'))
