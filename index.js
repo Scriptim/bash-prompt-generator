@@ -41,6 +41,28 @@ function updateProperties(element) {
   properties.append('<h2>' + element.html().replace(/\s*<i.*<\/i>/gi, '') + '</h2 > ')
   properties.append('<p id="description">' + element.attr('data-description') + '</p>')
 
+  if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Date (formatted)') {
+    properties.append('<label for="input-dateformat">Date Format</label><input id="input-dateformat">')
+    $('label[for=input-dateformat]').append('<a href="https://linux.die.net/man/3/strftime" target="_blank"><i class="fa-help"></i></a>')
+    $('#input-dateformat').val(element.attr('data-dateformat'))
+    $('#input-dateformat').change(function () {
+      element.attr('data-dateformat', $(this).val())
+    })
+  } else if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Custom Text') {
+    properties.append('<label for="input-text">Text</label><input id="input-text">')
+    $('#input-text').val(element.attr('data-text'))
+    $('#input-text').change(function () {
+      element.attr('data-text', $(this).val())
+    })
+  } else if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Function/Command') {
+    properties.append('<label for="input-funccmd">Function Call/Command</label><input id="input-funccmd">')
+    $('label[for=input-funccmd]').append('<i class="fa-help" onclick="alert(\'Insert the name of a function defined in your ~/.bashrc file followed by parentheses (), or a command that gets executed by the shell\')"></i>')
+    $('#input-funccmd').val(element.attr('data-funccmd'))
+    $('#input-funccmd').change(function () {
+      element.attr('data-funccmd', $(this).val())
+    })
+  }
+
   properties.append('<label for="input-fg">FG Color</label><input id="input-fg">')
   properties.append('<label for="input-bg">BG Color</label><input id="input-bg">')
 

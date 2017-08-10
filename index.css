@@ -123,6 +123,7 @@ h1 {
   padding: 0 0.4em;
   border: none;
   border-left: 16px solid rgba(0, 0, 0, 0);
+  border-right: 16px solid rgba(0, 0, 0, 0);
   background-color: #efefef;
   letter-spacing: 2px;
 }
@@ -143,6 +144,17 @@ h1 {
 
 #properties > input[type=checkbox]:focus {
   outline: none;
+}
+
+#properties > label > a,
+#properties > label i {
+  color: inherit;
+  cursor: pointer;
+}
+
+#properties > label > a:hover,
+#properties > label i:hover {
+  color: #000;
 }
 
 #check-bold,
