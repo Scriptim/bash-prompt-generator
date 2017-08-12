@@ -74,7 +74,7 @@ function updateOutput() {
         command += '\\d'
         break
       case 'Date (formatted)':
-        command += '\\D{' + $(this).attr('data-dateformat') + '}'
+        command += '\\D{' + ($(this).attr('data-dateformat') ? $(this).attr('data-dateformat') : '') + '}'
         break
       case 'Time (24h)':
         command += '\\t'
