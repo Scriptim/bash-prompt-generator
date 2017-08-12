@@ -28,7 +28,8 @@ h1 {
 
 #output {
   width: 90%;
-  height: 30%;
+  /*height: 30%;*/
+  height: 20%;
   margin: 0 auto;
   background-color: lightsalmon;
 }

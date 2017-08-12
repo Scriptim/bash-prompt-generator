@@ -11,6 +11,114 @@ inputarea.sortable({
 
 inputarea.disableSelection()
 
+function updateOutput() {
+  // TODO: preview
+  var command = 'PS1="'
+  $('#inputarea > span').each(function () {
+    command += '\\[$(tput sgr0)\\]' // TODO: remove unnecessary resets
+    if ($(this).attr('data-bold') === 'true') {
+      command += '\\[$(printf "\\e[1m")\\]'
+    }
+    if ($(this).attr('data-dim') === 'true') {
+      command += '\\[$(printf "\\e[2m")\\]'
+    }
+    if ($(this).attr('data-italic') === 'true') {
+      command += '\\[$(printf "\\e[3m")\\]'
+    }
+    if ($(this).attr('data-underline') === 'true') {
+      command += '\\[$(printf "\\e[4m")\\]'
+    }
+    if ($(this).attr('data-blink') === 'true') {
+      command += '\\[$(printf "\\e[5m")\\]'
+    }
+    if ($(this).attr('data-reverse') === 'true') {
+      command += '\\[$(printf "\\e[7m")\\]'
+    }
+    // TODO: Attributes combination (http://misc.flogisoft.com/bash/tip_colors_and_formatting)
+
+    // TODO: change color rgb to 8/16 or 88/256
+    if ($(this).attr('data-fg-color')) {
+    }
+    if ($(this).attr('data-bg-color')) {
+    }
+
+    switch ($(this).html().replace(/\s*<i.*<\/i>/gi, '').trim()) {
+      case 'Username':
+        command += '\\u'
+        break
+      case 'Hostname (short)':
+        command += '\\h'
+        break
+      case 'Hostname':
+        command += '\\H'
+        break
+      case 'Shell Name':
+        command += '\\s'
+        break
+      case 'Bash Version':
+        command += '\\v'
+        break
+      case 'Bash Release':
+        command += '\\V'
+        break
+      case 'Terminal':
+        command += '\\l'
+        break
+      case 'Working Directory':
+        command += '\\w'
+        break
+      case 'Working Directory (basename)':
+        command += '\\W'
+        break
+      case 'Date':
+        command += '\\d'
+        break
+      case 'Date (formatted)':
+        command += '\\D{' + $(this).attr('data-dateformat') + '}'
+        break
+      case 'Time (24h)':
+        command += '\\t'
+        break
+      case 'Time (12h)':
+        command += '\\T'
+        break
+      case 'Time (am/pm)':
+        command += '\\@'
+        break
+      case 'Time (w/o seconds)':
+        command += '\\A'
+        break
+      case 'Exit Status':
+        command += '\\$?'
+        break
+      case 'New Line':
+        command += '\\n'
+        break
+      case 'Carriage Return':
+        command += '\\r'
+        break
+      case 'Prompt Sign':
+        command += '\\$'
+        break
+      case 'History Number':
+        command += '\\!'
+        break
+      case 'Command Number':
+        command += '\\#'
+        break
+      case 'Custom Text':
+        command += $(this).attr('data-text') // may include environment variables and escape sequences
+        break
+      case 'Function Command':
+        command += 'funccmd' // TODO:
+        break
+    }
+  })
+
+  command += '\\[$(tput sgr0)\\]"'
+  $('#command > p').html(command)
+}
+
 $('#elements > span').click(function () {
   properties.empty()
   dialog_color.dialog('close')
@@ -29,6 +137,7 @@ $('#elements > span').click(function () {
     $(this).parent().remove()
     updateProperties()
   })
+  updateOutput()
 })
 
 function updateProperties(element) {
@@ -47,12 +156,14 @@ function updateProperties(element) {
     $('#input-dateformat').val(element.attr('data-dateformat'))
     $('#input-dateformat').change(function () {
       element.attr('data-dateformat', $(this).val())
+      updateOutput()
     })
   } else if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Custom Text') {
     properties.append('<label for="input-text">Text</label><input id="input-text">')
     $('#input-text').val(element.attr('data-text'))
     $('#input-text').change(function () {
       element.attr('data-text', $(this).val())
+      updateOutput()
     })
   } else if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Function/Command') {
     properties.append('<label for="input-funccmd">Function Call/Command</label><input id="input-funccmd">')
@@ -60,6 +171,7 @@ function updateProperties(element) {
     $('#input-funccmd').val(element.attr('data-funccmd'))
     $('#input-funccmd').change(function () {
       element.attr('data-funccmd', $(this).val())
+      updateOutput()
     })
   }
 
@@ -90,6 +202,7 @@ function updateProperties(element) {
     }
     $(this).css('border-left-color', $(this).val() ? 'rgb(' + $(this).val() + ')' : '')
     $('#inputarea > span[data-selected=true]').attr('data-fg-color', $(this).val())
+    updateOutput()
   })
 
   $('#input-bg').change(function () {
@@ -99,6 +212,7 @@ function updateProperties(element) {
     }
     $(this).css('border-left-color', $(this).val() ? 'rgb(' + $(this).val() + ')' : '')
     $('#inputarea > span[data-selected=true]').attr('data-bg-color', $(this).val())
+    updateOutput()
   })
 
   if (element.attr('data-fg-color')) {
@@ -136,6 +250,7 @@ function updateProperties(element) {
       default:
         alert('Could not set text formatting')
     }
+    updateOutput()
   })
 
   $('#check-bold').prop('checked', element.attr('data-bold') === 'true')
@@ -145,6 +260,7 @@ function updateProperties(element) {
   $('#check-blink').prop('checked', element.attr('data-blink') === 'true')
   $('#check-reverse').prop('checked', element.attr('data-reverse') === 'true')
 
+  updateOutput()
 }
 
 $('#dialog-color-container > span').click(function () {
