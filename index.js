@@ -15,24 +15,24 @@ function updateOutput() {
   // TODO: preview
   var command = 'PS1="'
   $('#inputarea > span').each(function () {
-    command += '\\[$(tput sgr0)\\]' // TODO: remove unnecessary resets
+    command += '\\[\\e[0m\\]' // TODO: remove unnecessary resets
     if ($(this).attr('data-bold') === 'true') {
-      command += '\\[$(printf "\\e[1m")\\]'
+      command += '\\[\\e[1m\\]'
     }
     if ($(this).attr('data-dim') === 'true') {
-      command += '\\[$(printf "\\e[2m")\\]'
+      command += '\\[\\e[2m\\]'
     }
     if ($(this).attr('data-italic') === 'true') {
-      command += '\\[$(printf "\\e[3m")\\]'
+      command += '\\[\\e[3m\\]'
     }
     if ($(this).attr('data-underline') === 'true') {
-      command += '\\[$(printf "\\e[4m")\\]'
+      command += '\\[\\e[4m\\]'
     }
     if ($(this).attr('data-blink') === 'true') {
-      command += '\\[$(printf "\\e[5m")\\]'
+      command += '\\[\\e[5m\\]'
     }
     if ($(this).attr('data-reverse') === 'true') {
-      command += '\\[$(printf "\\e[7m")\\]'
+      command += '\\[\\e[7m\\]'
     }
     // TODO: Attributes combination (http://misc.flogisoft.com/bash/tip_colors_and_formatting)
 
@@ -115,7 +115,7 @@ function updateOutput() {
     }
   })
 
-  command += '\\[$(tput sgr0)\\]"'
+  command += '\\[\\e[0m\\]"'
   $('#command > p').html(command)
 }
 
