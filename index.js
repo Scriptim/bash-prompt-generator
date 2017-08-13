@@ -36,7 +36,7 @@ function updateOutput() {
     }
     // TODO: Attributes combination (http://misc.flogisoft.com/bash/tip_colors_and_formatting)
 
-    // TODO: change color rgb to 8/16 or 88/256
+    // TODO: colors
     if ($(this).attr('data-fg-color')) {
     }
     if ($(this).attr('data-bg-color')) {
@@ -265,12 +265,12 @@ function updateProperties(element) {
 
 $('#dialog-color-container > span').click(function () {
   if (dialog_color.dialog('option', 'title') === 'Foreground Color') {
-    $('#input-fg').val($(this).css('background-color').replace(/[rgb\(\)]/g, ''))
-    $('#input-fg').css('border-left-color', 'rgb(' + $('#input-fg').val() + ')')
+    $('#input-fg').val($(this).attr('title'))
+    $('#input-fg').css('border-left-color', 'rgb(' + $(this).css('background-color').replace(/[rgb\(\)]/g, '') + ')')
     $('#inputarea > span[data-selected=true]').attr('data-fg-color', $('#input-fg').val())
   } else if (dialog_color.dialog('option', 'title') === 'Background Color') {
-    $('#input-bg').val($(this).css('background-color').replace(/[rgb\(\)]/g, ''))
-    $('#input-bg').css('border-left-color', 'rgb(' + $('#input-bg').val() + ')')
+    $('#input-bg').val($(this).attr('title'))
+    $('#input-bg').css('border-left-color', 'rgb(' + $(this).css('background-color').replace(/[rgb\(\)]/g, '') + ')')
     $('#inputarea > span[data-selected=true]').attr('data-bg-color', $('#input-bg').val())
   } else {
     alert('Could not set color')
@@ -284,11 +284,11 @@ dialog_color.dialog({
     'ui-dialog': 'no-close'
   },
   draggable: false,
-  height: 340,
+  height: 260,
   hide: { effect: "fade", duration: 100 },
   resizable: false,
   show: { effect: "fade", duration: 200 },
-  width: 260
+  width: 240
 })
 
 $('#dialog-color-container > span').each(function () {
@@ -300,32 +300,182 @@ function validateColors() {
   var input_fg = $('#input-fg')
   var fg = input_fg.val()
   if (fg) {
-    fg = fg.split(',')
-    if (fg.length != 3) {
-      input_fg.val('')
-    } else {
-      for (var i = 0; i < 3; i++) {
-        if (parseInt(fg[i]) < 0 || parseInt(fg[i]) > 255 || isNaN(parseInt(fg[i]))) {
-          input_fg.val('')
-          break
-        }
-      }
+    var rgb = 'rgb('
+    switch (fg.trim().toLowerCase()) {
+      case 'black':
+        rgb += '0,0,0'
+        input_fg.val('Black')
+        break
+      case 'red':
+        rgb += '255,0,0'
+        input_fg.val('Red')
+        break
+      case 'green':
+        rgb += '0,255,0'
+        input_fg.val('Green')
+        break
+      case 'yellow':
+        rgb += '255,255,0'
+        input_fg.val('Yellow')
+        break
+      case 'blue':
+        rgb += '0,0,255'
+        input_fg.val('Blue')
+        break
+      case 'magenta':
+        rgb += '255,0,255'
+        input_fg.val('Magenta')
+        break
+      case 'cyan':
+        rgb += '0,255,255'
+        input_fg.val('Cyan')
+        break
+      case 'light gray':
+      case 'light grey':
+      case 'lightgray':
+      case 'lightgrey':
+        rgb += '192,192,192'
+        input_fg.val('Light gray')
+        break
+      case 'dark gray':
+      case 'dark grey':
+      case 'darkgray':
+      case 'darkgrey':
+        rgb += '128,128,128'
+        input_fg.val('Dark gray')
+        break
+      case 'light red':
+      case 'lightred':
+        rgb += '255,128,128'
+        input_fg.val('Light red')
+        break
+      case 'light green':
+      case 'lightgreen':
+        rgb += '128,255,128'
+        input_fg.val('Light green')
+        break
+      case 'light yellow':
+      case 'lightyellow':
+        rgb += '255,255,128'
+        input_fg.val('Light yellow')
+        break
+      case 'light blue':
+      case 'lightblue':
+        rgb += '128,128,255'
+        input_fg.val('Light blue')
+        break
+      case 'light magenta':
+      case 'lightmagenta':
+        rgb += '255,128,255'
+        input_fg.val('Light magenta')
+        break
+      case 'light cyan':
+      case 'lightcyan':
+        rgb += '128,255,255'
+        input_fg.val('Light cyan')
+        break
+      case 'white':
+        rgb += '255,255,255'
+        input_fg.val('White')
+        break
+      default:
+        input_fg.val('')
+    }
+    if (input_fg.val()) {
+      rgb += ')'
+      input_fg.css('border-left-color', rgb)
     }
   }
 
   var input_bg = $('#input-bg')
   var bg = input_bg.val()
   if (bg) {
-    bg = bg.split(',')
-    if (bg.length != 3) {
-      input_bg.val('')
-    } else {
-      for (var i = 0; i < 3; i++) {
-        if (parseInt(bg[i]) < 0 || parseInt(bg[i]) > 255 || isNaN(parseInt(bg[i]))) {
-          input_bg.val('')
-          break
-        }
-      }
+    var rgb = 'rgb('
+    switch (bg.trim().toLowerCase()) {
+      case 'black':
+        rgb += '0,0,0'
+        input_bg.val('Black')
+        break
+      case 'red':
+        rgb += '255,0,0'
+        input_bg.val('Red')
+        break
+      case 'green':
+        rgb += '0,255,0'
+        input_bg.val('Green')
+        break
+      case 'yellow':
+        rgb += '255,255,0'
+        input_bg.val('Yellow')
+        break
+      case 'blue':
+        rgb += '0,0,255'
+        input_bg.val('Blue')
+        break
+      case 'magenta':
+        rgb += '255,0,255'
+        input_bg.val('Magenta')
+        break
+      case 'cyan':
+        rgb += '0,255,255'
+        input_bg.val('Cyan')
+        break
+      case 'light gray':
+      case 'light grey':
+      case 'lightgray':
+      case 'lightgrey':
+        rgb += '192,192,192'
+        input_bg.val('Light gray')
+        break
+      case 'dark gray':
+      case 'dark grey':
+      case 'darkgray':
+      case 'darkgrey':
+        rgb += '128,128,128'
+        input_bg.val('Dark gray')
+        break
+      case 'light red':
+      case 'lightred':
+        rgb += '255,128,128'
+        input_bg.val('Light red')
+        break
+      case 'light green':
+      case 'lightgreen':
+        rgb += '128,255,128'
+        input_bg.val('Light green')
+        break
+      case 'light yellow':
+      case 'lightyellow':
+        rgb += '255,255,128'
+        input_bg.val('Light yellow')
+        break
+      case 'light blue':
+      case 'lightblue':
+        rgb += '128,128,255'
+        input_bg.val('Light blue')
+        break
+      case 'light magenta':
+      case 'lightmagenta':
+        rgb += '255,128,255'
+        input_bg.val('Light magenta')
+        break
+      case 'light cyan':
+      case 'lightcyan':
+        rgb += '128,255,255'
+        input_bg.val('Light cyan')
+        break
+      case 'white':
+        rgb += '255,255,255'
+        input_bg.val('White')
+        break
+      default:
+        input_bg.val('')
+    }
+    if (input_bg.val()) {
+      rgb += ')'
+      input_bg.css('border-left-color', rgb)
     }
   }
+
+  dialog_color.dialog('close')
 }
