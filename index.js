@@ -389,6 +389,13 @@ dialog_color.dialog({
     'ui-dialog': 'no-close'
   },
   draggable: false,
+  focus: function (e, ui) {
+    if (dialog_color.dialog('option', 'title') === 'Foreground Color') {
+      $('#input-fg').focus()
+    } else if (dialog_color.dialog('option', 'title') === 'Background Color') {
+      $('#input-bg').focus()
+    }
+  },
   height: 260,
   hide: { effect: "fade", duration: 100 },
   resizable: false,
