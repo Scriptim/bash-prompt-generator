@@ -213,8 +213,14 @@ function updateOutput() {
       case 'Custom Text':
         command += $(this).attr('data-text') // may include environment variables and escape sequences
         break
-      case 'Function Command':
-        command += 'funccmd' // TODO:
+      case 'Function/Command':
+        var funccmd = $(this).attr('data-funccmd').trim()
+        $(this).attr('data-funccmd', funccmd)
+        if (funccmd.endsWith('()')) {
+          command += '\\`' + funccmd.slice(0, -2) + '\\`'
+        } else {
+          command += '$(' + funccmd + ')'
+        }
         break
     }
   })
