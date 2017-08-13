@@ -36,10 +36,114 @@ function updateOutput() {
     }
     // TODO: Attributes combination (http://misc.flogisoft.com/bash/tip_colors_and_formatting)
 
-    // TODO: colors
     if ($(this).attr('data-fg-color')) {
+      switch ($(this).attr('data-fg-color')) {
+        case 'Black':
+          command += '\\[\\e[30m\\]'
+          break
+        case 'Red':
+          command += '\\[\\e[31m\\]'
+          break
+        case 'Green':
+          command += '\\[\\e[32m\\]'
+          break
+        case 'Yellow':
+          command += '\\[\\e[34m\\]'
+          break
+        case 'Blue':
+          command += '\\[\\e[34m\\]'
+          break
+        case 'Magenta':
+          command += '\\[\\e[35m\\]'
+          break
+        case 'Cyan':
+          command += '\\[\\e[36m\\]'
+          break
+        case 'Light gray':
+          command += '\\[\\e[37m\\]'
+          break
+        case 'Dark gray':
+          command += '\\[\\e[90m\\]'
+          break
+        case 'Light red':
+          command += '\\[\\e[91m\\]'
+          break
+        case 'Light green':
+          command += '\\[\\e[92m\\]'
+          break
+        case 'Light yellow':
+          command += '\\[\\e[93m\\]'
+          break
+        case 'Light blue':
+          command += '\\[\\e[94m\\]'
+          break
+        case 'Light magenta':
+          command += '\\[\\e[95m\\]'
+          break
+        case 'Light cyan':
+          command += '\\[\\e[96m\\]'
+          break
+        case 'White':
+          command += '\\[\\e[97m\\]'
+          break
+        default:
+          command += '\\[\\e[38;5;' + $(this).attr('data-fg-color') + 'm\\]'
+      }
     }
+
     if ($(this).attr('data-bg-color')) {
+      switch ($(this).attr('data-bg-color')) {
+        case 'Black':
+          command += '\\[\\e[40m\\]'
+          break
+        case 'Red':
+          command += '\\[\\e[41m\\]'
+          break
+        case 'Green':
+          command += '\\[\\e[42m\\]'
+          break
+        case 'Yellow':
+          command += '\\[\\e[43m\\]'
+          break
+        case 'Blue':
+          command += '\\[\\e[44m\\]'
+          break
+        case 'Magenta':
+          command += '\\[\\e[45m\\]'
+          break
+        case 'Cyan':
+          command += '\\[\\e[46m\\]'
+          break
+        case 'Light gray':
+          command += '\\[\\e[47m\\]'
+          break
+        case 'Dark gray':
+          command += '\\[\\e[100m\\]'
+          break
+        case 'Light red':
+          command += '\\[\\e[101m\\]'
+          break
+        case 'Light green':
+          command += '\\[\\e[102m\\]'
+          break
+        case 'Light yellow':
+          command += '\\[\\e[103m\\]'
+          break
+        case 'Light blue':
+          command += '\\[\\e[104m\\]'
+          break
+        case 'Light magenta':
+          command += '\\[\\e[105m\\]'
+          break
+        case 'Light cyan':
+          command += '\\[\\e[106m\\]'
+          break
+        case 'White':
+          command += '\\[\\e[107m\\]'
+          break
+        default:
+          command += '\\[\\e[48;5;' + $(this).attr('data-bg-color') + 'm\\]'
+      }
     }
 
     switch ($(this).html().replace(/\s*<i.*<\/i>/gi, '').trim()) {
@@ -276,6 +380,7 @@ $('#dialog-color-container > span').click(function () {
     alert('Could not set color')
   }
   dialog_color.dialog('close')
+  updateOutput()
 })
 
 dialog_color.dialog({
@@ -496,4 +601,5 @@ function validateColors() {
   }
 
   dialog_color.dialog('close')
+  updateOutput()
 }
