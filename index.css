@@ -179,6 +179,22 @@ label[for=check-bold] {
   line-height: 1;
 }
 
+#github {
+  position: fixed;
+  bottom: 10px;
+  left: 1px;
+  font-size: 3em;
+}
+
+#github > a {
+  color: inherit;
+}
+
+#github > a:hover {
+  cursor: pointer;
+  color: #000;
+}
+
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
