@@ -299,6 +299,7 @@ $('#dialog-color-container > span').each(function () {
 function validateColors() {
   var input_fg = $('#input-fg')
   var fg = input_fg.val()
+  var color8 = true
   if (fg) {
     var rgb = 'rgb('
     switch (fg.trim().toLowerCase()) {
@@ -379,9 +380,17 @@ function validateColors() {
         input_fg.val('White')
         break
       default:
-        input_fg.val('')
+        color8 = false
+        fg = parseInt(fg)
+        if (fg >= 0 && fg <= 256) {
+          input_fg.val(fg)
+        } else {
+          input_fg.val('')
+        }
+        input_fg.css('border-left-color', 'rgba(0,0,0,0)')
     }
-    if (input_fg.val()) {
+
+    if (color8) {
       rgb += ')'
       input_fg.css('border-left-color', rgb)
     }
@@ -389,6 +398,7 @@ function validateColors() {
 
   var input_bg = $('#input-bg')
   var bg = input_bg.val()
+  color8 = true
   if (bg) {
     var rgb = 'rgb('
     switch (bg.trim().toLowerCase()) {
@@ -469,8 +479,16 @@ function validateColors() {
         input_bg.val('White')
         break
       default:
-        input_bg.val('')
+        color8 = false
+        bg = parseInt(bg)
+        if (bg >= 0 && bg <= 256) {
+          input_bg.val(bg)
+        } else {
+          input_bg.val('')
+        }
+        input_bg.css('border-left-color', 'rgba(0,0,0,0)')
     }
+
     if (input_bg.val()) {
       rgb += ')'
       input_bg.css('border-left-color', rgb)
