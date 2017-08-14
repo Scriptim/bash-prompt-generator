@@ -6,7 +6,7 @@ Generate the PS1 variable to customize your bash prompt
 
 **Result:**
 
-![Screenshot (Browser)](img/screenshot_terminal.jpg "Screenshot (Browser)")
+![Screenshot (Terminal)](img/screenshot_terminal.jpg "Screenshot (Terminal)")
 
 ---
 
