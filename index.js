@@ -15,76 +15,77 @@ function updateOutput() {
   // TODO: preview
   var command = 'PS1="'
   $('#inputarea > span').each(function () {
-    command += '\\[\\e[0m\\]' // TODO: remove unnecessary resets
+    var formats = []
+
+    formats.push('0') // TODO: remove unnecessary resets
     if ($(this).attr('data-bold') === 'true') {
-      command += '\\[\\e[1m\\]'
+      formats.push('1')
     }
     if ($(this).attr('data-dim') === 'true') {
-      command += '\\[\\e[2m\\]'
+      formats.push('2')
     }
     if ($(this).attr('data-italic') === 'true') {
-      command += '\\[\\e[3m\\]'
+      formats.push('3')
     }
     if ($(this).attr('data-underline') === 'true') {
-      command += '\\[\\e[4m\\]'
+      formats.push('4')
     }
     if ($(this).attr('data-blink') === 'true') {
-      command += '\\[\\e[5m\\]'
+      formats.push('5')
     }
     if ($(this).attr('data-reverse') === 'true') {
-      command += '\\[\\e[7m\\]'
+      formats.push('7')
     }
-    // TODO: Attributes combination (http://misc.flogisoft.com/bash/tip_colors_and_formatting)
 
     if ($(this).attr('data-fg-color')) {
       switch ($(this).attr('data-fg-color')) {
         case 'Black':
-          command += '\\[\\e[30m\\]'
+          formats.push('30')
           break
         case 'Red':
-          command += '\\[\\e[31m\\]'
+          formats.push('31')
           break
         case 'Green':
-          command += '\\[\\e[32m\\]'
+          formats.push('32')
           break
         case 'Yellow':
-          command += '\\[\\e[34m\\]'
+          formats.push('33')
           break
         case 'Blue':
-          command += '\\[\\e[34m\\]'
+          formats.push('34')
           break
         case 'Magenta':
-          command += '\\[\\e[35m\\]'
+          formats.push('35')
           break
         case 'Cyan':
-          command += '\\[\\e[36m\\]'
+          formats.push('36')
           break
         case 'Light gray':
-          command += '\\[\\e[37m\\]'
+          formats.push('37')
           break
         case 'Dark gray':
-          command += '\\[\\e[90m\\]'
+          formats.push('90')
           break
         case 'Light red':
-          command += '\\[\\e[91m\\]'
+          formats.push('91')
           break
         case 'Light green':
-          command += '\\[\\e[92m\\]'
+          formats.push('92')
           break
         case 'Light yellow':
-          command += '\\[\\e[93m\\]'
+          formats.push('93')
           break
         case 'Light blue':
-          command += '\\[\\e[94m\\]'
+          formats.push('94')
           break
         case 'Light magenta':
-          command += '\\[\\e[95m\\]'
+          formats.push('95')
           break
         case 'Light cyan':
-          command += '\\[\\e[96m\\]'
+          formats.push('96')
           break
         case 'White':
-          command += '\\[\\e[97m\\]'
+          formats.push('97')
           break
         default:
           command += '\\[\\e[38;5;' + $(this).attr('data-fg-color') + 'm\\]'
@@ -94,57 +95,59 @@ function updateOutput() {
     if ($(this).attr('data-bg-color')) {
       switch ($(this).attr('data-bg-color')) {
         case 'Black':
-          command += '\\[\\e[40m\\]'
+          formats.push('40')
           break
         case 'Red':
-          command += '\\[\\e[41m\\]'
+          formats.push('41')
           break
         case 'Green':
-          command += '\\[\\e[42m\\]'
+          formats.push('42')
           break
         case 'Yellow':
-          command += '\\[\\e[43m\\]'
+          formats.push('43')
           break
         case 'Blue':
-          command += '\\[\\e[44m\\]'
+          formats.push('44')
           break
         case 'Magenta':
-          command += '\\[\\e[45m\\]'
+          formats.push('45')
           break
         case 'Cyan':
-          command += '\\[\\e[46m\\]'
+          formats.push('46')
           break
         case 'Light gray':
-          command += '\\[\\e[47m\\]'
+          formats.push('47')
           break
         case 'Dark gray':
-          command += '\\[\\e[100m\\]'
+          formats.push('100')
           break
         case 'Light red':
-          command += '\\[\\e[101m\\]'
+          formats.push('101')
           break
         case 'Light green':
-          command += '\\[\\e[102m\\]'
+          formats.push('102')
           break
         case 'Light yellow':
-          command += '\\[\\e[103m\\]'
+          formats.push('103')
           break
         case 'Light blue':
-          command += '\\[\\e[104m\\]'
+          formats.push('104')
           break
         case 'Light magenta':
-          command += '\\[\\e[105m\\]'
+          formats.push('105')
           break
         case 'Light cyan':
-          command += '\\[\\e[106m\\]'
+          formats.push('106')
           break
         case 'White':
-          command += '\\[\\e[107m\\]'
+          formats.push('107')
           break
         default:
           command += '\\[\\e[48;5;' + $(this).attr('data-bg-color') + 'm\\]'
       }
     }
+
+    command += '\\[\\e[' + formats.join(';') + 'm\\]'
 
     switch ($(this).html().replace(/\s*<i.*<\/i>/gi, '').trim()) {
       case 'Username':
