@@ -14,10 +14,13 @@ inputarea.disableSelection()
 function updateOutput() {
   // TODO: preview
   var command = 'PS1="'
+  var requireReset = true
   $('#inputarea > span').each(function () {
     var formats = []
 
-    formats.push('0') // TODO: remove unnecessary resets
+    if (requireReset) {
+      formats.push('0') // TODO: remove more unnecessary resets
+    }
     if ($(this).attr('data-bold') === 'true') {
       formats.push('1')
     }
@@ -147,7 +150,17 @@ function updateOutput() {
       }
     }
 
-    command += '\\[\\e[' + formats.join(';') + 'm\\]'
+    if (formats.length > 0) {
+      command += '\\[\\e[' + formats.join(';') + 'm\\]'
+
+      if (formats.length === 1 && formats[0] === '0') {
+        requireReset = false
+      } else {
+        requireReset = true
+      }
+    } else {
+      requireReset = false
+    }
 
     switch ($(this).html().replace(/\s*<i.*<\/i>/gi, '').trim()) {
       case 'Username':
