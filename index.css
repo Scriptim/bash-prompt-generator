@@ -45,6 +45,14 @@ footer a {
   color: #007c82;
 }
 
+small {
+  display: block;
+  position: absolute;
+  width: 100%;
+  bottom: 5rem;
+  color: #393e46;
+}
+
 #container {
   display: grid;
   margin: 2em 3em;
