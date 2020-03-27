@@ -1,5 +1,9 @@
 # [Bash Prompt Generator](https://scriptim.github.io/bash-prompt-generator)
 
+![GitHub](https://img.shields.io/github/license/Scriptim/bash-prompt-generator)
+![GitHub stars](https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social)
+
 Create a custom PS1 variable for your Bash.
 
 ![Screenshot (Browser)](img/screenshot_browser.jpg "Screenshot (Browser)")
