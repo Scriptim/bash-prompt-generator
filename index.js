@@ -226,7 +226,11 @@ function updateOutput() {
         command += '\\#'
         break
       case 'Custom Text':
-        command += $(this).attr('data-text') // may include environment variables and escape sequences
+        var text = $(this).attr('data-text')
+        if (!text) {
+          text = ''
+        }
+        command += text // may include environment variables and escape sequences
         break
       case 'Function/Command':
         var funccmd = $(this).attr('data-funccmd').trim()
@@ -527,7 +531,7 @@ function validateColors() {
       default:
         color8 = false
         fg = parseInt(fg)
-        if (fg >= 0 && fg <= 256) {
+        if (fg >= 0 && fg <= 255) {
           input_fg.val(fg)
         } else {
           input_fg.val('')
