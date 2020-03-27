@@ -249,7 +249,7 @@ $('#elements > span').click(function () {
   properties.empty()
   dialog_color.dialog('close')
   $('#inputarea > span').removeAttr('data-selected')
-  inputarea.append('<span data-description="' + $(this).attr('data-description') + '">' + $(this).html() + '<i class="fa-minus"></i></span>')
+  inputarea.append('<span data-description="' + $(this).attr('data-description') + '">' + $(this).html() + '<i class="fas fa-minus-circle"></i></span>')
   var new_element = $('#inputarea > span').last()
   new_element.disableSelection()
   new_element.click(function () {
@@ -278,7 +278,7 @@ function updateProperties(element) {
 
   if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Date (formatted)') {
     properties.append('<label for="input-dateformat">Date Format</label><input id="input-dateformat">')
-    $('label[for=input-dateformat]').append('<a href="https://linux.die.net/man/3/strftime" target="_blank"><i class="fa-help"></i></a>')
+    $('label[for=input-dateformat]').append('&nbsp;<a href="https://linux.die.net/man/3/strftime" target="_blank"><i class="fas fa-question-circle"></i></a>')
     $('#input-dateformat').val(element.attr('data-dateformat'))
     $('#input-dateformat').change(function () {
       element.attr('data-dateformat', $(this).val())
@@ -293,7 +293,7 @@ function updateProperties(element) {
     })
   } else if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Function/Command') {
     properties.append('<label for="input-funccmd">Function Call/Command</label><input id="input-funccmd">')
-    $('label[for=input-funccmd]').append('<i class="fa-help" onclick="alert(\'Insert the name of a function defined in your ~/.bashrc file followed by parentheses (), or a command that gets executed by the shell\')"></i>')
+    $('label[for=input-funccmd]').append('&nbsp;<i class="fas fa-question-circle" onclick="alert(\'Insert the name of a function defined in your ~/.bashrc file followed by parentheses (), or a command that gets executed by the shell\')"></i>')
     $('#input-funccmd').val(element.attr('data-funccmd'))
     $('#input-funccmd').change(function () {
       element.attr('data-funccmd', $(this).val())
