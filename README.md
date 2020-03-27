@@ -1,33 +1,33 @@
-# Bash Prompt Generator
+# [Bash Prompt Generator](https://scriptim.github.io/bash-prompt-generator)
 
-Generate the PS1 variable to customize your bash prompt
+Create a custom PS1 variable for your Bash.
 
 ![Screenshot (Browser)](img/screenshot_browser.jpg "Screenshot (Browser)")
 
-**Result:**
+**Example Prompt:**
 
 ![Screenshot (Terminal)](img/screenshot_terminal.jpg "Screenshot (Terminal)")
 
 ---
 
-## How To
+## Usage
 
-- Click on an element to the left to add it to your prompt
-- Select an added element to change its properties
-- Drag the added elements to change the order
-- When you're done, copy the line starting with `PS1=` and run it in a terminal to test it; if you're satisfied with the result append this line to your `~/.bashrc` file
+- Click on an item in the selection on the left to add it to your prompt.
+- Sort (drag and drop) or remove the elements of your prompt in the middle area.
+- Click one of the elements of your prompt to change its properties (such as color or text style).
+- When you are finished, run the line starting with `PS1=` in your bash to see your prompt. When you are happy with the result, append the line to your `~/.bashrc` file to set the prompt permanently.
 
 ## Colors
 
-When an color input field gets focused a color picker will appear. Press `ESC` to close it.
+If you click on a color input field, a color picker with 16 colors opens, which are supported by practically every terminal emulator. Click on one of these colors to select it or press `ESC` to close the color picker.
 
-The color picker lets you select a 8/16 color but you can also manually enter a [256 color number](http://misc.flogisoft.com/_media/bash/colors_format/256_colors_bg.png "Overview of all colors"). Note that not all terminals support 256 colors.
+If your terminal supports 256 colors, you can also enter a [color code](http://misc.flogisoft.com/_media/bash/colors_format/256_colors_bg.png "Overview of all colors") (0 - 255) manually.
 
-## Function/Command
+## Function/Command element
 
 The `Function/Command` element lets you call/run a function or a shell command.
 
-### Example: print the first private ip address
+### Example: Print the first private ip address
 
 #### Function
 
@@ -46,3 +46,8 @@ Then select a `Function/Command` element and enter the name of the function foll
 Select a `Function/Command` element and enter a command to be executed by the shell
 
     ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'
+
+## See also
+
+- [GNU Bash Manual: Controlling the Prompt](https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html)
+- [ArchWiki: Bash/Prompt customization](https://wiki.archlinux.org/index.php/Bash/Prompt_customization)
