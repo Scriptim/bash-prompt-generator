@@ -12,14 +12,13 @@ inputarea.sortable({
 inputarea.disableSelection()
 
 function updateOutput() {
-  // TODO: preview
   var command = 'PS1="'
   var requireReset = true
   $('#inputarea > span').each(function () {
     var formats = []
 
     if (requireReset) {
-      formats.push('0') // TODO: remove more unnecessary resets
+      formats.push('0')
     }
     if ($(this).attr('data-bold') === 'true') {
       formats.push('1')
