@@ -273,12 +273,12 @@ function updateProperties(element) {
     return
   }
 
-  properties.append('<h2>' + element.html().replace(/\s*<i.*<\/i>/gi, '') + '</h2 > ')
+  properties.append('<h3>' + element.html().replace(/\s*<i.*<\/i>/gi, '') + '</h3> ')
   properties.append('<p id="description">' + element.attr('data-description') + '</p>')
 
   if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Date (formatted)') {
     properties.append('<label for="input-dateformat">Date Format</label><input id="input-dateformat">')
-    $('label[for=input-dateformat]').append('&nbsp;<a href="https://linux.die.net/man/3/strftime" target="_blank"><i class="fas fa-question-circle"></i></a>')
+    $('label[for=input-dateformat]').append('<a href="https://linux.die.net/man/3/strftime" target="_blank"><i class="fas fa-question-circle"></i></a>')
     $('#input-dateformat').val(element.attr('data-dateformat'))
     $('#input-dateformat').change(function () {
       element.attr('data-dateformat', $(this).val())
@@ -293,7 +293,7 @@ function updateProperties(element) {
     })
   } else if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Function/Command') {
     properties.append('<label for="input-funccmd">Function Call/Command</label><input id="input-funccmd">')
-    $('label[for=input-funccmd]').append('&nbsp;<i class="fas fa-question-circle" onclick="alert(\'Insert the name of a function defined in your ~/.bashrc file followed by parentheses (), or a command that gets executed by the shell\')"></i>')
+    $('label[for=input-funccmd]').append('<i class="fas fa-question-circle" onclick="alert(\'Insert the name of a function defined in your ~/.bashrc file followed by parentheses (), or a command that gets executed by the shell\')"></i>')
     $('#input-funccmd').val(element.attr('data-funccmd'))
     $('#input-funccmd').change(function () {
       element.attr('data-funccmd', $(this).val())
@@ -301,23 +301,37 @@ function updateProperties(element) {
     })
   }
 
-  properties.append('<label for="input-fg">FG Color</label><input id="input-fg">')
-  properties.append('<label for="input-bg">BG Color</label><input id="input-bg">')
+  properties.append('<label for="input-fg">Foreground Color</label><input id="input-fg"><br>')
+  properties.append('<label for="input-bg">Background Color</label><input id="input-bg"><br><br>')
 
-  properties.append('<input id="check-bold" type="checkbox"><label for="check-bold">bold</label>')
-  properties.append('<input id="check-dim" type="checkbox"><label for="check-dim">dim</label>')
-  properties.append('<input id="check-italic" type="checkbox"><label for="check-italic">italic</label>')
-  properties.append('<input id="check-underline" type="checkbox"><label for="check-underline">underline</label>')
-  properties.append('<input id="check-blink" type="checkbox"><label for="check-blink">blink</label>')
+  properties.append('<input id="check-bold" type="checkbox"><label for="check-bold">bold</label><br>')
+  properties.append('<input id="check-dim" type="checkbox"><label for="check-dim">dim</label><br>')
+  properties.append('<input id="check-italic" type="checkbox"><label for="check-italic">italic</label><br>')
+  properties.append('<input id="check-underline" type="checkbox"><label for="check-underline">underline</label><br>')
+  properties.append('<input id="check-blink" type="checkbox"><label for="check-blink">blink</label><br>')
   properties.append('<input id="check-reverse" type="checkbox"><label for="check-reverse">reverse</label>')
 
   $('#input-fg').click(function () {
-    dialog_color.dialog('option', 'title', 'Foreground Color')
+    dialog_color.dialog({
+      title: 'Foreground Color',
+      position: {
+        my: 'right-10% top-10%',
+        at: 'left top',
+        of: $('#input-fg')
+      }
+    })
     dialog_color.dialog('open')
   })
 
   $('#input-bg').click(function () {
-    dialog_color.dialog('option', 'title', 'Background Color')
+    dialog_color.dialog({
+      title: 'Background Color',
+      position: {
+        my: 'right-10% top-10%',
+        at: 'left top',
+        of: $('#input-bg')
+      }
+    })
     dialog_color.dialog('open')
   })
 
@@ -407,9 +421,7 @@ $('#dialog-color-container > span').click(function () {
 
 dialog_color.dialog({
   autoOpen: false,
-  classes: {
-    'ui-dialog': 'no-close'
-  },
+  dialogClass: 'no-close',
   draggable: false,
   focus: function (e, ui) {
     if (dialog_color.dialog('option', 'title') === 'Foreground Color') {
@@ -419,9 +431,9 @@ dialog_color.dialog({
     }
   },
   height: 260,
-  hide: { effect: "fade", duration: 100 },
+  hide: { effect: 'fade', duration: 100 },
   resizable: false,
-  show: { effect: "fade", duration: 200 },
+  show: { effect: 'fade', duration: 200 },
   width: 240
 })
 

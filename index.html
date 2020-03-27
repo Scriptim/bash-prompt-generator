@@ -7,123 +7,121 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="index.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" defer></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" defer></script>
+  <script src="index.js" defer></script>
 </head>
 
 <body>
-  <div id="container">
+  <header>
     <h1>Bash Prompt Generator</h1>
-    <div id="input">
-      <div id="elements">
-        <span data-description="The username of the current user">
-          Username
-        </span>
-        <span data-description="The hostname, up to the first ‘.’">
-          Hostname (short)
-        </span>
-        <span data-description="The hostname">
-          Hostname
-        </span>
-        <span data-description="The name of the shell, the basename of $0">
-          Shell Name
-        </span>
-        <span data-description="The version of Bash (e.g., 2.00)">
-          Bash Version
-        </span>
-        <span data-description="The release of Bash, version + patchlevel (e.g., 2.00.0)">
-          Bash Release
-        </span>
-        <span data-description="The basename of the shell’s terminal device name">
-          Terminal
-        </span>
-        <span data-description="The current working directory, with $HOME abbreviated with a tilde">
-          Working Directory
-        </span>
-        <span data-description="The basename of $PWD, with $HOME abbreviated with a tilde">
-          Working Directory (basename)
-        </span>
-        <span data-description="The date, in 'Weekday Month Date' format (e.g., 'Tue May 26'">
-          Date
-        </span>
-        <span data-description="The format is passed to strftime(3) and the result is inserted into the prompt string; an empty format results in a locale-specific
-        time representation">
-          Date (formatted)
-        </span>
-        <span data-description="The time, in 24-hour HH:MM:SS format">
-          Time (24h)
-        </span>
-        <span data-description="The time, in 12-hour HH:MM:SS format">
-          Time (12h)
-        </span>
-        <span data-description="The time, in 12-hour am/pm format">
-          Time (am/pm)
-        </span>
-        <span data-description="The time, in 24-hour HH:MM format">
-          Time (w/o seconds)
-        </span>
-        <span data-description="The return value of the previous command">
-          Exit Status
-        </span>
-        <span data-description="A newline">
-          New Line
-        </span>
-        <span data-description="A carriage return">
-          Carriage Return
-        </span>
-        <span data-description="If the effective uid is 0, #, otherwise $">
-          Prompt Sign
-        </span>
-        <span data-description="The history number of this command">
-          History Number
-        </span>
-        <span data-description="The command number of this command">
-          Command Number
-        </span>
-        <span data-description="Any text">
-          Custom Text
-        </span>
-        <span data-description="The output of function or a shell command">
-          Function/Command
-        </span>
-      </div>
-      <div id="inputarea"></div>
-      <div id="properties"></div>
-      <div id="dialog-color">
-        <div id="dialog-color-container">
-          <span title="Black">0,0,0</span>
-          <span title="Dark gray">128,128,128</span>
-          <span title="Light gray">192,192,192</span>
-          <span title="White">255,255,255</span>
-          <span title="Red">255,0,0</span>
-          <span title="Light red">255,128,128</span>
-          <span title="Magenta">255,0,255</span>
-          <span title="Light magenta">255,128,255</span>
-          <span title="Blue">0,0,255</span>
-          <span title="Light blue">128,128,255</span>
-          <span title="Cyan">0,255,255</span>
-          <span title="Light cyan">128,255,255</span>
-          <span title="Green">0,255,0</span>
-          <span title="Light green">128,255,128</span>
-          <span title="Yellow">255,255,0</span>
-          <span title="Light yellow">255,255,128</span>
-        </div>
-      </div>
+  </header>
+  <div id="container">
+    <div id="elements">
+      <span data-description="The username of the current user">
+        Username
+      </span>
+      <span data-description="The hostname, up to the first ‘.’">
+        Hostname (short)
+      </span>
+      <span data-description="The hostname">
+        Hostname
+      </span>
+      <span data-description="The name of the shell, the basename of $0">
+        Shell Name
+      </span>
+      <span data-description="The version of Bash (e.g., 2.00)">
+        Bash Version
+      </span>
+      <span data-description="The release of Bash, version + patchlevel (e.g., 2.00.0)">
+        Bash Release
+      </span>
+      <span data-description="The basename of the shell’s terminal device name">
+        Terminal
+      </span>
+      <span data-description="The current working directory, with $HOME abbreviated with a tilde">
+        Working Directory
+      </span>
+      <span data-description="The basename of $PWD, with $HOME abbreviated with a tilde">
+        Working Directory (basename)
+      </span>
+      <span data-description="The date, in 'Weekday Month Date' format (e.g., 'Tue May 26'">
+        Date
+      </span>
+      <span data-description="The format is passed to strftime(3) and the result is inserted into the prompt string; an empty format results in a locale-specific
+      time representation">
+        Date (formatted)
+      </span>
+      <span data-description="The time, in 24-hour HH:MM:SS format">
+        Time (24h)
+      </span>
+      <span data-description="The time, in 12-hour HH:MM:SS format">
+        Time (12h)
+      </span>
+      <span data-description="The time, in 12-hour am/pm format">
+        Time (am/pm)
+      </span>
+      <span data-description="The time, in 24-hour HH:MM format">
+        Time (w/o seconds)
+      </span>
+      <span data-description="The return value of the previous command">
+        Exit Status
+      </span>
+      <span data-description="A newline">
+        New Line
+      </span>
+      <span data-description="A carriage return">
+        Carriage Return
+      </span>
+      <span data-description="If the effective uid is 0, #, otherwise $">
+        Prompt Sign
+      </span>
+      <span data-description="The history number of this command">
+        History Number
+      </span>
+      <span data-description="The command number of this command">
+        Command Number
+      </span>
+      <span data-description="Any text">
+        Custom Text
+      </span>
+      <span data-description="The output of function or a shell command">
+        Function/Command
+      </span>
     </div>
-    <div id="output">
-      <!--<div id="preview"></div>-->
-      <div id="command">
-        <p></p>
-      </div>
-    </div>
-    <div id="footnote">
-      <p id="github"><a href="https://github.com/Scriptim/bash-prompt-generator" title="GitHub" target="_blank"><i class="fab fa-github"></i></a></p>
-      <p>This program is licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>.</p>
-      <p>The icons are part of the <a href="http://fortawesome.github.com/Font-Awesome/">FontAwesome</a> font (SLI License)</p>
+    <div id="inputarea"></div>
+    <div id="properties"></div>
+  </div>
+  <div id="dialog-color">
+    <div id="dialog-color-container">
+      <span title="Black">0,0,0</span>
+      <span title="Dark gray">128,128,128</span>
+      <span title="Light gray">192,192,192</span>
+      <span title="White">255,255,255</span>
+      <span title="Red">255,0,0</span>
+      <span title="Light red">255,128,128</span>
+      <span title="Magenta">255,0,255</span>
+      <span title="Light magenta">255,128,255</span>
+      <span title="Blue">0,0,255</span>
+      <span title="Light blue">128,128,255</span>
+      <span title="Cyan">0,255,255</span>
+      <span title="Light cyan">128,255,255</span>
+      <span title="Green">0,255,0</span>
+      <span title="Light green">128,255,128</span>
+      <span title="Yellow">255,255,0</span>
+      <span title="Light yellow">255,255,128</span>
     </div>
   </div>
-
-  <script src="index.js "></script>
+  <div id="output">
+    <!--<div id="preview"></div>-->
+    <div id="command">
+      <p></p>
+    </div>
+  </div>
+  <footer>
+    <a id="github" href="https://github.com/Scriptim/bash-prompt-generator" title="GitHub" target="_blank"><i class="fab fa-github"></i></a>
+    <p>This program is licensed under the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a>.<br>The icons are part of the <a href="http://fortawesome.github.com/Font-Awesome/" target="_blank">FontAwesome</a> font (SLI License)</p>
+  </footer>
 </body>
 
 </html>
