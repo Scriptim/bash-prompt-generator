@@ -265,6 +265,7 @@ $('#elements > span').click(function () {
     dialog_color.dialog('close')
     $(this).parent().remove()
     updateProperties()
+    updateOutput()
   })
   updateOutput()
 })
