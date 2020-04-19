@@ -15,7 +15,7 @@ inputarea.disableSelection()
  * Jumps to the beginning of a line.
  * 
  * @param {String} string The string to modify.
- * @param {String} linebreak The line seperator, '\n' by default.
+ * @param {String} linebreak The line separator, '\n' by default.
  */
 function returnToLineStart(string, linebreak = '\n') {
   parts = string.split(linebreak)
@@ -871,7 +871,7 @@ class PromptParser {
           } else if (this._getChar() === 'm') {
             break
           } else {
-            throw `ParseException at character ${this._position + 1}. Expecting seperator '${char}' not '${this._getChar()}'.`
+            throw `ParseException at character ${this._position + 1}. Expecting separator '${char}' not '${this._getChar()}'.`
           }
         }
         if (this._checkRegex(/m\\\]/) === true) {
@@ -1062,7 +1062,7 @@ class PromptTranslator {
             if (['0', '1', '2', '3', '4', '5', '7'].indexOf(value[i]) !== -1) {
               this._styleBuffer[this._STYLE_BUFFER_KEYS[i]] = 'true'
             } else {
-              throw `TranslateException at element ${this._position + 1}. Unknwon style '${value[i]}'.`
+              throw `TranslateException at element ${this._position + 1}. Unknown style '${value[i]}'.`
             }
           }
         }
@@ -1114,7 +1114,7 @@ class PromptTranslator {
         object.attr('data-text', value)
       } else if (this._getElement().type === 'command') {
         object = this._ELEMENTS['command'].clone()
-        object.attr('data-cfunccmd', value)
+        object.attr('data-funccmd', value)
       } else {
         throw `TranslateException at element ${this._position + 1}. Unknown type '${this._getElement().type}'.`
       }
