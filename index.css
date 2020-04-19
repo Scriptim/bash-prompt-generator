@@ -10,6 +10,7 @@ body {
 }
 
 header, footer {
+  position: relative;
   height: 4rem;
   color: #eeeeee;
   background-color: #222831;
@@ -18,6 +19,81 @@ header, footer {
 h1 {
   margin: 0;
   line-height: 2em;
+}
+
+#import-container {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  margin: 0;
+  cursor: default;
+}
+#import {
+  border: 2px solid #00adb5;
+  border-radius: 8px;
+  padding: 10px 40px;
+  background-color: #222831;
+  color: #00adb5;
+  cursor: pointer;
+  transition: all ease 200ms;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+#import:hover {
+  border-color: #007c82;
+  color: #007c82;
+}
+#import:active {
+  background-color: #007c82;
+  color: #222831;
+}
+
+#import-field {
+  display: none;/*prevent animation on page load, will be added with js*/
+  opacity: 0;
+  width: 0;
+  border: 2px solid #00adb5;
+  border-radius: 8px;
+  padding: 0;
+  background: #222831;
+  color: #00adb5;
+  animation: disappear linear 200ms;
+  cursor: default;
+}
+#import-field.visible {
+  opacity: 1;
+  width: 200px;
+  padding: 10px;
+  animation: appear linear 200ms;
+  cursor: text;
+}
+@keyframes appear {
+  0% {
+    opacity: 1;
+    width: 0;
+    padding: 10px;
+  }
+  100% {
+    opacity: 1;
+    width: 200px;
+    padding: 10px;
+  }
+}
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    width: 200px;
+    padding: 10px 40px;
+  }
+  100% {
+    opacity: 1;
+    width: 0;
+    padding: 10px 0;
+  }
 }
 
 footer {
@@ -81,6 +157,14 @@ small {
   min-height: 1.2em;
   margin: 1em;
   font-family: 'Dejavu Sans Mono', 'Courier New', 'Courier', monospace;
+}
+
+#example > p {
+  margin: auto;
+  width: min-content;
+  background-color: rgb(0, 0, 0);
+  white-space: nowrap;
+  text-align: left;
 }
 
 #elements>span, #inputarea>span {
@@ -193,4 +277,167 @@ small {
   -webkit-transform: scale(1.1);
   -ms-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.style-bold {
+  font-weight: bold;
+}
+
+.style-dim {
+  /*@TODO: this modifies background color either!*/
+  opacity: 50%;
+}
+
+.style-italic {
+  font-style: italic;
+}
+
+.style-underline {
+  text-decoration: underline;
+}
+
+.style-blink {
+  animation: blink 1s infinite;
+  opacity: 1;
+}
+@keyframes blink {
+  0%   { color: rgba(0, 0, 0, 0); }
+  47%  { color: rgba(0, 0, 0, 0); }
+  50%  { color: inherit }
+  97%  { color: inherit }
+  100% { color: rgba(0, 0, 0, 0); }
+}
+
+/*@TODO: what should this do?
+.style-reverse {
+
+}
+*/
+
+.color-fg-black {
+  color: rgb(0, 0, 0);
+}
+
+.color-fg-red {
+  color: rgb(255, 0, 0);
+}
+
+.color-fg-green {
+  color: rgb(0, 255, 0);
+}
+
+.color-fg-yellow {
+  color: rgb(255, 255, 0);
+}
+
+.color-fg-blue {
+  color: rgb(0, 0, 255);
+}
+
+.color-fg-magenta {
+  color: rgb(255, 0, 255);
+}
+
+.color-fg-cyan {
+  color: rgb(0, 255, 255);
+}
+
+.color-fg-light-gray {
+  color: rgb(192, 192, 192);
+}
+
+.color-fg-dark-gray {
+  color: rgb(128, 128, 128);
+}
+
+.color-fg-light-red {
+  color: rgb(255, 128, 128);
+}
+
+.color-fg-light-green {
+  color: rgb(128, 255, 128);
+}
+
+.color-fg-light-yellow {
+  color: rgb(255, 255, 128);
+}
+
+.color-fg-light-blue {
+  color: rgb(128, 128, 255);
+}
+
+.color-fg-light-magenta {
+  color: rgb(255, 128, 255);
+}
+
+.color-fg-light-cyan {
+  color: rgb(128, 255, 255);
+}
+
+.color-fg-white {
+  color: rgb(255, 255, 255);
+}
+
+.color-bg-black {
+  background-color: rgb(0, 0, 0);
+}
+
+.color-bg-red {
+  background-color: rgb(255, 0, 0);
+}
+
+.color-bg-green {
+  background-color: rgb(0, 255, 0);
+}
+
+.color-bg-yellow {
+  background-color: rgb(255, 255, 0);
+}
+
+.color-bg-blue {
+  background-color: rgb(0, 0, 255);
+}
+
+.color-bg-magenta {
+  background-color: rgb(255, 0, 255);
+}
+
+.color-bg-cyan {
+  background-color: rgb(0, 255, 255);
+}
+
+.color-bg-light-gray {
+  background-color: rgb(192, 192, 192);
+}
+
+.color-bg-dark-gray {
+  background-color: rgb(128, 128, 128);
+}
+
+.color-bg-light-red {
+  background-color: rgb(255, 128, 128);
+}
+
+.color-bg-light-green {
+  background-color: rgb(128, 255, 128);
+}
+
+.color-bg-light-yellow {
+  background-color: rgb(255, 255, 128);
+}
+
+.color-bg-light-blue {
+  background-color: rgb(128, 128, 255);
+}
+
+.color-bg-light-magenta {
+  background-color: rgb(255, 128, 255);
+}
+
+.color-bg-light-cyan {
+  background-color: rgb(128, 255, 255);
+}
+
+.color-bg-white {
+  background-color: rgb(255, 255, 255);
 }

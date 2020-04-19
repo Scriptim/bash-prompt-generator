@@ -11,219 +11,308 @@ inputarea.sortable({
 
 inputarea.disableSelection()
 
+/**
+ * jumps to the beginning of a line
+ * 
+ * @param {String} string the string to modify
+ * @param {String} linebreak the line seperator, '\n' by default
+ */
+function returnToLineStart(string, linebreak = '\n') {
+  parts = string.split(linebreak)
+  if (parts.length == 1) return ""
+  parts.pop()
+  string = parts.join(linebreak)
+  return string + linebreak
+}
+
 function updateOutput() {
   var command = 'PS1="'
+  var example = ''
   var requireReset = true
   $('#inputarea > span').each(function () {
-    var formats = []
+    var formatsCommand = []
+    var formatsExample = []
 
     if (requireReset) {
-      formats.push('0')
+      formatsCommand.push('0')
     }
     if ($(this).attr('data-bold') === 'true') {
-      formats.push('1')
+      formatsCommand.push('1')
+      formatsExample.push('style-bold')
     }
     if ($(this).attr('data-dim') === 'true') {
-      formats.push('2')
+      formatsCommand.push('2')
+      formatsExample.push('style-dim')
     }
     if ($(this).attr('data-italic') === 'true') {
-      formats.push('3')
+      formatsCommand.push('3')
+      formatsExample.push('style-italic')
     }
     if ($(this).attr('data-underline') === 'true') {
-      formats.push('4')
+      formatsCommand.push('4')
+      formatsExample.push('style-underline')
     }
     if ($(this).attr('data-blink') === 'true') {
-      formats.push('5')
+      formatsCommand.push('5')
+      formatsExample.push('style-blink')
     }
     if ($(this).attr('data-reverse') === 'true') {
-      formats.push('7')
+      formatsCommand.push('7')
+      // todo: what does it do?
+      formatsExample.push('style-reverse')
     }
 
     if ($(this).attr('data-fg-color')) {
       switch ($(this).attr('data-fg-color')) {
         case 'Black':
-          formats.push('30')
+          formatsCommand.push('30')
+          formatsExample.push('color-fg-black')
           break
         case 'Red':
-          formats.push('31')
+          formatsCommand.push('31')
+          formatsExample.push('color-fg-red')
           break
         case 'Green':
-          formats.push('32')
+          formatsCommand.push('32')
+          formatsExample.push('color-fg-green')
           break
         case 'Yellow':
-          formats.push('33')
+          formatsCommand.push('33')
+          formatsExample.push('color-fg-yellow')
           break
         case 'Blue':
-          formats.push('34')
+          formatsCommand.push('34')
+          formatsExample.push('color-fg-blue')
           break
         case 'Magenta':
-          formats.push('35')
+          formatsCommand.push('35')
+          formatsExample.push('color-fg-magenta')
           break
         case 'Cyan':
-          formats.push('36')
+          formatsCommand.push('36')
+          formatsExample.push('color-fg-cyan')
           break
         case 'Light gray':
-          formats.push('37')
+          formatsCommand.push('37')
+          formatsExample.push('color-fg-light-gray')
           break
         case 'Dark gray':
-          formats.push('90')
+          formatsCommand.push('90')
+          formatsExample.push('color-fg-dark-gray')
           break
         case 'Light red':
-          formats.push('91')
+          formatsCommand.push('91')
+          formatsExample.push('color-fg-light-red')
           break
         case 'Light green':
-          formats.push('92')
+          formatsCommand.push('92')
+          formatsExample.push('color-fg-light-green')
           break
         case 'Light yellow':
-          formats.push('93')
+          formatsCommand.push('93')
+          formatsExample.push('color-fg-light-yellow')
           break
         case 'Light blue':
-          formats.push('94')
+          formatsCommand.push('94')
+          formatsExample.push('color-fg-light-blue')
           break
         case 'Light magenta':
-          formats.push('95')
+          formatsCommand.push('95')
+          formatsExample.push('color-fg-light-magenta')
           break
         case 'Light cyan':
-          formats.push('96')
+          formatsCommand.push('96')
+          formatsExample.push('color-fg-light-cyan')
           break
         case 'White':
-          formats.push('97')
+          formatsCommand.push('97')
+          formatsExample.push('color-fg-white')
           break
         default:
           command += '\\[\\e[38;5;' + $(this).attr('data-fg-color') + 'm\\]'
+          // use given color
+          //@TODO
+          formatsExample.push('color-fg-custom')
       }
+    } else {
+      formatsExample.push('color-fg-dark-gray')
     }
 
     if ($(this).attr('data-bg-color')) {
       switch ($(this).attr('data-bg-color')) {
         case 'Black':
-          formats.push('40')
+          formatsCommand.push('40')
+          formatsExample.push('color-bg-black')
           break
         case 'Red':
-          formats.push('41')
+          formatsCommand.push('41')
+          formatsExample.push('color-bg-red')
           break
         case 'Green':
-          formats.push('42')
+          formatsCommand.push('42')
+          formatsExample.push('color-bg-green')
           break
         case 'Yellow':
-          formats.push('43')
+          formatsCommand.push('43')
+          formatsExample.push('color-bg-yellow')
           break
         case 'Blue':
-          formats.push('44')
+          formatsCommand.push('44')
+          formatsExample.push('color-bg-blue')
           break
         case 'Magenta':
-          formats.push('45')
+          formatsCommand.push('45')
+          formatsExample.push('color-bg-magenta')
           break
         case 'Cyan':
-          formats.push('46')
+          formatsCommand.push('46')
+          formatsExample.push('color-bg-cyan')
           break
         case 'Light gray':
-          formats.push('47')
+          formatsCommand.push('47')
+          formatsExample.push('color-bg-light-gray')
           break
         case 'Dark gray':
-          formats.push('100')
+          formatsCommand.push('100')
+          formatsExample.push('color-bg-dark-gray')
           break
         case 'Light red':
-          formats.push('101')
+          formatsCommand.push('101')
+          formatsExample.push('color-bg-light-red')
           break
         case 'Light green':
-          formats.push('102')
+          formatsCommand.push('102')
+          formatsExample.push('color-bg-light-green')
           break
         case 'Light yellow':
-          formats.push('103')
+          formatsCommand.push('103')
+          formatsExample.push('color-bg-light-yellow')
           break
         case 'Light blue':
-          formats.push('104')
+          formatsCommand.push('104')
+          formatsExample.push('color-bg-light-blue')
           break
         case 'Light magenta':
-          formats.push('105')
+          formatsCommand.push('105')
+          formatsExample.push('color-bg-light-magenta')
           break
         case 'Light cyan':
-          formats.push('106')
+          formatsCommand.push('106')
+          formatsExample.push('color-bg-light-cyan')
           break
         case 'White':
-          formats.push('107')
+          formatsCommand.push('107')
+          formatsExample.push('color-bg-white')
           break
         default:
           command += '\\[\\e[48;5;' + $(this).attr('data-bg-color') + 'm\\]'
+          // use given color
+          formatsExample.push('color-bg-custom')
       }
+    } else {
+      formatsExample.push('color-bg-black')
     }
 
-    if (formats.length > 0) {
-      command += '\\[\\e[' + formats.join(';') + 'm\\]'
+    if (formatsCommand.length > 0) {
+      command += '\\[\\e[' + formatsCommand.join(';') + 'm\\]'
+      example += '<span class="' + formatsExample.join(' ') + '">'
 
-      if (formats.length === 1 && formats[0] === '0') {
+      if (formatsCommand.length === 1 && formatsCommand[0] === '0') {
         requireReset = false
       } else {
         requireReset = true
       }
     } else {
       requireReset = false
+      example += '<span>'
     }
 
     switch ($(this).html().replace(/\s*<i.*<\/i>/gi, '').trim()) {
       case 'Username':
         command += '\\u'
+        example += 'Scriptim'
         break
       case 'Hostname (short)':
         command += '\\h'
+        example += 'Scriptim-PC'
         break
       case 'Hostname':
         command += '\\H'
+        example += 'Scriptim-PC'
         break
       case 'Shell Name':
         command += '\\s'
+        example += 'bash'
         break
       case 'Bash Version':
         command += '\\v'
+        example += '2.0'
         break
       case 'Bash Release':
         command += '\\V'
+        example += '2.00.0'
         break
       case 'Terminal':
         command += '\\l'
+        example += '2'
         break
       case 'Working Directory':
         command += '\\w'
+        example += '~/Desktop'
         break
       case 'Working Directory (basename)':
         command += '\\W'
+        example += 'Desktop'
         break
       case 'Date':
         command += '\\d'
+        example += 'Tue May 26'
         break
       case 'Date (formatted)':
         command += '\\D{' + ($(this).attr('data-dateformat') ? $(this).attr('data-dateformat') : '') + '}'
+        example += '16:22:18'
         break
       case 'Time (24h)':
         command += '\\t'
+        example += '16:22:18'
         break
       case 'Time (12h)':
         command += '\\T'
+        example += '04:22:18'
         break
       case 'Time (am/pm)':
         command += '\\@'
+        // no idea where the space comes from, in my bash it is there...
+        example += '04:22 '
         break
       case 'Time (w/o seconds)':
         command += '\\A'
+        example += '16:22'
         break
       case 'Exit Status':
         command += '\\$?'
+        example += '0'
         break
       case 'New Line':
         command += '\\n'
+        example += '\n'
         break
       case 'Carriage Return':
         command += '\\r'
+        // return to beginning of line
+        example = returnToLineStart(example)
         break
       case 'Prompt Sign':
         command += '\\$'
+        example += '$'
         break
       case 'History Number':
         command += '\\!'
+        example += '332'
         break
       case 'Command Number':
         command += '\\#'
+        example += '16'
         break
       case 'Custom Text':
         var text = $(this).attr('data-text')
@@ -231,21 +320,28 @@ function updateOutput() {
           text = ''
         }
         command += text // may include environment variables and escape sequences
+        example += text
         break
       case 'Function/Command':
         var funccmd = $(this).attr('data-funccmd').trim()
         $(this).attr('data-funccmd', funccmd)
         if (funccmd.endsWith('()')) {
           command += '\\`' + funccmd.slice(0, -2) + '\\`'
+          example += '$(a)'
         } else {
           command += '$(' + funccmd + ')'
+          example += '$(b)'
         }
         break
     }
+
+    example += '</span>'
   })
 
+  example = example.replace('\n', '<br />\n')
   command += '\\[\\e[0m\\]"'
   $('#command > p').html(command)
+  $('#example > p').html(example)
 }
 
 $('#elements > span').click(function () {
@@ -254,21 +350,25 @@ $('#elements > span').click(function () {
   $('#inputarea > span').removeAttr('data-selected')
   inputarea.append('<span data-description="' + $(this).attr('data-description') + '">' + $(this).html() + '<i class="fas fa-minus-circle"></i></span>')
   var new_element = $('#inputarea > span').last()
-  new_element.disableSelection()
-  new_element.click(function () {
+  addEventListener(new_element)
+  updateOutput()
+})
+
+function addEventListener(element) {
+  element.disableSelection()
+  element.click(function () {
     dialog_color.dialog('close')
     $('#inputarea > span').removeAttr('data-selected')
-    new_element.attr('data-selected', 'true')
-    updateProperties(new_element)
+    element.attr('data-selected', 'true')
+    updateProperties(element)
   })
-  new_element.children('i').click(function () {
+  element.children('i').click(function () {
     dialog_color.dialog('close')
     $(this).parent().remove()
     updateProperties()
     updateOutput()
   })
-  updateOutput()
-})
+}
 
 function updateProperties(element) {
   properties.empty()
@@ -439,11 +539,6 @@ dialog_color.dialog({
   resizable: false,
   show: { effect: 'fade', duration: 200 },
   width: 240
-})
-
-$('#dialog-color-container > span').each(function () {
-  $(this).css('background-color', 'rgb(' + $(this).html() + ')')
-  $(this).html('')
 })
 
 function validateColors() {
@@ -647,4 +742,426 @@ function validateColors() {
 
   dialog_color.dialog('close')
   updateOutput()
+}
+
+$('#import').click(function () {
+  // animation prevented, set display to inline-block
+  $('#import-field').css('display', 'inline-block')
+
+  var success = true
+
+  if ($('#import-field').hasClass('visible') === true) {
+    if ($('#import-field').val().length > 0) {
+      var promptParser = new PromptParser($('#import-field').val())
+      promptParser.parse()
+      if (promptParser.getElements().length == 0) {
+        success = false
+      } else {
+        promptTranslator = new PromptTranslator(promptParser.getElements())
+        promptTranslator.translate()
+        var objects = promptTranslator.getObjects()
+        $('#inputarea').text('')
+        objects.forEach((object) => {
+          object.append('<i class="fas fa-minus-circle"></i>')
+          $('#inputarea').append(object)
+          addEventListener(object)
+        })
+        updateOutput()
+      }
+    } else {
+      success = false
+    }
+  } else {
+    $('#import-field').val('')
+  }
+
+  if (success) $('#import-field').toggleClass('visible')
+})
+
+class PromptParser {
+
+  //@TODO: maybe higher?
+  MAX_ITERATIONS = 2000
+
+   constructor(prompt) {
+    if (prompt.startsWith('PS1="') && prompt.endsWith('"')) {
+      this._prompt = prompt.substr(5, prompt.length - 6)
+    } else {
+      this._prompt = prompt
+    }
+    this._elements = []
+    this._position = 0
+    this._expectedObject = null
+  }
+
+  getElements() {
+    return this._elements
+  }
+
+  parse() {
+    if (this._position >= this._prompt.length) {
+      console.debug('Parsing complete')
+      return
+    }
+    if (this._position > this.MAX_ITERATIONS) throw `ParseException: Too much recursion!`
+    console.debug(`Parsing (${this._position + 1}/${this._prompt.length}`)
+    switch (this._expectedObject) {
+      case 'style':
+        var args = []
+        var counter = 0
+        while (counter < 10) {
+          if (this._checkRegex(/^[0-9]{2}/) === true) {
+            if (counter < 8) counter = 8
+            args.push(this._getChar() + this._getChar(1))
+            this._position += 2
+          } else if (this._checkRegex(/^[0-9]/) === true) {
+            if (counter > 7) throw `ParseException at character ${this._position + 1}. Expecting an integer higher than 9 not '${this._getChar()}'.`
+            args.push(this._getChar())
+            this._position++
+          } else {
+            throw `ParseException at character ${this._position + 1}. Expecting an integer not '${this._getChar()}'.`
+          }
+          counter++
+          if (this._getChar() === ';') {
+            this._position++
+          } else if (this._getChar() === 'm') {
+            break
+          } else {
+            throw `ParseException at character ${this._position + 1}. Expecting seperator '${char}' not '${this._getChar()}'.`
+          }
+        }
+        if (this._checkRegex(/m\\\]/) === true) {
+          this._position += 3
+          this._elements.push({type: 'style', value: args})
+          this._expectedObject = null
+        } else {
+          throw `ParseException at characters ${this._position + 1}+. Expecting '/m\\\]/' not '${this._readChars(3)}'.`
+        }
+        break
+      case 'variable':
+        var char = this._getChar()
+        switch (char) {
+          case 'D':
+            this._elements.push({type: 'variable', value: 'D{}'})
+            this._position += 3
+            break
+          case '$':
+            if (this._getChar(1) === '?') {
+              this._elements.push({type: 'variable', value: '$?'})
+              this._position += 2
+              break
+            }
+          default:
+            this._elements.push({type: 'variable', value: char})
+            this._position++
+            break
+        }
+        this._expectedObject = null
+        break
+      case 'text':
+        // add reset if this is the first checked element
+        if (this._position === 0) this._elements.push({type: 'style', value: [0]})
+        //@TODO: should work, but could cause bugs
+        this._elements.push({type: 'text', value: this._readChars(['\\', '$'])})
+        this._expectedObject = null
+        break
+      case 'command':
+        //@TODO: could cause trouble if there is a closing bracket before the right one 
+        this._elements.push({type: 'command', value: this._readChars(')')})
+        this._expectedObject = null
+        break
+      default:
+        // check if there is a KNOWN(!) style modifier
+        //@TODO: 0-99 0-99 these are fg and bg color. is this range acceptable?
+        if (this._checkRegex(/^\\\[\\e\[((0;){0,1}(1;){0,1}(2;){0,1}(3;){0,1}(4;){0,1}(5;){0,1}(7;){0,1}([0-9]{1,2};){0,1}[0-9]{1,2})m\\\]/)) {
+          this._position += 5
+          this._expectedObject ='style'
+        } else if (this._getChar() === '\\') {
+          this._position++
+          this._expectedObject = 'variable'
+          if (!this._checkRegex(/^([uhHsvVlwWdtT@Anr!#]|(D{})|(\$\?)|\$)/)) throw `ParseException at character ${this._position + 1}. Expecting [u|h|H|s|v|V|l|w|W|d|D{}|t|T|@|A|$?|n|r|$|!|#|] not '${this._getChar()}'.`
+        } else if (this._getChar() === '$' && this._getChar(1) === '(') {
+            this._position += 2
+            this._expectedObject = 'command'
+        } else {
+          this._expectedObject = 'text'
+        }
+        break
+    }
+    this.parse()
+  }
+
+  _readChars(end) {
+    var text = ''
+    if (end.constructor === Number) {
+      for (var i = 0; i < end; i++) {
+        if (i === this._prompt.length - this._position) break
+        text += this._getChar(i)
+      }
+    } else {
+      while (this._position < this._prompt.length && this._checkChar(end) === false) {
+        text += this._getChar()
+        this._position++
+      }
+    }
+    return text
+  }
+
+  _checkRegex(regex) {
+    if (this._position === 95) {
+    }
+    return regex.test(this._prompt.substr(this._position))
+  }
+
+  _checkChar(expected) {
+    if (expected.constructor === String) {
+      return (this._getChar() === expected)
+    } else if (expected.constructor === Array) {
+      return (expected.indexOf(this._getChar()) >= 0)
+    }
+    throw 'InvalidArgumentException'
+  }
+
+  _getChar(offset = 0) {
+    return this._prompt[this._position + offset]
+  }
+}
+
+class PromptTranslator {
+  _ELEMENTS = {
+    'u': $($('#elements > span')[0]),
+    'h': $($('#elements > span')[1]),
+    'H': $($('#elements > span')[2]),
+    's': $($('#elements > span')[3]),
+    'v': $($('#elements > span')[4]),
+    'V': $($('#elements > span')[5]),
+    'l': $($('#elements > span')[6]),
+    'w': $($('#elements > span')[7]),
+    'W': $($('#elements > span')[8]),
+    'd': $($('#elements > span')[9]),
+    'D{}': $($('#elements > span')[10]),
+    't': $($('#elements > span')[11]),
+    'T': $($('#elements > span')[12]),
+    '@': $($('#elements > span')[13]),
+    'A': $($('#elements > span')[14]),
+    '$?': $($('#elements > span')[15]),
+    'n': $($('#elements > span')[16]),
+    'r': $($('#elements > span')[17]),
+    '$': $($('#elements > span')[18]),
+    '!': $($('#elements > span')[19]),
+    '#': $($('#elements > span')[20]),
+    'text': $($('#elements > span')[21]),
+    'command': $($('#elements > span')[22])
+  }
+
+  _STYLE_BUFFER_KEYS = {
+    0: 'reset',
+    1: 'reverse',
+    2: 'blink',
+    3: 'underline',
+    4: 'italic',
+    5: 'dim',
+    7: 'bold'
+  }
+
+  constructor(elements) {
+    this._objects = []
+    this._elements = elements
+    this._position = 0
+    this._resetStyle()
+  }
+
+  getObjects() {
+    return this._objects
+  }
+
+  translate() {
+    if (this._position >= this._elements.length) {
+      console.debug('Translating finished')
+      return
+    }
+    console.debug(`Translating (${this._position + 1}/${this._elements.length}`)
+    var value = this._getElement().value
+    switch (this._getElement().type) {
+      case 'style':
+        if (this._styleBuffer.empty === false) throw `TranslateException at element ${this._position + 1}. Unexpected type 'style'.`
+        this._styleBuffer.value = true
+        var colorA = null
+        var colorB = null
+        for (var i = 0; i < value.length; i++) {
+          if (value[i].length == 2 && i === value.length - 1) {
+            colorB = value[i]
+          } else if (value[i].length == 2 && i === value.length - 2) {
+            colorA = value[i]
+          } else {
+            // style
+            // check for duplicates
+            if (this._styleBuffer[this._STYLE_BUFFER_KEYS[value[i]]] !== 'false') throw `TranslateException at element ${this._position + 1} style ${i + 1}. Duplicate style '${this._STYLE_BUFFER_KEYS[i]}': '${value[i]}'.`
+            // add style to buffer
+            if (['0', '1', '2', '3', '4', '5', '7'].indexOf(value[i]) !== -1) {
+              this._styleBuffer[this._STYLE_BUFFER_KEYS[i]] = 'true'
+            } else {
+              throw `TranslateException at element ${this._position + 1}. Unknwon style '${value[i]}'.`
+            }
+          }
+        }
+        var colors = this._parseColor(colorA, colorB)
+        this._styleBuffer['fg-color'] = colors.fg
+        this._styleBuffer['bg-color'] = colors.bg
+        break
+      case 'variable':
+        if (/^([uhHsvVlwWdtT@Anr!#]|(D{})|(\$\?)|\$)/.test(value) === false) throw `TranslateException at character ${this._position + 1}. Expecting [u|h|H|s|v|V|l|w|W|d|D{}|t|T|@|A|$?|n|r|$|!|#|] not '${value}'.`
+        this._createElement()
+        break
+      case 'text':
+      case 'command':
+        this._createElement(true)
+        break
+      default:
+        throw `TranslateException at element ${this._position + 1}. Unknown type '${this._getElement().type}'.`
+    }
+    this._position++
+    this.translate()
+  }
+
+  _getElement(offset = 0) {
+    return this._elements[this._position + offset]
+  }
+
+  _resetStyle() {
+    this._styleBuffer = {
+      empty: true,
+      'fg-color': '',
+      'bg-color': '',
+      reset: 'false',
+      reverse: 'false',
+      blink: 'false',
+      underline: 'false',
+      italic: 'false',
+      dim: 'false',
+      bold: 'false'
+    }
+  }
+
+  _createElement(dataValue = false) {
+    var value = this._getElement().value
+    var object
+    if (dataValue === true && value.length > 0) {
+      // type text or command
+      if (this._getElement().type === 'text') {
+        object = this._ELEMENTS['text'].clone()
+        object.attr('data-text', value)
+      } else if (this._getElement().type === 'command') {
+        object = this._ELEMENTS['command'].clone()
+        object.attr('data-cfunccmd', value)
+      } else {
+        throw `TranslateException at element ${this._position + 1}. Unknown type '${this._getElement().type}'.`
+      }
+    } else {
+      object = this._ELEMENTS[value].clone()
+    }
+    for (var k in this._styleBuffer) {
+      var v = this._styleBuffer[k]
+      // skip if value is not set
+      if (v !== '' && v !== 'false') object.attr(`data-${k}`, v)
+    }
+    this._objects.push(object)
+    this._resetStyle()
+  }
+
+  _parseColor(colorA, colorB) {
+    // try to assign color by code
+    var fg = this._parseForegroundColor(colorA)
+    var bg = this._parseBackgroundColor(colorB)
+
+    // if both failed, swap colors, try again
+    if (fg === null && bg === null) {
+      fg = this._parseForegroundColor(colorB)
+      bg = this._parseBackgroundColor(colorA)
+    }
+
+    // assign default colors to invalid colors
+    if (fg === null) fg = 'Dark gray'
+    if (bg === null) bg = 'Black'
+
+    return {fg: fg, bg: bg}
+  }
+
+  _parseForegroundColor(code) {
+    switch (code){
+      case '30':
+        return 'Black'
+      case '31':
+        return 'Red'
+      case '32':
+        return 'Green'
+      case '33':
+        return 'Yellow'
+      case '34':
+        return 'Blue'
+      case '35':
+        return 'Magenta'
+      case '36':
+        return 'Cyan'
+      case '37':
+        return 'Light gray'
+      case '90':
+        return 'Dark gray'
+      case '91':
+        return 'Light red'
+      case '92':
+        return 'Light green'
+      case '93':
+        return 'Light yellow'
+      case '94':
+        return 'Light blue'
+      case '95':
+        return 'Light magenta'
+      case '96':
+        return 'Light cyan'
+      case '97':
+        return 'White'
+      default:
+        return null
+    }
+  }
+
+  _parseBackgroundColor(code) {
+    switch (code){
+      case '40':
+        return 'Black'
+      case '41':
+        return 'Red'
+      case '42':
+        return 'Green'
+      case '43':
+        return 'Yellow'
+      case '44':
+        return 'Blue'
+      case '45':
+        return 'Magenta'
+      case '46':
+        return 'Cyan'
+      case '47':
+        return 'Light gray'
+      case '100':
+        return 'Dark gray'
+      case '101':
+        return 'Light red'
+      case '102':
+        return 'Light green'
+      case '103':
+        return 'Light yellow'
+      case '104':
+        return 'Light blue'
+      case '105':
+        return 'Light magenta'
+      case '106':
+        return 'Light cyan'
+      case '107':
+        return 'White'
+      default:
+        return null
+    }
+  }
 }

@@ -26,6 +26,10 @@
 <body>
   <header>
     <h1>Bash Prompt Generator</h1>
+    <div id="import-container">
+      <input type="text" id="import-field" placeholder="Put variables here" />
+      <a id="import">Import</a>
+    </div>
   </header>
   <div id="container">
     <div id="elements">
@@ -105,26 +109,31 @@
   </div>
   <div id="dialog-color">
     <div id="dialog-color-container">
-      <span title="Black">0,0,0</span>
-      <span title="Dark gray">128,128,128</span>
-      <span title="Light gray">192,192,192</span>
-      <span title="White">255,255,255</span>
-      <span title="Red">255,0,0</span>
-      <span title="Light red">255,128,128</span>
-      <span title="Magenta">255,0,255</span>
-      <span title="Light magenta">255,128,255</span>
-      <span title="Blue">0,0,255</span>
-      <span title="Light blue">128,128,255</span>
-      <span title="Cyan">0,255,255</span>
-      <span title="Light cyan">128,255,255</span>
-      <span title="Green">0,255,0</span>
-      <span title="Light green">128,255,128</span>
-      <span title="Yellow">255,255,0</span>
-      <span title="Light yellow">255,255,128</span>
+      <span title="Black" class="color-bg-black"></span>
+      <span title="Dark gray" class="color-bg-dark-gray"></span>
+      <span title="Light gray" class="color-bg-light-gray"></span>
+      <span title="White" class="color-bg-white"></span>
+      <span title="Red" class="color-bg-red"></span>
+      <span title="Light red" class="color-bg-light-red"></span>
+      <span title="Magenta" class="color-bg-magenta"></span>
+      <span title="Light magenta" class="color-bg-light-magenta"></span>
+      <span title="Blue" class="color-bg-blue"></span>
+      <span title="Light blue" class="color-bg-light-blue"></span>
+      <span title="Cyan" class="color-bg-cyan"></span>
+      <span title="Light cyan" class="color-bg-light-cyan"></span>
+      <span title="Green" class="color-bg-green"></span>
+      <span title="Light green" class="color-bg-light-green"></span>
+      <span title="Yellow" class="color-bg-yellow"></span>
+      <span title="Light yellow" class="color-bg-light-yellow"></span>
     </div>
   </div>
   <div id="output">
     <div id="command">
+      <span>Command:</span>
+      <p></p>
+    </div>
+    <div id="example">
+      <span>Example:</span>
       <p></p>
     </div>
   </div>
