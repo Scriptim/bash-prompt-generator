@@ -12,10 +12,10 @@ inputarea.sortable({
 inputarea.disableSelection()
 
 /**
- * jumps to the beginning of a line
+ * Jumps to the beginning of a line.
  * 
- * @param {String} string the string to modify
- * @param {String} linebreak the line seperator, '\n' by default
+ * @param {String} string The string to modify.
+ * @param {String} linebreak The line seperator, '\n' by default.
  */
 function returnToLineStart(string, linebreak = '\n') {
   parts = string.split(linebreak)
@@ -58,9 +58,12 @@ function updateOutput() {
     }
     if ($(this).attr('data-reverse') === 'true') {
       formatsCommand.push('7')
-      // todo: what does it do?
+      //@TODO: what does it do?
       formatsExample.push('style-reverse')
     }
+
+    var colorFG = null
+    var colorBG = null
 
     if ($(this).attr('data-fg-color')) {
       switch ($(this).attr('data-fg-color')) {
@@ -130,9 +133,8 @@ function updateOutput() {
           break
         default:
           command += '\\[\\e[38;5;' + $(this).attr('data-fg-color') + 'm\\]'
-          // use given color
-          //@TODO
-          formatsExample.push('color-fg-custom')
+          // Use given color
+          colorBG = $(this).attr('data-fg-color')
       }
     } else {
       formatsExample.push('color-fg-dark-gray')
@@ -206,8 +208,8 @@ function updateOutput() {
           break
         default:
           command += '\\[\\e[48;5;' + $(this).attr('data-bg-color') + 'm\\]'
-          // use given color
-          formatsExample.push('color-bg-custom')
+          // Use given color
+          colorFG = $(this).attr('data-bg-color')
       }
     } else {
       formatsExample.push('color-bg-black')
@@ -215,8 +217,10 @@ function updateOutput() {
 
     if (formatsCommand.length > 0) {
       command += '\\[\\e[' + formatsCommand.join(';') + 'm\\]'
-      example += '<span class="' + formatsExample.join(' ') + '">'
-
+      if (formatsExample.indexOf('color-'))
+      colorFG = (colorFG === null ? '' : `style="color:${parseColor(colorFG)}"`)
+      colorBG = (colorBG === null ? '' : `style="color:${parseColor(colorBG)}"`)
+      example += `<span class="${formatsExample.join(' ')}"${colorFG}${colorBG}>`
       if (formatsCommand.length === 1 && formatsCommand[0] === '0') {
         requireReset = false
       } else {
@@ -282,7 +286,7 @@ function updateOutput() {
         break
       case 'Time (am/pm)':
         command += '\\@'
-        // no idea where the space comes from, in my bash it is there...
+        // No idea where the space comes from, in my bash it is there...
         example += '04:22 '
         break
       case 'Time (w/o seconds)':
@@ -299,7 +303,7 @@ function updateOutput() {
         break
       case 'Carriage Return':
         command += '\\r'
-        // return to beginning of line
+        // Return to beginning of line
         example = returnToLineStart(example)
         break
       case 'Prompt Sign':
@@ -319,7 +323,7 @@ function updateOutput() {
         if (!text) {
           text = ''
         }
-        command += text // may include environment variables and escape sequences
+        command += text // May include environment variables and escape sequences
         example += text
         break
       case 'Function/Command':
@@ -342,6 +346,15 @@ function updateOutput() {
   command += '\\[\\e[0m\\]"'
   $('#command > p').html(command)
   $('#example > p').html(example)
+}
+
+/**
+ * Converts a bash-color into a hex-string color.
+ * 
+ * @param {String} color The bash-encoded color.
+ */
+function parseColor(color) {
+
 }
 
 $('#elements > span').click(function () {
@@ -744,13 +757,15 @@ function validateColors() {
   updateOutput()
 }
 
+/// When button import is clicked
 $('#import').click(function () {
-  // animation prevented, set display to inline-block
+  // Animation prevented, set display to inline-block
   $('#import-field').css('display', 'inline-block')
 
   var success = true
 
   if ($('#import-field').hasClass('visible') === true) {
+    // Try to import
     if ($('#import-field').val().length > 0) {
       var promptParser = new PromptParser($('#import-field').val())
       promptParser.parse()
@@ -778,11 +793,23 @@ $('#import').click(function () {
   if (success) $('#import-field').toggleClass('visible')
 })
 
+/**
+ * Parses the prompt into an array which can be interpreted easier.
+ * 
+ * Variables and methods, beginning with an underscore MUST NOT accessed from outside!
+ * 
+ * _MAX_ITERATIONS is a constant that defines, how often the parse() method can call itself,
+ * to prevent the browser to freeze because of too much recursion.
+ * If the string prompt is longer than this value, it can't be parsed.
+ */
 class PromptParser {
 
   //@TODO: maybe higher?
-  MAX_ITERATIONS = 2000
+  _MAX_ITERATIONS = 2000
 
+  /**
+   * @param {String} prompt The variable with or without the name.
+   */
    constructor(prompt) {
     if (prompt.startsWith('PS1="') && prompt.endsWith('"')) {
       this._prompt = prompt.substr(5, prompt.length - 6)
@@ -794,16 +821,24 @@ class PromptParser {
     this._expectedObject = null
   }
 
+  /**
+   * Returns the parsed elements.
+   * Call AFTER executing parse().
+   */
   getElements() {
     return this._elements
   }
 
+  /**
+   * Parses the prompt, given in constructor into an array which can be interpreted easier.
+   * Throws exceptions on fail.
+   */
   parse() {
     if (this._position >= this._prompt.length) {
       console.debug('Parsing complete')
       return
     }
-    if (this._position > this.MAX_ITERATIONS) throw `ParseException: Too much recursion!`
+    if (this._position > this._MAX_ITERATIONS) throw `ParseException: Too much recursion!`
     console.debug(`Parsing (${this._position + 1}/${this._prompt.length}`)
     switch (this._expectedObject) {
       case 'style':
@@ -859,19 +894,19 @@ class PromptParser {
         this._expectedObject = null
         break
       case 'text':
-        // add reset if this is the first checked element
+        // Add reset if this is the first checked element
         if (this._position === 0) this._elements.push({type: 'style', value: [0]})
-        //@TODO: should work, but could cause bugs
+        //@TODO: Should work, but could cause bugs
         this._elements.push({type: 'text', value: this._readChars(['\\', '$'])})
         this._expectedObject = null
         break
       case 'command':
-        //@TODO: could cause trouble if there is a closing bracket before the right one 
+        //@TODO: Could cause trouble if there is a closing bracket before the right one 
         this._elements.push({type: 'command', value: this._readChars(')')})
         this._expectedObject = null
         break
       default:
-        // check if there is a KNOWN(!) style modifier
+        // Check if there is a KNOWN(!) style modifier
         //@TODO: 0-99 0-99 these are fg and bg color. is this range acceptable?
         if (this._checkRegex(/^\\\[\\e\[((0;){0,1}(1;){0,1}(2;){0,1}(3;){0,1}(4;){0,1}(5;){0,1}(7;){0,1}([0-9]{1,2};){0,1}[0-9]{1,2})m\\\]/)) {
           this._position += 5
@@ -927,7 +962,13 @@ class PromptParser {
   }
 }
 
+/**
+ * Translates the array from PromptParser to an array of jQuery objects (HTML elements).
+ * 
+ * Variables and methods, beginning with an underscore MUST NOT accessed from outside!
+ */
 class PromptTranslator {
+
   _ELEMENTS = {
     'u': $($('#elements > span')[0]),
     'h': $($('#elements > span')[1]),
@@ -964,6 +1005,9 @@ class PromptTranslator {
     7: 'bold'
   }
 
+  /**
+   * @param {Array} elements 
+   */
   constructor(elements) {
     this._objects = []
     this._elements = elements
@@ -971,10 +1015,19 @@ class PromptTranslator {
     this._resetStyle()
   }
 
+
+  /**
+   * Returns the parsed objects.
+   * Call AFTER executing translate().
+   */
   getObjects() {
     return this._objects
   }
 
+  /**
+   * Translates the array from PromptParser, given in constructor to an array of jQuery objects (HTML elements).
+   * Throws exceptions on fail.
+   */
   translate() {
     if (this._position >= this._elements.length) {
       console.debug('Translating finished')
@@ -994,10 +1047,9 @@ class PromptTranslator {
           } else if (value[i].length == 2 && i === value.length - 2) {
             colorA = value[i]
           } else {
-            // style
-            // check for duplicates
+            // Check for duplicates
             if (this._styleBuffer[this._STYLE_BUFFER_KEYS[value[i]]] !== 'false') throw `TranslateException at element ${this._position + 1} style ${i + 1}. Duplicate style '${this._STYLE_BUFFER_KEYS[i]}': '${value[i]}'.`
-            // add style to buffer
+            // Add style to buffer
             if (['0', '1', '2', '3', '4', '5', '7'].indexOf(value[i]) !== -1) {
               this._styleBuffer[this._STYLE_BUFFER_KEYS[i]] = 'true'
             } else {
@@ -1006,8 +1058,8 @@ class PromptTranslator {
           }
         }
         var colors = this._parseColor(colorA, colorB)
-        this._styleBuffer['fg-color'] = colors.fg
-        this._styleBuffer['bg-color'] = colors.bg
+        if (colors.fg !== null) this._styleBuffer['fg-color'] = colors.fg
+        if (colors.bg !== null) this._styleBuffer['bg-color'] = colors.bg
         break
       case 'variable':
         if (/^([uhHsvVlwWdtT@Anr!#]|(D{})|(\$\?)|\$)/.test(value) === false) throw `TranslateException at character ${this._position + 1}. Expecting [u|h|H|s|v|V|l|w|W|d|D{}|t|T|@|A|$?|n|r|$|!|#|] not '${value}'.`
@@ -1047,7 +1099,7 @@ class PromptTranslator {
     var value = this._getElement().value
     var object
     if (dataValue === true && value.length > 0) {
-      // type text or command
+      // Type text or command
       if (this._getElement().type === 'text') {
         object = this._ELEMENTS['text'].clone()
         object.attr('data-text', value)
@@ -1062,7 +1114,7 @@ class PromptTranslator {
     }
     for (var k in this._styleBuffer) {
       var v = this._styleBuffer[k]
-      // skip if value is not set
+      // Skip if value is not set
       if (v !== '' && v !== 'false') object.attr(`data-${k}`, v)
     }
     this._objects.push(object)
@@ -1070,19 +1122,15 @@ class PromptTranslator {
   }
 
   _parseColor(colorA, colorB) {
-    // try to assign color by code
+    // Try to assign color by code
     var fg = this._parseForegroundColor(colorA)
     var bg = this._parseBackgroundColor(colorB)
 
-    // if both failed, swap colors, try again
+    // If both failed, swap colors, try again
     if (fg === null && bg === null) {
       fg = this._parseForegroundColor(colorB)
       bg = this._parseBackgroundColor(colorA)
     }
-
-    // assign default colors to invalid colors
-    if (fg === null) fg = 'Dark gray'
-    if (bg === null) bg = 'Black'
 
     return {fg: fg, bg: bg}
   }
