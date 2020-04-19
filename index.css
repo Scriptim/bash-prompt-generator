@@ -167,6 +167,10 @@ small {
   text-align: left;
 }
 
+#example > p a {
+  font-family: monospace;
+}
+
 #elements>span, #inputarea>span {
   display: inline-block;
   margin: 0.2em;

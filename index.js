@@ -218,8 +218,8 @@ function updateOutput() {
     if (formatsCommand.length > 0) {
       command += '\\[\\e[' + formatsCommand.join(';') + 'm\\]'
       if (formatsExample.indexOf('color-'))
-      colorFG = (colorFG === null ? '' : `style="color:${parseColor(colorFG)}"`)
-      colorBG = (colorBG === null ? '' : `style="color:${parseColor(colorBG)}"`)
+      colorFG = (colorFG === null ? '' : `style="color:${parseColor(colorFG)};"`)
+      colorBG = (colorBG === null ? '' : `style="color:${parseColor(colorBG)};"`)
       example += `<span class="${formatsExample.join(' ')}"${colorFG}${colorBG}>`
       if (formatsCommand.length === 1 && formatsCommand[0] === '0') {
         requireReset = false
@@ -334,7 +334,7 @@ function updateOutput() {
           example += '$(a)'
         } else {
           command += '$(' + funccmd + ')'
-          example += '$(b)'
+          example += $('<a>command</a>')
         }
         break
     }
@@ -354,7 +354,9 @@ function updateOutput() {
  * @param {String} color The bash-encoded color.
  */
 function parseColor(color) {
-
+  //@TODO: implement this method
+  console.warn('Custom color detected, which is not supported yet!')
+  return ''
 }
 
 $('#elements > span').click(function () {
@@ -767,21 +769,28 @@ $('#import').click(function () {
   if ($('#import-field').hasClass('visible') === true) {
     // Try to import
     if ($('#import-field').val().length > 0) {
-      var promptParser = new PromptParser($('#import-field').val())
-      promptParser.parse()
-      if (promptParser.getElements().length == 0) {
-        success = false
-      } else {
+      try {
+        var promptParser = new PromptParser($('#import-field').val())
+        promptParser.parse()
+        if (promptParser.getElements().length == 0) throw 'Unknown error while parsing prompt'
+
+        console.log(promptParser.getElements())
+
         promptTranslator = new PromptTranslator(promptParser.getElements())
         promptTranslator.translate()
+
         var objects = promptTranslator.getObjects()
         $('#inputarea').text('')
-        objects.forEach((object) => {
+          objects.forEach((object) => {
           object.append('<i class="fas fa-minus-circle"></i>')
           $('#inputarea').append(object)
           addEventListener(object)
         })
         updateOutput()
+      } catch (e) {
+        success = false
+        //@TODO: Make more beautiful alert
+        alert(e)
       }
     } else {
       success = false
@@ -839,7 +848,7 @@ class PromptParser {
       return
     }
     if (this._position > this._MAX_ITERATIONS) throw `ParseException: Too much recursion!`
-    console.debug(`Parsing (${this._position + 1}/${this._prompt.length}`)
+    console.debug(`Parsing (${this._position + 1}/${this._prompt.length})`)
     switch (this._expectedObject) {
       case 'style':
         var args = []
@@ -895,7 +904,7 @@ class PromptParser {
         break
       case 'text':
         // Add reset if this is the first checked element
-        if (this._position === 0) this._elements.push({type: 'style', value: [0]})
+        if (this._position === 0) this._elements.push({type: 'style', value: ['0']})
         //@TODO: Should work, but could cause bugs
         this._elements.push({type: 'text', value: this._readChars(['\\', '$'])})
         this._expectedObject = null
@@ -1033,7 +1042,7 @@ class PromptTranslator {
       console.debug('Translating finished')
       return
     }
-    console.debug(`Translating (${this._position + 1}/${this._elements.length}`)
+    console.debug(`Translating (${this._position + 1}/${this._elements.length})`)
     var value = this._getElement().value
     switch (this._getElement().type) {
       case 'style':
