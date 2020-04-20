@@ -1,6 +1,26 @@
 const inputarea = $('#inputarea')
 const properties = $('#properties')
 const dialog_color = $('#dialog-color')
+const dialog_window = $('#dialog-window')
+
+/// Add splice method to Class String
+if (!String.prototype.splice) {
+  /**
+   * {JSDoc}
+   *
+   * The splice() method changes the content of a string by removing a range of
+   * characters and/or adding new characters.
+   *
+   * @this {String}
+   * @param {number} start Index at which to start changing the string.
+   * @param {number} delCount An integer indicating the number of old chars to remove.
+   * @param {string} newSubStr The String that is spliced in.
+   * @return {string} A new string with the spliced substring.
+   */
+  String.prototype.splice = function(start, delCount, newSubStr) {
+      return this.slice(0, start) + newSubStr + this.slice(start + Math.abs(delCount))
+  }
+}
 
 inputarea.sortable({
   addClasses: false,
@@ -299,12 +319,12 @@ function updateOutput() {
         break
       case 'New Line':
         command += '\\n'
-        example += '\n'
+        example += '<br />'
         break
       case 'Carriage Return':
         command += '\\r'
         // Return to beginning of line
-        example = returnToLineStart(example)
+        example = returnToLineStart(example, '<br />')
         break
       case 'Prompt Sign':
         command += '\\$'
@@ -327,25 +347,26 @@ function updateOutput() {
         example += text
         break
       case 'Function/Command':
-        var funccmd = $(this).attr('data-funccmd').trim()
-        $(this).attr('data-funccmd', funccmd)
-        if (funccmd.endsWith('()')) {
-          command += '\\`' + funccmd.slice(0, -2) + '\\`'
-          example += '$(a)'
-        } else {
-          command += '$(' + funccmd + ')'
-          example += $('<a>command</a>')
+        var funccmd = $(this).attr('data-funccmd')
+        if (typeof funccmd !== "undefined") {
+          $(this).attr('data-funccmd', funccmd.trim())
+          if (funccmd.endsWith('()')) {
+            let funccmd = funccmd.slice(0, -2)
+            command += '\\`' + funccmd + '\\`'
+            example += `<a title="${funccmd}">command</a>`
+          } else {
+            command += '$(' + funccmd + ')'
+            example += `<a title="${funccmd}">command</a>`
+          }
         }
         break
     }
 
     example += '</span>'
   })
-
-  example = example.replace('\n', '<br />\n')
   command += '\\[\\e[0m\\]"'
   $('#command > p').html(command)
-  $('#example > p').html(example)
+  $('#example > p').html($(example))
 }
 
 /**
@@ -369,6 +390,11 @@ $('#elements > span').click(function () {
   updateOutput()
 })
 
+/**
+ * Adds the eventlistener to a element (the cards).
+ * 
+ * @param {HTMLElement} element 
+ */
 function addEventListener(element) {
   element.disableSelection()
   element.click(function () {
@@ -389,6 +415,47 @@ function updateProperties(element) {
   properties.empty()
 
   if (!element) {
+    if (inputarea.children().length === 0) {
+      properties.append('<h3>Import</h3> ')
+      properties.append('<p id="description">Import a PS1 variable.</p>')
+      properties.append('<form id="import"><label for="import-field">Put the variable here:</label><input type="text" id="import-field"/><input type="submit" value="Import" /></form>')
+    
+      $('#import').submit(function (e) {
+        e.preventDefault()
+      
+        // Try to import
+        let importField = $('#import-field')
+        if (importField.val().length === 0) {
+          importField.addClass('invalid-value')
+          return
+        }
+        try {
+          var promptParser = new PromptParser(importField.val())
+          promptParser.parse()
+          if (promptParser.getElements().length === 0) throw {position: -1, message: 'Unknown error while parsing prompt.'}
+      
+          promptTranslator = new PromptTranslator(promptParser.getElements())
+          promptTranslator.translate()
+      
+          var objects = promptTranslator.getObjects()
+          $('#inputarea').text('')
+          objects.forEach(function (object) {
+            object.append('<i class="fas fa-minus-circle"></i>')
+            $('#inputarea').append(object)
+            addEventListener(object)
+          })
+          importField.val('')
+          updateOutput()
+        } catch (e) {
+          if (importField.val().startsWith('PS1="')) e.position += 5
+          showDialog('error', 'Import Failed', markPosition(e.position, importField.val(), 'class="marked-character"'), e.message)
+        }
+      })
+    
+      $('#import-field').focusin(function () {
+        $(this).removeClass('invalid-value')
+      })
+    }
     return
   }
 
@@ -412,7 +479,7 @@ function updateProperties(element) {
     })
   } else if (element.html().replace(/\s*<i.*<\/i>/gi, '').trim() === 'Function/Command') {
     properties.append('<label for="input-funccmd">Function Call/Command</label><input id="input-funccmd">')
-    $('label[for=input-funccmd]').append('<i class="fas fa-question-circle" onclick="alert(\'Insert the name of a function defined in your ~/.bashrc file followed by parentheses (), or a command that gets executed by the shell\')"></i>')
+    $('label[for=input-funccmd]').append('<i class="fas fa-question-circle" onclick="showDialog(\'info\', \'Function/Command\', \'Insert the name of a function defined in your ~/.bashrc file followed by parentheses (), or a command that gets executed by the shell\')"></i>')
     $('#input-funccmd').val(element.attr('data-funccmd'))
     $('#input-funccmd').change(function () {
       element.attr('data-funccmd', $(this).val())
@@ -431,25 +498,32 @@ function updateProperties(element) {
   properties.append('<input id="check-reverse" type="checkbox"><label for="check-reverse">reverse</label>')
 
   $('#input-fg').click(function () {
+    dialog_color.data('position', {
+      my: 'right-10% top-10%',
+      at: 'left top',
+      of: $('#input-fg')
+    })
     dialog_color.dialog({
       title: 'Foreground Color',
-      position: {
-        my: 'right-10% top-10%',
-        at: 'left top',
-        of: $('#input-fg')
-      }
+      position: dialog_color.data('position')
+    })
+    dialog_color.data('position', {
+      my: 'right-10% top-10%',
+      at: 'left top',
+      of: $('#input-fg')
     })
     dialog_color.dialog('open')
   })
 
   $('#input-bg').click(function () {
+    dialog_color.data('position', {
+      my: 'right-10% top-10%',
+      at: 'left top',
+      of: $('#input-bg')
+    })
     dialog_color.dialog({
       title: 'Background Color',
-      position: {
-        my: 'right-10% top-10%',
-        at: 'left top',
-        of: $('#input-bg')
-      }
+      position: dialog_color.data('position')
     })
     dialog_color.dialog('open')
   })
@@ -507,7 +581,7 @@ function updateProperties(element) {
         element.attr('data-reverse', $(this).prop('checked'))
         break
       default:
-        alert('Could not set text formatting')
+        showDialog('error', 'Internal Error', 'Could not set text formatting')
     }
     updateOutput()
   })
@@ -532,7 +606,7 @@ $('#dialog-color-container > span').click(function () {
     $('#input-bg').css('border-left-color', 'rgb(' + $(this).css('background-color').replace(/[rgb\(\)]/g, '') + ')')
     $('#inputarea > span[data-selected=true]').attr('data-bg-color', $('#input-bg').val())
   } else {
-    alert('Could not set color')
+    showDialog('error', 'Internal Error', 'Could not set color')
   }
   dialog_color.dialog('close')
   updateOutput()
@@ -555,6 +629,46 @@ dialog_color.dialog({
   show: { effect: 'fade', duration: 200 },
   width: 240
 })
+
+dialog_window.dialog({
+  autoOpen: false,
+  dialogClass: 'no-close no-hover',
+  draggable: false,
+  closeOnEscape: true,
+  open: function () {
+    $('#dialog-window-container').html($(`<b>${dialog_window.data('subtitle')}</b>`))
+    $('#dialog-window-container').append($(`<span>${dialog_window.data('message')}</span>`))
+    $($('#dialog-window-container')[0].parentElement.previousSibling).removeClass("info error")
+    $($('#dialog-window-container')[0].parentElement.previousSibling).addClass(dialog_window.data('type'))
+  },
+  hide: { effect: 'fade', duration: 100 },
+  resizable: false,
+  show: { effect: 'fade', duration: 200 },
+  minWidth: window.innerWidth * 0.4,
+  minHeight: window.innerHeight * 0.4,
+  maxWidth: window.innerWidth * 0.8,
+  maxHeight: window.innerHeight * 0.8,
+  position: {my: "center", at: "center", of: window}
+})
+
+/**
+ * Shows a dialog
+ * 
+ * @param {String} type ['error'|'info']
+ * @param {String} title
+ * @param {String} message
+ * @param {String} subtitle If null, it will be ignored
+ */
+function showDialog(type, title, message, subtitle = null) {
+  dialog_window.dialog({
+    title: title
+  })
+  dialog_window.data('subtitle', subtitle)
+  dialog_window.data('message', message)
+  dialog_window.data('type', type)
+  dialog_window.data('position', {my: "center", at: "center", of: window})
+  dialog_window.dialog('open')
+}
 
 function validateColors() {
   var input_fg = $('#input-fg')
@@ -759,47 +873,34 @@ function validateColors() {
   updateOutput()
 }
 
-/// When button import is clicked
-$('#import').click(function () {
-  // Animation prevented, set display to inline-block
-  $('#import-field').css('display', 'inline-block')
-
-  var success = true
-
-  if ($('#import-field').hasClass('visible') === true) {
-    // Try to import
-    if ($('#import-field').val().length > 0) {
-      try {
-        var promptParser = new PromptParser($('#import-field').val())
-        promptParser.parse()
-        if (promptParser.getElements().length == 0) throw 'Unknown error while parsing prompt'
-
-        console.log(promptParser.getElements())
-
-        promptTranslator = new PromptTranslator(promptParser.getElements())
-        promptTranslator.translate()
-
-        var objects = promptTranslator.getObjects()
-        $('#inputarea').text('')
-          objects.forEach((object) => {
-          object.append('<i class="fas fa-minus-circle"></i>')
-          $('#inputarea').append(object)
-          addEventListener(object)
-        })
-        updateOutput()
-      } catch (e) {
-        success = false
-        //@TODO: Make more beautiful alert
-        alert(e)
-      }
-    } else {
-      success = false
-    }
-  } else {
-    $('#import-field').val('')
+/**
+ * Marks a character on a specific position in a string.
+ * 
+ * @param {Number} position The position (0 = first character) (Range: integer, 0 < (string.length - 1)).
+ * @param {String} string The string.
+ */
+function markPosition(position, string, mark = 'style="background-color:red"') {
+  if ((!position && position !== 0) || position >= string.length) {
+    return `<span ${mark}>${string}</span>`
   }
+  string = string.splice(position + 1, 0, '</span>')
+  return string.splice(position, 0, `<span ${mark}>`)
+}
 
-  if (success) $('#import-field').toggleClass('visible')
+// Check when the window has been resized
+window.onresize = function () {
+  if (dialog_color.dialog('isOpen')) dialog_color.dialog({position: dialog_color.data('position')})
+  if (dialog_window.dialog('isOpen')) dialog_window.dialog({position: dialog_window.data('position')})
+}
+
+
+$(document).ready(function () {
+  // Add close button to dialog window
+  let closeButton = $('<i class="fa fa-times close-button"></i>')
+  closeButton.click(function (e) { dialog_window.dialog('close') })
+  $($('#dialog-window-container')[0].parentElement.previousSibling).append(closeButton)
+
+  updateProperties()
 })
 
 /**
@@ -813,14 +914,12 @@ $('#import').click(function () {
  */
 class PromptParser {
 
-  //@TODO: maybe higher?
-  _MAX_ITERATIONS = 2000
-
   /**
    * @param {String} prompt The variable with or without the name.
    */
    constructor(prompt) {
     if (prompt.startsWith('PS1="') && prompt.endsWith('"')) {
+      console.log("Variable detected. Removing")
       this._prompt = prompt.substr(5, prompt.length - 6)
     } else {
       this._prompt = prompt
@@ -847,39 +946,40 @@ class PromptParser {
       console.debug('Parsing complete')
       return
     }
-    if (this._position > this._MAX_ITERATIONS) throw `ParseException: Too much recursion!`
+    if (this._position > this._prompt.length) throw {position: this._position, message: `ParseException: Too much recursion!`}
     console.debug(`Parsing (${this._position + 1}/${this._prompt.length})`)
     switch (this._expectedObject) {
       case 'style':
         var args = []
         var counter = 0
         while (counter < 10) {
-          if (this._checkRegex(/^[0-9]{2}/) === true) {
-            if (counter < 8) counter = 8
+          if (this._checkRegex(/^(3|9|4)[0-7]/)) {
             args.push(this._getChar() + this._getChar(1))
             this._position += 2
-          } else if (this._checkRegex(/^[0-9]/) === true) {
-            if (counter > 7) throw `ParseException at character ${this._position + 1}. Expecting an integer higher than 9 not '${this._getChar()}'.`
+          } else if (this._checkRegex(/^10[0-7]/)) {
+            args.push(this._getChar() + this._getChar(1) + this._getChar(2))
+            this._position += 3
+          } else if (this._checkRegex(/^[0-7]/)) {
             args.push(this._getChar())
             this._position++
           } else {
-            throw `ParseException at character ${this._position + 1}. Expecting an integer not '${this._getChar()}'.`
+            throw {position: this._position, message: `ParseException at character ${this._position + 1}. Expecting an integer not '${this._getChar()}'.`}
           }
-          counter++
           if (this._getChar() === ';') {
             this._position++
           } else if (this._getChar() === 'm') {
             break
           } else {
-            throw `ParseException at character ${this._position + 1}. Expecting separator '${char}' not '${this._getChar()}'.`
+            throw {position: this._position, message: `ParseException at character ${this._position + 1}. Expecting separator '/;|m/' not '${this._getChar()}'.`}
           }
+          counter++
         }
         if (this._checkRegex(/m\\\]/) === true) {
           this._position += 3
           this._elements.push({type: 'style', value: args})
           this._expectedObject = null
         } else {
-          throw `ParseException at characters ${this._position + 1}+. Expecting '/m\\\]/' not '${this._readChars(3)}'.`
+          throw {position: this._position, message: `ParseException at characters ${this._position + 1}+. Expecting '/m\\\]/' not '${this._readChars(3)}'.`}
         }
         break
       case 'variable':
@@ -905,25 +1005,23 @@ class PromptParser {
       case 'text':
         // Add reset if this is the first checked element
         if (this._position === 0) this._elements.push({type: 'style', value: ['0']})
-        //@TODO: Should work, but could cause bugs
+        //@WontFix: Works if the string does not contain backslashes and dollar signs
         this._elements.push({type: 'text', value: this._readChars(['\\', '$'])})
         this._expectedObject = null
         break
       case 'command':
-        //@TODO: Could cause trouble if there is a closing bracket before the right one 
+        //@WontFix: Works if the command does not contain brackets
         this._elements.push({type: 'command', value: this._readChars(')')})
         this._expectedObject = null
         break
       default:
-        // Check if there is a KNOWN(!) style modifier
-        //@TODO: 0-99 0-99 these are fg and bg color. is this range acceptable?
-        if (this._checkRegex(/^\\\[\\e\[((0;){0,1}(1;){0,1}(2;){0,1}(3;){0,1}(4;){0,1}(5;){0,1}(7;){0,1}([0-9]{1,2};){0,1}[0-9]{1,2})m\\\]/)) {
+        if (this._checkRegex(/^\\\[\\e\[/)) {
           this._position += 5
           this._expectedObject ='style'
         } else if (this._getChar() === '\\') {
           this._position++
           this._expectedObject = 'variable'
-          if (!this._checkRegex(/^([uhHsvVlwWdtT@Anr!#]|(D{})|(\$\?)|\$)/)) throw `ParseException at character ${this._position + 1}. Expecting [u|h|H|s|v|V|l|w|W|d|D{}|t|T|@|A|$?|n|r|$|!|#|] not '${this._getChar()}'.`
+          if (!this._checkRegex(/^([uhHsvVlwWdtT@Anr!#]|(D{})|(\$\?)|\$)/)) throw {position: this._position, message: `ParseException at character ${this._position + 1}. Expecting [u|h|H|s|v|V|l|w|W|d|D{}|t|T|@|A|$?|n|r|$|!|#|] not '${this._getChar()}'.`}
         } else if (this._getChar() === '$' && this._getChar(1) === '(') {
             this._position += 2
             this._expectedObject = 'command'
@@ -963,7 +1061,7 @@ class PromptParser {
     } else if (expected.constructor === Array) {
       return (expected.indexOf(this._getChar()) >= 0)
     }
-    throw 'InvalidArgumentException'
+    throw {position: this._position, message: 'InvalidArgumentException (internal)'}
   }
 
   _getChar(offset = 0) {
@@ -1046,32 +1144,26 @@ class PromptTranslator {
     var value = this._getElement().value
     switch (this._getElement().type) {
       case 'style':
-        if (this._styleBuffer.empty === false) throw `TranslateException at element ${this._position + 1}. Unexpected type 'style'.`
+        if (this._styleBuffer.empty === false) throw {position: this._position, message: `TranslateException at element ${this._position + 1}. Unexpected type 'style'.`}
         this._styleBuffer.value = true
-        var colorA = null
-        var colorB = null
         for (var i = 0; i < value.length; i++) {
-          if (value[i].length == 2 && i === value.length - 1) {
-            colorB = value[i]
-          } else if (value[i].length == 2 && i === value.length - 2) {
-            colorA = value[i]
+          if (value[i].length == 2) {
+            if (value[i][0] == '3' || value[i][0] == '9') this._styleBuffer['fg-color'] = this._parseForegroundColor(value[i])
+            if (value[i][0] == '4' || (value[i][0] == '1' && value[i][1] == '0')) this._styleBuffer['bg-color'] = this._parseBackgroundColor(value[i])
           } else {
             // Check for duplicates
-            if (this._styleBuffer[this._STYLE_BUFFER_KEYS[value[i]]] !== 'false') throw `TranslateException at element ${this._position + 1} style ${i + 1}. Duplicate style '${this._STYLE_BUFFER_KEYS[i]}': '${value[i]}'.`
+            if (this._styleBuffer[this._STYLE_BUFFER_KEYS[value[i]]] !== 'false') throw {position: this._position, message: `TranslateException at element ${this._position + 1} style ${i + 1}. Duplicate style '${this._STYLE_BUFFER_KEYS[i]}': '${value[i]}'.`}
             // Add style to buffer
             if (['0', '1', '2', '3', '4', '5', '7'].indexOf(value[i]) !== -1) {
               this._styleBuffer[this._STYLE_BUFFER_KEYS[i]] = 'true'
             } else {
-              throw `TranslateException at element ${this._position + 1}. Unknown style '${value[i]}'.`
+              throw {position: this._position, message: `TranslateException at element ${this._position + 1}. Unknown style '${value[i]}'.`}
             }
           }
         }
-        var colors = this._parseColor(colorA, colorB)
-        if (colors.fg !== null) this._styleBuffer['fg-color'] = colors.fg
-        if (colors.bg !== null) this._styleBuffer['bg-color'] = colors.bg
         break
       case 'variable':
-        if (/^([uhHsvVlwWdtT@Anr!#]|(D{})|(\$\?)|\$)/.test(value) === false) throw `TranslateException at character ${this._position + 1}. Expecting [u|h|H|s|v|V|l|w|W|d|D{}|t|T|@|A|$?|n|r|$|!|#|] not '${value}'.`
+        if (/^([uhHsvVlwWdtT@Anr!#]|(D{})|(\$\?)|\$)/.test(value) === false) throw {position: this._position, message: `TranslateException at character ${this._position + 1}. Expecting [u|h|H|s|v|V|l|w|W|d|D{}|t|T|@|A|$?|n|r|$|!|#|] not '${value}'.`}
         this._createElement()
         break
       case 'text':
@@ -1079,7 +1171,7 @@ class PromptTranslator {
         this._createElement(true)
         break
       default:
-        throw `TranslateException at element ${this._position + 1}. Unknown type '${this._getElement().type}'.`
+        throw {position: this._position, message: `TranslateException at element ${this._position + 1}. Unknown type '${this._getElement().type}'.`}
     }
     this._position++
     this.translate()
@@ -1116,7 +1208,7 @@ class PromptTranslator {
         object = this._ELEMENTS['command'].clone()
         object.attr('data-funccmd', value)
       } else {
-        throw `TranslateException at element ${this._position + 1}. Unknown type '${this._getElement().type}'.`
+        throw {position: this._position, message: `TranslateException at element ${this._position + 1}. Unknown type '${this._getElement().type}'.`}
       }
     } else {
       object = this._ELEMENTS[value].clone()

@@ -9,8 +9,9 @@ body {
   min-height: 100.1vh;
 }
 
+/* HEADER */
+
 header, footer {
-  position: relative;
   height: 4rem;
   color: #eeeeee;
   background-color: #222831;
@@ -21,80 +22,7 @@ h1 {
   line-height: 2em;
 }
 
-#import-container {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  -ms-transform: translate(0, -50%);
-  transform: translate(0, -50%);
-  margin: 0;
-  cursor: default;
-}
-#import {
-  border: 2px solid #00adb5;
-  border-radius: 8px;
-  padding: 10px 40px;
-  background-color: #222831;
-  color: #00adb5;
-  cursor: pointer;
-  transition: all ease 200ms;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-}
-#import:hover {
-  border-color: #007c82;
-  color: #007c82;
-}
-#import:active {
-  background-color: #007c82;
-  color: #222831;
-}
-
-#import-field {
-  display: none;/*prevent animation on page load, will be added with js*/
-  opacity: 0;
-  width: 0;
-  border: 2px solid #00adb5;
-  border-radius: 8px;
-  padding: 0;
-  background: #222831;
-  color: #00adb5;
-  animation: disappear linear 200ms;
-  cursor: default;
-}
-#import-field.visible {
-  opacity: 1;
-  width: 200px;
-  padding: 10px;
-  animation: appear linear 200ms;
-  cursor: text;
-}
-@keyframes appear {
-  0% {
-    opacity: 1;
-    width: 0;
-    padding: 10px;
-  }
-  100% {
-    opacity: 1;
-    width: 200px;
-    padding: 10px;
-  }
-}
-@keyframes disappear {
-  0% {
-    opacity: 1;
-    width: 200px;
-    padding: 10px 40px;
-  }
-  100% {
-    opacity: 1;
-    width: 0;
-    padding: 10px 0;
-  }
-}
+/* FOOTER */
 
 footer {
   position: absolute;
@@ -128,6 +56,8 @@ small {
   bottom: 5rem;
   color: #393e46;
 }
+
+/* CONTAINER & OUTPUT */
 
 #container {
   display: grid;
@@ -168,7 +98,11 @@ small {
 }
 
 #example > p a {
-  font-family: monospace;
+  border-bottom: 2px solid #00adb5;
+  cursor: text;
+}
+#example > p a:hover {
+  border-color: #007c82;
 }
 
 #elements>span, #inputarea>span {
@@ -212,14 +146,18 @@ small {
   color: #00adb5;
 }
 
+#import>label,
 #properties>label {
   margin-top: 0.8em;
   font-size: 0.9em;
   width: 40%;
 }
 
+#import>input,
 #properties>input {
   height: 2em;
+  width: -moz-available;
+  width: -webkit-fill-available;
   margin-top: 0.2em;
   margin-bottom: 0.5em;
   padding: 0 0.6em;
@@ -241,6 +179,27 @@ small {
   vertical-align: middle;
 }
 
+#import > input[type="submit"] {
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+#import > input[type="submit"]:hover {
+  background-color: #bbbbbb;
+}
+
+#import-field {
+  transition: border-color ease 1000ms; 
+}
+/* :invalid selector workaround */
+#import-field.invalid-value {
+  box-shadow: none;
+  border-left-color: #ff0000;
+  transition: border-color ease 500ms; 
+}
+
+/* DIALOGS */
+
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
@@ -254,15 +213,33 @@ small {
   box-shadow: 0 8px 16px 0 #a3a3a3;
 }
 
-.ui-dialog:focus, .ui-dialog:hover {
+.no-hover, .ui-dialog:focus, .ui-dialog:hover {
   opacity: 0.9;
   outline: none;
 }
 
 .ui-dialog-titlebar {
+  position: relative;
   padding: 0.4em;
   color: #eeeeee;
   background-color: #393e46;
+}
+.ui-dialog-titlebar.error {
+  background-color: #ae020e;
+}
+
+.ui-dialog-titlebar > .close-button {
+  position: absolute;
+  top: 50%;
+  right: 0.3em;
+  transform: translate(0, -50%);
+  color: #00adb5;
+  cursor: pointer;
+  font-size: 150%;
+}
+
+.ui-dialog-titlebar > .close-button:hover {
+  color: #007c82;
 }
 
 #dialog-color-container {
@@ -282,6 +259,22 @@ small {
   -ms-transform: scale(1.1);
   transform: scale(1.1);
 }
+
+#dialog-window-container {
+  padding: 5px;
+}
+
+#dialog-window-container>b {
+  display: block;
+  border-bottom: 4px solid #ae020e;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+#dialog-window-container>span>.marked-character {
+  background-color: #ff0000;
+}
+
+/* STYLE AND COLORS */
 
 .style-bold {
   font-weight: bold;
