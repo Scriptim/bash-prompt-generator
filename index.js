@@ -82,9 +82,6 @@ function updateOutput() {
       formatsExample.push('style-reverse')
     }
 
-    var colorFG = null
-    var colorBG = null
-
     if ($(this).attr('data-fg-color')) {
       switch ($(this).attr('data-fg-color')) {
         case 'Black':
@@ -153,8 +150,8 @@ function updateOutput() {
           break
         default:
           command += '\\[\\e[38;5;' + $(this).attr('data-fg-color') + 'm\\]'
-          // Use given color
-          colorBG = $(this).attr('data-fg-color')
+          // Use default color
+          formatsExample.push('color-fg-dark-gray')
       }
     } else {
       formatsExample.push('color-fg-dark-gray')
@@ -229,7 +226,7 @@ function updateOutput() {
         default:
           command += '\\[\\e[48;5;' + $(this).attr('data-bg-color') + 'm\\]'
           // Use given color
-          colorFG = $(this).attr('data-bg-color')
+          formatsExample.push('black')
       }
     } else {
       formatsExample.push('color-bg-black')
@@ -237,10 +234,7 @@ function updateOutput() {
 
     if (formatsCommand.length > 0) {
       command += '\\[\\e[' + formatsCommand.join(';') + 'm\\]'
-      if (formatsExample.indexOf('color-'))
-      colorFG = (colorFG === null ? '' : `style="color:${parseColor(colorFG)};"`)
-      colorBG = (colorBG === null ? '' : `style="color:${parseColor(colorBG)};"`)
-      example += `<span class="${formatsExample.join(' ')}"${colorFG}${colorBG}>`
+      example += `<span class="${formatsExample.join(' ')}">`
       if (formatsCommand.length === 1 && formatsCommand[0] === '0') {
         requireReset = false
       } else {
@@ -369,17 +363,6 @@ function updateOutput() {
   $('#example > p').html($(example))
 }
 
-/**
- * Converts a bash-color into a hex-string color.
- * 
- * @param {String} color The bash-encoded color.
- */
-function parseColor(color) {
-  //@TODO: implement this method
-  console.warn('Custom color detected, which is not supported yet!')
-  return ''
-}
-
 $('#elements > span').click(function () {
   properties.empty()
   dialog_color.dialog('close')
@@ -445,7 +428,7 @@ function updateProperties(element) {
             addEventListener(object)
           })
           importField.val('')
-          updateOutput()
+          updateProperties()
         } catch (e) {
           if (importField.val().startsWith('PS1="')) e.position += 5
           showDialog('error', 'Import Failed', markPosition(e.position, importField.val(), 'class="marked-character"'), e.message)
