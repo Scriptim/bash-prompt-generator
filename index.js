@@ -428,6 +428,7 @@ function updateProperties(element) {
             addEventListener(object)
           })
           importField.val('')
+          updateOutput()
           updateProperties()
         } catch (e) {
           if (importField.val().startsWith('PS1="')) e.position += 5
