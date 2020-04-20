@@ -234,7 +234,6 @@ function updateOutput() {
 
     if (formatsCommand.length > 0) {
       command += '\\[\\e[' + formatsCommand.join(';') + 'm\\]'
-      example += `<span class="${formatsExample.join(' ')}">`
       if (formatsCommand.length === 1 && formatsCommand[0] === '0') {
         requireReset = false
       } else {
@@ -242,8 +241,8 @@ function updateOutput() {
       }
     } else {
       requireReset = false
-      example += '<span>'
     }
+    example += `<span class="${formatsExample.join(' ')}">`
 
     switch ($(this).html().replace(/\s*<i.*<\/i>/gi, '').trim()) {
       case 'Username':
@@ -903,7 +902,7 @@ class PromptParser {
    */
    constructor(prompt) {
     if (prompt.startsWith('PS1="') && prompt.endsWith('"')) {
-      console.log("Variable detected. Removing")
+      console.debug("Variable detected. Removing")
       this._prompt = prompt.substr(5, prompt.length - 6)
     } else {
       this._prompt = prompt
