@@ -4,11 +4,24 @@
   --color-accent: #00adb5;
 }
 
+header {
+  color: var(--color-light);
+  background-color: var(--color-dark);
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  padding: 0.6em;
+}
+
 main {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: flex-start;
+  color: var(--color-dark);
+  background-color: var(--color-light);
 }
 
 #flex2 {
