@@ -1,3 +1,9 @@
+:root {
+  --color-dark: #222831;
+  --color-light: #eee;
+  --color-accent: #00adb5;
+}
+
 main {
   display: flex;
   flex-wrap: wrap;
