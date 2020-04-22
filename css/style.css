@@ -37,6 +37,34 @@ main {
   background-color: var(--color-light);
 }
 
+#flex1,
+#flex2 {
+  padding: 1em;
+}
+
 #flex2 {
   flex: 2;
+}
+
+span.element-input,
+span.element-added {
+  display: inline-block;
+  margin: 0.2em;
+  padding: 0.3em 0.5em;
+  border: none;
+  border-radius: 0.2em;
+  color: var(--color-light);
+  background: var(--color-dark);
+  cursor: pointer;
+}
+
+span.element-input > span,
+span.element-added > span {
+  vertical-align: middle;
+}
+
+span.remove-element {
+  padding: 0.1em;
+  margin: 0 0.2em 0 0.5em;
+  color: var(--color-accent);
 }
