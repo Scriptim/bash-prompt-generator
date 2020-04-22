@@ -9,7 +9,7 @@ class Prompt {
   /**
    * Adds an element to the end of the prompt.
    *
-   * @param {PromptElement} element The element to be added.
+   * @param {EscapedPromptElement} element The element to be added.
    * @memberof Prompt
    */
   appendElement(element) {

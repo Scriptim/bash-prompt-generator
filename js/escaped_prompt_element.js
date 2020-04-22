@@ -5,7 +5,7 @@
  */
 class EscapedPromptElement {
   /**
-   * Creates an instance of PromptElement.
+   * Creates an instance of EscapedPromptElement.
    * @param {PromptElement} content The prompt element.
    * @param {Color} [fgColor] The foreground color.
    * @param {Color} [bgColor] The background color.
@@ -14,7 +14,7 @@ class EscapedPromptElement {
    * {@link Ansi.BOLD_DIM_OFF}).
    * @param {string} [data] Additional data that may be required, e. g. the text of a "Text"
    * element or the format of a "Date (formatted)" element.
-   * @memberof PromptElement
+   * @memberof EscapedPromptElement
    */
   constructor(content, fgColor, bgColor, displayAttribs, data) {
     this.content = content;
