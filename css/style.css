@@ -60,7 +60,7 @@ span.element-added {
   border: none;
   border-radius: 0.2em;
   color: var(--color-light);
-  background: var(--color-dark);
+  background-color: var(--color-dark);
   cursor: pointer;
 }
 
