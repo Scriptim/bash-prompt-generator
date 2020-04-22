@@ -33,6 +33,7 @@ main {
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: flex-start;
+  padding: 1em 2em;
   color: var(--color-dark);
   background-color: var(--color-light);
 }
