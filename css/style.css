@@ -37,6 +37,20 @@ main {
   background-color: var(--color-light);
 }
 
+h2 {
+  margin-bottom: 0;
+}
+
+p.hint {
+  margin: 0.5em 0 1em;
+}
+
+p.hint code {
+  padding: 0 0.2em;
+  border-radius: 0.2em;
+  background-color: #cfd8dc;
+}
+
 #flex1,
 #flex2,
 #flex4 {
