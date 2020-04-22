@@ -10,6 +10,19 @@ header {
   text-align: center;
 }
 
+/*
+The github corner element was adapted from <https://github.com/tholman/github-corners>.
+MIT License: <https://github.com/tholman/github-corners/blob/master/license.md>
+*/
+
+#github-corner > svg {
+  fill: #00adb5;
+  color: #222831;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 h1 {
   margin: 0;
   padding: 0.6em;
