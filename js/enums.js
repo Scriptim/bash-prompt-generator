@@ -6,6 +6,7 @@
 /**
  * @enum {Color}
  */
+// eslint-disable-next-line no-unused-vars
 const Color = {
   /**
    * Black (8 bit) or Black (3/4 bit) |
@@ -1089,6 +1090,7 @@ const Color = {
 /**
  * @enum {Ansi}
  */
+// eslint-disable-next-line no-unused-vars
 const Ansi = {
   /**
    * Reset / Normal (All attributes off)
@@ -1165,6 +1167,7 @@ const Ansi = {
  * @see https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html
  * @enum {PromptElement}
  */
+// eslint-disable-next-line no-unused-vars
 const PromptElement = {
   /**
    * A custom text.

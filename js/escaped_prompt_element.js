@@ -3,6 +3,7 @@
 /**
  * A single element of a prompt with colors and display attributes.
  */
+// eslint-disable-next-line no-unused-vars
 class EscapedPromptElement {
   /**
    * Creates an instance of EscapedPromptElement.

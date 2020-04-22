@@ -1,6 +1,7 @@
 /**
  * Represents a prompt and provides methods for manipulation.
  */
+// eslint-disable-next-line no-unused-vars
 class Prompt {
   /**
    * Creates an instance of Prompt.
