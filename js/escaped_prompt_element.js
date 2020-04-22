@@ -21,8 +21,9 @@ class EscapedPromptElement {
     this.fgColor = fgColor;
     this.bgColor = bgColor;
     this.displayAttribs = displayAttribs || [];
+    this.text = content.char;
     if (data) {
-      this.content.replace(/~/g, data).replace(/\\/g, '\\\\');
+      this.text = this.text.replace(/~/g, data).replace(/\\/g, '\\\\');
     }
   }
 
@@ -46,6 +47,6 @@ class EscapedPromptElement {
         escapeCodes.push([48, 5, this.fgColor.id]);
       }
     }
-    return `\\[\\e[${escapeCodes.join(';')}m\\]${this.content}`;
+    return `\\[\\e[${escapeCodes.join(';')}m\\]\\${this.text}`;
   }
 }

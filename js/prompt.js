@@ -2,8 +2,15 @@
  * Represents a prompt and provides methods for manipulation.
  */
 class Prompt {
-  constructor() {
+  /**
+   * Creates an instance of Prompt.
+   * @param {function():void} updateCallback Callback that get called whenever the prompt or any of
+   * its elements changes.
+   * @memberof Prompt
+   */
+  constructor(updateCallback) {
     this.elements = [];
+    this.updateCallback = updateCallback;
   }
 
   /**
@@ -14,6 +21,31 @@ class Prompt {
    */
   appendElement(element) {
     this.elements.push(element);
+    this.updateCallback();
+  }
+
+  /**
+   * Removes the element at the given index.
+   *
+   * @param {number} index The index of the element.
+   * @memberof Prompt
+   */
+  removeElement(index) {
+    this.elements.splice(index, 1);
+    this.updateCallback();
+  }
+
+  /**
+   * Changes the position of an element within in the prompt.
+   *
+   * @param {number} oldIndex The current index of the element.
+   * @param {number} newIndex The index the element should be moved to.
+   * @memberof Prompt
+   */
+  moveElement(oldIndex, newIndex) {
+    const element = this.elements.splice(oldIndex, 1);
+    this.elements.splice(newIndex, 0, element);
+    this.updateCallback();
   }
 
   toString() {

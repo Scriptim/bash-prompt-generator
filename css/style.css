@@ -38,11 +38,13 @@ main {
 }
 
 #flex1,
-#flex2 {
+#flex2,
+#flex4 {
   padding: 1em;
 }
 
-#flex2 {
+#flex2,
+#flex4 {
   flex: 2;
 }
 
@@ -81,4 +83,13 @@ span.draggable-mirror {
   -webkit-box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
   -moz-box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
   box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
+}
+
+#prompt-output {
+  display: inline-block;
+  padding: 1em;
+  color: var(--color-light);
+  background-color: var(--color-dark);
+  font-family: monospace;
+  line-height: 1.5;
 }
