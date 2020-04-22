@@ -46,6 +46,10 @@ main {
   flex: 2;
 }
 
+#flex2:focus {
+  outline: none;
+}
+
 span.element-input,
 span.element-added {
   display: inline-block;
@@ -67,4 +71,14 @@ span.remove-element {
   padding: 0.1em;
   margin: 0 0.2em 0 0.5em;
   color: var(--color-accent);
+}
+
+span.draggable-source--is-dragging {
+  opacity: 0.4;
+}
+
+span.draggable-mirror {
+  -webkit-box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
+  -moz-box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
 }
