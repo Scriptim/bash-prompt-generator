@@ -108,3 +108,54 @@ span.draggable-mirror {
   font-family: monospace;
   line-height: 1.5;
 }
+
+#color-picker-wrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  overflow-y: scroll;
+}
+
+#color-picker {
+  display: inline-block;
+  margin: 4em;
+  padding: 0 2em 1em;
+  background-color: var(--color-light);
+  text-align: center;
+}
+
+#color-picker-basic,
+#color-picker-greyscale,
+#color-picker-cubic {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+#color-picker-cubic > div {
+  display: inline-grid;
+  grid-template: repeat(6, 1fr) / repeat(6, 1fr);
+  grid-auto-flow: column;
+}
+
+.color-picker-color {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.color-picker-color:hover {
+  transform: scale(1.4, 1.4);
+  -webkit-box-shadow: 0 0 0.5em 0 rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 0 0 0.5em 0 rgba(50, 50, 50, 0.75);
+  box-shadow: 0 0 0.5em 0 rgba(50, 50, 50, 0.75);
+  border: none;
+}
