@@ -36,14 +36,14 @@ class EscapedPromptElement {
     escapeCodes.push(...this.displayAttribs);
     if (this.fgColor !== undefined) {
       if (this.fgColor.id < 16) {
-        escapeCodes.push(this.fgColor.id);
+        escapeCodes.push(this.fgColor.color16.fg);
       } else {
         escapeCodes.push([38, 5, this.fgColor.id]);
       }
     }
     if (this.bgColor !== undefined) {
       if (this.bgColor.id < 16) {
-        escapeCodes.push(this.bgColor.id);
+        escapeCodes.push(this.bgColor.color16.bg);
       } else {
         escapeCodes.push([48, 5, this.fgColor.id]);
       }
