@@ -167,6 +167,7 @@ span.draggable-mirror {
   background-color: var(--color-dark);
   font-family: monospace;
   line-height: 1.5;
+  word-break: break-all;
 }
 
 #color-picker-wrapper {
