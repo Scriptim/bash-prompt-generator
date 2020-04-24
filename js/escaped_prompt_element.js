@@ -10,19 +10,17 @@ class EscapedPromptElement {
    * @param {PromptElement} content The prompt element.
    * @param {Color} [fgColor] The foreground color.
    * @param {Color} [bgColor] The background color.
-   * @param {Array<Ansi>} [displayAttribs] A list of SGR display attributes to apply to this
-   * element. Do not pass codes that reset attributes (such as {@link Ansi.RESET} or
    * {@link Ansi.BOLD_DIM_OFF}).
    * @param {string} [data] Additional data that may be required, e. g. the text of a "Text"
    * element or the format of a "Date (formatted)" element.
    * @memberof EscapedPromptElement
    */
-  constructor(content, fgColor, bgColor, displayAttribs, data) {
+  constructor(content, fgColor, bgColor, data) {
     this.content = content;
     this.fgColor = fgColor;
     this.bgColor = bgColor;
-    this.displayAttribs = displayAttribs || [];
     this.data = data || '';
+    this.displayAttribs = [];
   }
 
   /**
