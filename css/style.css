@@ -190,7 +190,16 @@ span.draggable-mirror {
 
 #color-picker-unset {
   margin-bottom: 1em;
-  background: linear-gradient(135deg, white, white 45%, red 45%, red 55%, white 55%, white);
+  background:
+    linear-gradient(
+      135deg,
+      white,
+      white 45%,
+      red 45%,
+      red 55%,
+      white 55%,
+      white
+    );
   border-color: #bdbdbd;
 }
 
