@@ -1,4 +1,4 @@
-/* global Ansi */
+/* global Ansi, PromptElement */
 
 /**
  * A single element of a prompt with colors and display attributes.
@@ -61,7 +61,12 @@ class EscapedPromptElement {
         escapeCodes.push([48, 5, this.fgColor.id]);
       }
     }
-    const text = this.content.char.replace(/~/g, this.data).replace(/\\/g, '\\\\');
-    return `\\[\\e[${escapeCodes.join(';')}m\\]\\${text}`;
+    let text = this.content.char.replace(/\\/g, '\\\\');
+    if (this.content === PromptElement.TEXT || this.content === PromptElement.DATE_FORMATTED) {
+      text = text.replace(/~/g, this.data);
+    } else {
+      text = `\\${text}`;
+    }
+    return `\\[\\e[${escapeCodes.join(';')}m\\]${text}`;
   }
 }
