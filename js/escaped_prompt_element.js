@@ -51,14 +51,14 @@ class EscapedPromptElement {
       if (this.fgColor.id < 16) {
         escapeCodes.push(this.fgColor.color16.fg);
       } else {
-        escapeCodes.push([38, 5, this.fgColor.id]);
+        escapeCodes.push(38, 5, this.fgColor.id);
       }
     }
     if (this.bgColor !== undefined) {
       if (this.bgColor.id < 16) {
         escapeCodes.push(this.bgColor.color16.bg);
       } else {
-        escapeCodes.push([48, 5, this.fgColor.id]);
+        escapeCodes.push(48, 5, this.bgColor.id);
       }
     }
     let text = this.content.char.replace(/\\/g, '\\\\');
