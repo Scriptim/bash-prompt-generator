@@ -59,9 +59,16 @@ p.hint code {
   background-color: #cfd8dc;
 }
 
+#flex1,
+#flex3 {
+  flex: 1;
+  min-width: 28em;
+}
+
 #flex2,
 #flex4 {
   flex: 2;
+  min-width: 32em;
 }
 
 #flex2:focus {
