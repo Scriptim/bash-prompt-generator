@@ -7,6 +7,7 @@
 body {
   color: var(--color-dark);
   background-color: var(--color-light);
+  font-family: 'Roboto', 'Noto Sans', sans-serif;
 }
 
 header {
@@ -90,7 +91,8 @@ span.element-added {
 
 span.element-input > span,
 span.element-added > span {
-  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
 }
 
 span.element-selected {
@@ -168,7 +170,7 @@ span.draggable-mirror {
   padding: 1em;
   color: var(--color-light);
   background-color: var(--color-dark);
-  font-family: monospace;
+  font-family: 'Roboto Mono', 'Noto Sans Mono', monospace;
   line-height: 1.5;
   word-break: break-all;
 }
