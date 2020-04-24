@@ -43,6 +43,13 @@ function selectElementAndShowProperties(element) {
       fgColorBtn.css('border-style', 'solid');
       prompt.updateCallback();
     });
+    $('#color-picker-unset').off('click').click(() => {
+      promptElement.fgColor = undefined;
+      fgColorBtn.css('border-color', 'var(--color-light)');
+      fgColorBtn.css('border-style', 'dashed');
+      prompt.updateCallback();
+      colorPickerWrapper.hide();
+    });
     colorPickerWrapper.show();
   });
   const bgColorBtn = $('#properties-bg-color');
@@ -52,6 +59,13 @@ function selectElementAndShowProperties(element) {
       bgColorBtn.css('border-color', color.hex);
       bgColorBtn.css('border-style', 'solid');
       prompt.updateCallback();
+    });
+    $('#color-picker-unset').off('click').click(() => {
+      promptElement.bgColor = undefined;
+      bgColorBtn.css('border-color', 'var(--color-light)');
+      bgColorBtn.css('border-style', 'dashed');
+      prompt.updateCallback();
+      colorPickerWrapper.hide();
     });
     colorPickerWrapper.show();
   });

@@ -188,6 +188,12 @@ span.draggable-mirror {
   text-align: center;
 }
 
+#color-picker-unset {
+  margin-bottom: 1em;
+  background: linear-gradient(135deg, white, white 45%, red 45%, red 55%, white 55%, white);
+  border-color: #bdbdbd;
+}
+
 #color-picker-basic,
 #color-picker-greyscale,
 #color-picker-cubic {
@@ -203,6 +209,7 @@ span.draggable-mirror {
   grid-auto-flow: column;
 }
 
+#color-picker-unset,
 .color-picker-color {
   box-sizing: border-box;
   display: inline-block;
@@ -212,6 +219,7 @@ span.draggable-mirror {
   cursor: pointer;
 }
 
+#color-picker-unset:hover,
 .color-picker-color:hover {
   transform: scale(1.4, 1.4);
   -webkit-box-shadow: 0 0 0.5em 0 rgba(50, 50, 50, 0.75);
