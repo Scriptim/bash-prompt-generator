@@ -45,12 +45,17 @@ function updateColorSettingsElements(promptElement) {
 function selectElementAndShowProperties(element) {
   const selected = !element.hasClass('element-selected');
   $('.element-selected').removeClass('element-selected');
-  if (!selected) {
+  const noDisplayElements = [
+    PromptElement.BELL,
+    PromptElement.NEWLINE,
+    PromptElement.CARRIAGE_RETURN,
+  ];
+  const promptElement = prompt.getElement($('.element-added').index(element));
+  if (!selected || noDisplayElements.includes(promptElement.content)) {
     $('#properties').css('visibility', 'hidden');
     return;
   }
   element.addClass('element-selected');
-  const promptElement = prompt.getElement($('.element-added').index(element));
 
   const dataInput = $('#properties-data');
   dataInput.hide();
