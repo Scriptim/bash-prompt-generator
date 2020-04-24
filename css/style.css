@@ -85,6 +85,7 @@ span.element-added {
   color: var(--color-light);
   background-color: var(--color-dark);
   cursor: pointer;
+  transition: color 0.4s ease, background-color 0.4s ease;
 }
 
 span.element-input > span,
@@ -101,6 +102,7 @@ span.remove-element {
   padding: 0.1em;
   margin: 0 0.2em 0 0.5em;
   color: var(--color-accent);
+  transition: color 0.4s ease;
 }
 
 span.element-selected > span.remove-element {
@@ -138,6 +140,7 @@ span.draggable-mirror {
   border: 0.2em dashed var(--color-light);
   outline: 0.2em solid #628284;
   cursor: pointer;
+  transition: background-color 0.2s ease, outline-color 0.2s ease;
 }
 
 #properties button:hover,
@@ -227,6 +230,7 @@ span.draggable-mirror {
   height: 1.5em;
   border: 1px solid white;
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 #color-picker-unset:hover,

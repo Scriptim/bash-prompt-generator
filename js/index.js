@@ -1,5 +1,7 @@
 /* global $, Sortable, Ansi, Color, PromptElement, Prompt, EscapedPromptElement */
 
+const SHOW_HIDE_DURATION = 200;
+
 const flex1 = $('#flex1');
 const flex2 = $('#flex2');
 const promptOutput = $('#prompt-output');
@@ -35,9 +37,9 @@ function updateColorSettingsElements(promptElement) {
         button.css('border-color', 'var(--color-light)');
         button.css('border-style', 'dashed');
         prompt.updateCallback();
-        colorPickerWrapper.hide();
+        colorPickerWrapper.fadeOut(SHOW_HIDE_DURATION);
       });
-      colorPickerWrapper.show();
+      colorPickerWrapper.fadeIn(SHOW_HIDE_DURATION);
     });
   });
 }
@@ -51,8 +53,12 @@ function selectElementAndShowProperties(element) {
     PromptElement.CARRIAGE_RETURN,
   ];
   const promptElement = prompt.getElement($('.element-added').index(element));
+  if (promptElement === undefined) {
+    // promptElement is undefined if element is clicked while fading out
+    return;
+  }
   if (!selected || noDisplayElements.includes(promptElement.content)) {
-    $('#properties').hide();
+    $('#properties').fadeOut(SHOW_HIDE_DURATION);
     return;
   }
   element.addClass('element-selected');
@@ -61,10 +67,10 @@ function selectElementAndShowProperties(element) {
   dataInput.hide();
   if (promptElement.content === PromptElement.TEXT) {
     dataInput.attr('placeholder', 'Text');
-    dataInput.show();
+    dataInput.fadeIn(SHOW_HIDE_DURATION);
   } else if (promptElement.content === PromptElement.DATE_FORMATTED) {
     dataInput.attr('placeholder', 'Date format');
-    dataInput.show();
+    dataInput.fadeIn(SHOW_HIDE_DURATION);
   }
 
   dataInput.val(promptElement.data);
@@ -85,7 +91,7 @@ function selectElementAndShowProperties(element) {
     });
   });
 
-  $('#properties').show();
+  $('#properties').fadeIn(SHOW_HIDE_DURATION);
 }
 
 function addElementInputs() {
@@ -105,11 +111,13 @@ function addElementInputs() {
       removeElement.click(() => {
         prompt.removeElement($('span.element-added').index(elementAdded));
         if (elementAdded.hasClass('element-selected')) {
-          $('#properties').hide();
+          $('#properties').fadeOut(SHOW_HIDE_DURATION);
         }
-        elementAdded.remove();
+        elementAdded.fadeOut(SHOW_HIDE_DURATION, () => elementAdded.remove());
       });
+      elementAdded.hide();
       flex2.append(elementAdded);
+      elementAdded.fadeIn(SHOW_HIDE_DURATION);
       prompt.appendElement(new EscapedPromptElement(PromptElement[key]));
     });
     flex1.append(elementInput);
@@ -137,11 +145,11 @@ function initColorPicker() {
   }
   colorPicker.click(() => false);
   const colorPickerWrapper = $('#color-picker-wrapper');
-  colorPickerWrapper.click(() => colorPickerWrapper.hide());
+  colorPickerWrapper.click(() => colorPickerWrapper.fadeOut(SHOW_HIDE_DURATION));
   $('.color-picker-color').click((event) => {
     const color = Color[$(event.target).attr('data-color-id')];
     colorPicker.trigger('color-select', color);
-    colorPickerWrapper.hide();
+    colorPickerWrapper.fadeOut(SHOW_HIDE_DURATION);
   });
 }
 
