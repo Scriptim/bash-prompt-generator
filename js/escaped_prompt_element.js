@@ -22,9 +22,24 @@ class EscapedPromptElement {
     this.fgColor = fgColor;
     this.bgColor = bgColor;
     this.displayAttribs = displayAttribs || [];
-    this.text = content.char;
-    if (data) {
-      this.text = this.text.replace(/~/g, data).replace(/\\/g, '\\\\');
+    this.data = data || '';
+  }
+
+  /**
+   * Sets or unsets a display attribute.
+   * Call the prompt's updateCallback after this function.
+   *
+   * @param {Ansi} attrib A SGR display attributes. Do not pass codes that reset attributes (such as
+   * {@link Ansi.RESET} or {@link Ansi.BOLD_DIM_OFF}).
+   * @param {boolean} value Whether to enable or disable the attribute.
+   * @memberof EscapedPromptElement
+   */
+  setAttrib(attrib, value) {
+    if (value && !this.displayAttribs.includes(attrib)) {
+      this.displayAttribs.push(attrib);
+      this.displayAttribs = this.displayAttribs.sort((a, b) => a - b);
+    } else if (!value && this.displayAttribs.includes(attrib)) {
+      this.displayAttribs.splice(this.displayAttribs.indexOf(attrib), 1);
     }
   }
 
@@ -48,6 +63,7 @@ class EscapedPromptElement {
         escapeCodes.push([48, 5, this.fgColor.id]);
       }
     }
-    return `\\[\\e[${escapeCodes.join(';')}m\\]\\${this.text}`;
+    const text = this.content.char.replace(/~/g, this.data).replace(/\\/g, '\\\\');
+    return `\\[\\e[${escapeCodes.join(';')}m\\]\\${text}`;
   }
 }

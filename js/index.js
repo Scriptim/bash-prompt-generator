@@ -1,4 +1,4 @@
-/* global $, Sortable, Color, PromptElement, Prompt, EscapedPromptElement */
+/* global $, Sortable, Ansi, Color, PromptElement, Prompt, EscapedPromptElement */
 
 const flex1 = $('#flex1');
 const flex2 = $('#flex2');
@@ -7,6 +7,67 @@ const promptOutput = $('#prompt-output');
 const prompt = new Prompt(() => {
   promptOutput.html(prompt.toString());
 });
+
+function selectElementAndShowProperties(element) {
+  const selected = !element.hasClass('element-selected');
+  $('.element-selected').removeClass('element-selected');
+  if (!selected) {
+    $('#properties').css('visibility', 'hidden');
+    return;
+  }
+  element.addClass('element-selected');
+  const promptElement = prompt.getElement($('.element-added').index(element));
+
+  const dataInput = $('#properties-data');
+  dataInput.hide();
+  if (promptElement.content === PromptElement.TEXT) {
+    dataInput.attr('placeholder', 'Text');
+    dataInput.show();
+  } else if (promptElement.content === PromptElement.DATE_FORMATTED) {
+    dataInput.attr('placeholder', 'Date format');
+    dataInput.show();
+  }
+
+  dataInput.val(promptElement.data);
+  dataInput.off('change').change((event) => {
+    promptElement.data = $(event.target).val();
+    prompt.updateCallback();
+  });
+
+  const colorPickerWrapper = $('#color-picker-wrapper');
+  const fgColorBtn = $('#properties-fg-color');
+  fgColorBtn.click(() => {
+    colorPickerWrapper.off('color-select').on('color-select', (_, color) => {
+      promptElement.fgColor = color;
+      fgColorBtn.css('border-color', color.hex);
+      fgColorBtn.css('border-style', 'solid');
+      prompt.updateCallback();
+    });
+    colorPickerWrapper.show();
+  });
+  const bgColorBtn = $('#properties-bg-color');
+  bgColorBtn.click(() => {
+    colorPickerWrapper.off('color-select').on('color-select', (_, color) => {
+      promptElement.bgColor = color;
+      bgColorBtn.css('border-color', color.hex);
+      bgColorBtn.css('border-style', 'solid');
+      prompt.updateCallback();
+    });
+    colorPickerWrapper.show();
+  });
+
+  ['bold', 'dim', 'italic', 'underline', 'blink', 'reverse', 'overline'].forEach((attrib) => {
+    const checkbox = $(`#properties-${attrib}`);
+    const ansi = Ansi[attrib.toUpperCase()];
+    checkbox.prop('checked', promptElement.displayAttribs.includes(ansi));
+    checkbox.off('change').change((event) => {
+      promptElement.setAttrib(ansi, $(event.target).prop('checked'));
+      prompt.updateCallback();
+    });
+  });
+
+  $('#properties').css('visibility', 'visible');
+}
 
 function addElementInputs() {
   // eslint-disable-next-line no-new, new-cap
@@ -21,8 +82,12 @@ function addElementInputs() {
       const removeElement = $('<span class="remove-element" title="Remove">X</span>');
       const elementAdded = $(`<span class="element-added" title="${el.description}" data-key="${key}"><span>${el.name}</span></span>`);
       elementAdded.append(removeElement);
+      elementAdded.click(() => selectElementAndShowProperties(elementAdded));
       removeElement.click(() => {
         prompt.removeElement($('span.element-added').index(elementAdded));
+        if (elementAdded.hasClass('element-selected')) {
+          $('#properties').css('visibility', 'hidden');
+        }
         elementAdded.remove();
       });
       flex2.append(elementAdded);
@@ -54,9 +119,9 @@ function initColorPicker() {
   colorPicker.click(() => false);
   const colorPickerWrapper = $('#color-picker-wrapper');
   colorPickerWrapper.click(() => colorPickerWrapper.hide());
-  $('.color-picker-color').click((/* event */) => {
-    // const color = Color[$(event.target).attr('data-color-id')];
-    // TODO: handle selected color
+  $('.color-picker-color').click((event) => {
+    const color = Color[$(event.target).attr('data-color-id')];
+    colorPicker.trigger('color-select', color);
     colorPickerWrapper.hide();
   });
 }

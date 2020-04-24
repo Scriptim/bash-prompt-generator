@@ -26,6 +26,17 @@ class Prompt {
   }
 
   /**
+   * Returns the element at the given index.
+   *
+   * @param {number} index The index of the element.
+   * @returns {EscapedPromptElement} The element.
+   * @memberof Prompt
+   */
+  getElement(index) {
+    return this.elements[index];
+  }
+
+  /**
    * Removes the element at the given index.
    *
    * @param {number} index The index of the element.

@@ -45,7 +45,24 @@
       <h2>Your Prompt</h2>
       <p class="hint">Drag elements to reorder them or click on the cross to remove an element.</p>
     </div>
-    <div id="flex3"></div>
+    <div id="flex3">
+      <h2>Properties</h2>
+      <p class="hint">Select an element of your prompt to edit its properties.</p>
+      <div id="properties">
+        <input type="text" id="properties-data" autocomplete="off">
+        <h3>Colors</h3>
+        <button type="button" id="properties-fg-color">Foreground Color</button>
+        <button type="button" id="properties-bg-color">Background Color</button>
+        <h3>Display Attributes</h3>
+        <label><input type="checkbox" name="properties-bold" id="properties-bold">Bold</label>
+        <label><input type="checkbox" name="properties-dim" id="properties-dim">Dim</label>
+        <label><input type="checkbox" name="properties-italic" id="properties-italic">Italic</label>
+        <label><input type="checkbox" name="properties-underline" id="properties-underline">Underline</label>
+        <label><input type="checkbox" name="properties-blink" id="properties-blink">Blink</label>
+        <label><input type="checkbox" name="properties-reverse" id="properties-reverse">Reverse</label>
+        <label><input type="checkbox" name="properties-overline" id="properties-overline">Overline</label>
+      </div>
+    </div>
     <div id="flex4">
       <h2>Output</h2>
       <p class="hint">Add this line to your <code>~/.bashrc</code> file to permanently set your prompt.</p>

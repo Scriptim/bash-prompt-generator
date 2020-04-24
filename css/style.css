@@ -41,6 +41,10 @@ main {
   padding: 1em 2em;
 }
 
+main > div {
+  padding: 1em;
+}
+
 h2 {
   margin-bottom: 0;
 }
@@ -53,12 +57,6 @@ p.hint code {
   padding: 0 0.2em;
   border-radius: 0.2em;
   background-color: #cfd8dc;
-}
-
-#flex1,
-#flex2,
-#flex4 {
-  padding: 1em;
 }
 
 #flex2,
@@ -87,10 +85,19 @@ span.element-added > span {
   vertical-align: middle;
 }
 
+span.element-selected {
+  color: var(--color-dark);
+  background-color: var(--color-accent);
+}
+
 span.remove-element {
   padding: 0.1em;
   margin: 0 0.2em 0 0.5em;
   color: var(--color-accent);
+}
+
+span.element-selected > span.remove-element {
+  color: var(--color-light);
 }
 
 span.draggable-source--is-dragging {
@@ -101,6 +108,49 @@ span.draggable-mirror {
   -webkit-box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
   -moz-box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
   box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
+}
+
+#properties {
+  visibility: hidden;
+}
+
+#properties input[type="text"] {
+  width: 100%;
+  max-width: 20em;
+  margin: 0 0.2em;
+  padding: 0.4em;
+  color: var(--color-dark);
+}
+
+#properties button {
+  min-width: 10em;
+  margin: 0 0.2em 0.4em;
+  padding: 0.5em;
+  color: var(--color-light);
+  background-color: #628284;
+  border: 0.2em dashed var(--color-light);
+  outline: 0.2em solid #628284;
+  cursor: pointer;
+}
+
+#properties button:hover,
+#properties button:focus {
+  background-color: #415658;
+  outline-color: #415658;
+}
+
+#properties label {
+  display: block;
+  min-width: 8em;
+  margin: 0.4em;
+}
+
+#properties input[type="checkbox"] {
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.4em;
+  color: var(--color-accent);
+  vertical-align: middle;
 }
 
 #prompt-output {
