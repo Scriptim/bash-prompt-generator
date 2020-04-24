@@ -45,7 +45,15 @@ class EscapedPromptElement {
    * Returns the string representation of this element including escape sequences
    */
   toString() {
-    const escapeCodes = [Ansi.RESET];
+    const escapeCodes = [];
+    const noDisplayElements = [
+      PromptElement.BELL,
+      PromptElement.NEWLINE,
+      PromptElement.CARRIAGE_RETURN,
+    ];
+    if (!noDisplayElements.includes(this.content)) {
+      escapeCodes.push(Ansi.RESET);
+    }
     escapeCodes.push(...this.displayAttribs);
     if (this.fgColor !== undefined) {
       if (this.fgColor.id < 16) {
