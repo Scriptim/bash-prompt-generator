@@ -52,7 +52,7 @@ function selectElementAndShowProperties(element) {
   ];
   const promptElement = prompt.getElement($('.element-added').index(element));
   if (!selected || noDisplayElements.includes(promptElement.content)) {
-    $('#properties').css('visibility', 'hidden');
+    $('#properties').hide();
     return;
   }
   element.addClass('element-selected');
@@ -85,7 +85,7 @@ function selectElementAndShowProperties(element) {
     });
   });
 
-  $('#properties').css('visibility', 'visible');
+  $('#properties').show();
 }
 
 function addElementInputs() {
@@ -105,7 +105,7 @@ function addElementInputs() {
       removeElement.click(() => {
         prompt.removeElement($('span.element-added').index(elementAdded));
         if (elementAdded.hasClass('element-selected')) {
-          $('#properties').css('visibility', 'hidden');
+          $('#properties').hide();
         }
         elementAdded.remove();
       });

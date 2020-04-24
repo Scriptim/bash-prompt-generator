@@ -118,10 +118,10 @@ span.draggable-mirror {
 }
 
 #properties {
-  visibility: hidden;
+  display: none;
 }
 
-#properties input[type="text"] {
+#properties input[type='text'] {
   width: 100%;
   max-width: 20em;
   margin: 0 0.2em;
@@ -131,7 +131,7 @@ span.draggable-mirror {
 
 #properties button {
   min-width: 10em;
-  margin: 0 0.2em 0.4em;
+  margin: 0 0.2em 0.6em;
   padding: 0.5em;
   color: var(--color-light);
   background-color: #628284;
@@ -152,7 +152,7 @@ span.draggable-mirror {
   margin: 0.4em;
 }
 
-#properties input[type="checkbox"] {
+#properties input[type='checkbox'] {
   width: 1.2em;
   height: 1.2em;
   margin-right: 0.4em;
@@ -226,4 +226,30 @@ span.draggable-mirror {
   -moz-box-shadow: 0 0 0.5em 0 rgba(50, 50, 50, 0.75);
   box-shadow: 0 0 0.5em 0 rgba(50, 50, 50, 0.75);
   border: none;
+}
+
+@media screen and (max-width: 800px) {
+  h1 {
+    padding: 0.6em 2.4em;
+  }
+
+  main {
+    padding: 0 0.8em;
+  }
+
+  #flex1,
+  #flex2,
+  #flex3,
+  #flex4 {
+    flex: unset;
+    min-width: unset;
+    width: 100%;
+    padding: 0 0 1em;
+  }
+
+  #flex1,
+  #flex2,
+  #flex3 {
+    border-bottom: 4px dashed #dbdbdb;
+  }
 }
