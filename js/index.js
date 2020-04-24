@@ -8,6 +8,40 @@ const prompt = new Prompt(() => {
   promptOutput.html(prompt.toString());
 });
 
+/**
+ * Registers and unregisters the color picker event listeners and sets the color buttons borders for
+ * the given prompt element.
+ *
+ * @param {EscapedPromptElement} promptElement The prompt element that is currently selected.
+ */
+function updateColorSettingsElements(promptElement) {
+  const colorPickerWrapper = $('#color-picker-wrapper');
+  ['fg', 'bg'].forEach((fgOrBg) => {
+    const button = $(`#properties-${fgOrBg}-color`);
+    const colorProp = `${fgOrBg}Color`;
+    button.css('border-color', promptElement[colorProp] === undefined ? 'var(--color-light)' : promptElement[colorProp].hex);
+    button.css('border-style', promptElement[colorProp] === undefined ? 'dashed' : 'solid');
+    button.click(() => {
+      colorPickerWrapper.off('color-select').on('color-select', (_, color) => {
+        // eslint-disable-next-line no-param-reassign
+        promptElement[colorProp] = color;
+        button.css('border-color', color.hex);
+        button.css('border-style', 'solid');
+        prompt.updateCallback();
+      });
+      $('#color-picker-unset').off('click').click(() => {
+        // eslint-disable-next-line no-param-reassign
+        promptElement[colorProp] = undefined;
+        button.css('border-color', 'var(--color-light)');
+        button.css('border-style', 'dashed');
+        prompt.updateCallback();
+        colorPickerWrapper.hide();
+      });
+      colorPickerWrapper.show();
+    });
+  });
+}
+
 function selectElementAndShowProperties(element) {
   const selected = !element.hasClass('element-selected');
   $('.element-selected').removeClass('element-selected');
@@ -34,41 +68,7 @@ function selectElementAndShowProperties(element) {
     prompt.updateCallback();
   });
 
-  const colorPickerWrapper = $('#color-picker-wrapper');
-  const fgColorBtn = $('#properties-fg-color');
-  fgColorBtn.click(() => {
-    colorPickerWrapper.off('color-select').on('color-select', (_, color) => {
-      promptElement.fgColor = color;
-      fgColorBtn.css('border-color', color.hex);
-      fgColorBtn.css('border-style', 'solid');
-      prompt.updateCallback();
-    });
-    $('#color-picker-unset').off('click').click(() => {
-      promptElement.fgColor = undefined;
-      fgColorBtn.css('border-color', 'var(--color-light)');
-      fgColorBtn.css('border-style', 'dashed');
-      prompt.updateCallback();
-      colorPickerWrapper.hide();
-    });
-    colorPickerWrapper.show();
-  });
-  const bgColorBtn = $('#properties-bg-color');
-  bgColorBtn.click(() => {
-    colorPickerWrapper.off('color-select').on('color-select', (_, color) => {
-      promptElement.bgColor = color;
-      bgColorBtn.css('border-color', color.hex);
-      bgColorBtn.css('border-style', 'solid');
-      prompt.updateCallback();
-    });
-    $('#color-picker-unset').off('click').click(() => {
-      promptElement.bgColor = undefined;
-      bgColorBtn.css('border-color', 'var(--color-light)');
-      bgColorBtn.css('border-style', 'dashed');
-      prompt.updateCallback();
-      colorPickerWrapper.hide();
-    });
-    colorPickerWrapper.show();
-  });
+  updateColorSettingsElements(promptElement);
 
   ['bold', 'dim', 'italic', 'underline', 'blink', 'reverse', 'overline'].forEach((attrib) => {
     const checkbox = $(`#properties-${attrib}`);
