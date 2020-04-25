@@ -36,6 +36,10 @@ h1 {
   padding: 0.6em;
 }
 
+#underscore {
+  color: #4caa25;
+}
+
 main {
   display: flex;
   flex-wrap: wrap;

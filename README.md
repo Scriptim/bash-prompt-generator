@@ -6,9 +6,11 @@
 
 Create a custom PS1 variable for your Bash.
 
-![Browser (Screenshot)](./img/screenshot_browser.png)
+![Logo](img/logo_og.png)
 
-### Example Prompt
+### Example
+
+![Browser (Screenshot)](./img/screenshot_browser.png)
 
 ![Terminal (Screenshot)](./img/screenshot_terminal.png)
 
