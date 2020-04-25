@@ -2,6 +2,8 @@
   --color-dark: #222831;
   --color-light: #eee;
   --color-accent: #00adb5;
+  --color-button: #628284;
+  --color-button-alt: #415658;
 }
 
 body {
@@ -134,17 +136,17 @@ span.draggable-mirror {
   margin: 0 0.2em 0.6em;
   padding: 0.5em;
   color: var(--color-light);
-  background-color: #628284;
+  background-color: var(--color-button);
   border: 0.2em dashed var(--color-light);
-  outline: 0.2em solid #628284;
+  outline: 0.2em solid var(--color-button);
   cursor: pointer;
   transition: background-color 0.2s ease, outline-color 0.2s ease;
 }
 
 #properties button:hover,
 #properties button:focus {
-  background-color: #415658;
-  outline-color: #415658;
+  background-color: var(--color-button-alt);
+  outline-color: var(--color-button-alt);
 }
 
 #properties label {
@@ -161,8 +163,22 @@ span.draggable-mirror {
   vertical-align: middle;
 }
 
+#copy-output {
+  height: 2em;
+  margin-right: 0.2em;
+  color: var(--color-button);
+  vertical-align: middle;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+#copy-output:hover {
+  color: var(--color-button-alt);
+}
+
 #prompt-output {
   display: inline-block;
+  margin-top: 0.8em;
   padding: 1em;
   color: var(--color-light);
   background-color: var(--color-dark);

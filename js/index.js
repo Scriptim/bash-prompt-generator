@@ -145,7 +145,12 @@ function initColorPicker() {
   });
 }
 
+function setCopyOutputHandler() {
+  $('#copy-output').click(() => navigator.clipboard.writeText($('#prompt-output').text()));
+}
+
 window.onload = () => {
   addElementInputs();
   initColorPicker();
+  setCopyOutputHandler();
 };
