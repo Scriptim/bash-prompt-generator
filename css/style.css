@@ -78,7 +78,8 @@ p.hint code {
 
 span.element-input,
 span.element-added {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   margin: 0.2em;
   padding: 0.3em 0.5em;
   border: none;
@@ -89,25 +90,20 @@ span.element-added {
   transition: color 0.4s ease, background-color 0.4s ease;
 }
 
-span.element-input > span,
-span.element-added > span {
-  display: inline-flex;
-  align-items: center;
-}
-
 span.element-selected {
   color: var(--color-dark);
   background-color: var(--color-accent);
 }
 
-span.remove-element {
+svg.remove-element {
+  height: 1.2em;
   padding: 0.1em;
-  margin: 0 0.2em 0 0.5em;
+  margin: 0 0.1em 0 0.4em;
   color: var(--color-accent);
   transition: color 0.4s ease;
 }
 
-span.element-selected > span.remove-element {
+span.element-selected > svg.remove-element {
   color: var(--color-light);
 }
 
