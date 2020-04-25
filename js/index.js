@@ -47,17 +47,12 @@ function updateColorSettingsElements(promptElement) {
 function selectElementAndShowProperties(element) {
   const selected = !element.hasClass('element-selected');
   $('.element-selected').removeClass('element-selected');
-  const noDisplayElements = [
-    PromptElement.BELL,
-    PromptElement.NEWLINE,
-    PromptElement.CARRIAGE_RETURN,
-  ];
   const promptElement = prompt.getElement($('.element-added').index(element));
   if (promptElement === undefined) {
     // promptElement is undefined if element is clicked while fading out
     return;
   }
-  if (!selected || noDisplayElements.includes(promptElement.content)) {
+  if (!selected || !promptElement.content.printable) {
     $('#properties').fadeOut(SHOW_HIDE_DURATION);
     return;
   }
@@ -65,11 +60,8 @@ function selectElementAndShowProperties(element) {
 
   const dataInput = $('#properties-data');
   dataInput.hide();
-  if (promptElement.content === PromptElement.TEXT) {
-    dataInput.attr('placeholder', 'Text');
-    dataInput.fadeIn(SHOW_HIDE_DURATION);
-  } else if (promptElement.content === PromptElement.DATE_FORMATTED) {
-    dataInput.attr('placeholder', 'Date format');
+  if (promptElement.content.data !== undefined) {
+    dataInput.attr('placeholder', promptElement.content.data);
     dataInput.fadeIn(SHOW_HIDE_DURATION);
   }
 

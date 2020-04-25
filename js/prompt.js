@@ -1,3 +1,5 @@
+/* global Ansi */
+
 /**
  * Represents a prompt and provides methods for manipulation.
  */
@@ -61,6 +63,6 @@ class Prompt {
   }
 
   toString() {
-    return `PS1="${this.elements.map((el) => el.toString()).join('').replace(/"/g, '\\"')}"`;
+    return `PS1='${this.elements.map((el) => el.toString()).join('').replace(/'/g, '\'"\'"\'')}\\[\\e${Ansi.RESET}'`;
   }
 }

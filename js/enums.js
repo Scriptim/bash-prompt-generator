@@ -1170,98 +1170,360 @@ const Ansi = {
 // eslint-disable-next-line no-unused-vars
 const PromptElement = {
   /**
-   * A custom text.
-   */
-  TEXT: { name: 'Text', char: '~', description: 'A custom text.' },
-  /**
-   * A bell character.
-   */
-  BELL: { name: 'Bell', char: 'b', description: 'A bell character.' },
-  /**
    * The date, in "Weekday Month Date" format (e.g., "Tue May 26").
    */
-  DATE: { name: 'Date', char: 'd', description: 'The date, in "Weekday Month Date" format (e.g., "Tue May 26").' },
+  DATE: {
+    name: 'Date', char: '\\d', printable: true, description: 'The date, in "Weekday Month Date" format (e.g., "Tue May 26").',
+  },
   /**
    * The format is passed to [strftime]{@link https://www.gnu.org/software/libc/manual/html_node/Formatting-Calendar-Time.html#index-strftime}
    * and the result is inserted into the prompt string; an empty format results in a locale-specific
    * time representation.
    */
-  DATE_FORMATTED: { name: 'Date (formatted)', char: 'D{~}', description: 'The format is passed to strftime(3) and the result is inserted into the prompt string; an empty format results in a locale-specific time representation.' },
-  /**
-   * The hostname, up to the first ‘.’.
-   */
-  HOSTNAME_SHORT: { name: 'Hostname (short)', char: 'h', description: 'The hostname, up to the first ‘.’.' },
-  /**
-   * The hostname.
-   */
-  HOSTNAME: { name: 'Hostname', char: 'H', description: 'The hostname.' },
-  /**
-   * The number of jobs currently managed by the shell.
-   */
-  JOBS: { name: 'Jobs', char: 'j', description: 'The number of jobs currently managed by the shell.' },
-  /**
-   * The basename of the shell’s terminal device name.
-   */
-  TERMINAL: { name: 'Terminal', char: 'l', description: 'The basename of the shell’s terminal device name.' },
-  /**
-   * A newline.
-   */
-  NEWLINE: { name: 'Newline', char: 'n', description: 'A newline.' },
-  /**
-   * A carriage return.
-   */
-  CARRIAGE_RETURN: { name: 'Carriage Return', char: 'r', description: 'A carriage return.' },
-  /**
-   * The name of the shell, the basename of $0 (the portion following the final slash).
-   */
-  SHELL: { name: 'Shell', char: 's', description: 'The name of the shell, the basename of $0 (the portion following the final slash).' },
+  DATE_FORMATTED: {
+    name: 'Date (formatted)', char: '\\D{~}', data: 'Date format', printable: true, description: 'The format is passed to strftime(3) and the result is inserted into the prompt string; an empty format results in a locale-specific time representation.',
+  },
   /**
    * The time, in 24-hour HH:MM:SS format.
    */
-  TIME_24: { name: 'Time (24-hour)', char: 't', description: 'The time, in 24-hour HH:MM:SS format.' },
+  TIME_24: {
+    name: 'Time (24-hour)', char: '\\t', printable: true, description: 'The time, in 24-hour HH:MM:SS format.',
+  },
   /**
    * The time, in 12-hour HH:MM:SS format.
    */
-  TIME_12: { name: 'Time (12-hour)', char: 'T', description: 'The time, in 12-hour HH:MM:SS format.' },
+  TIME_12: {
+    name: 'Time (12-hour)', char: '\\T', printable: true, description: 'The time, in 12-hour HH:MM:SS format.',
+  },
   /**
    * The time, in 12-hour am/pm format.
    */
-  TIME_AMPM: { name: 'Time (am/pm)', char: '@', description: 'The time, in 12-hour am/pm format.' },
+  TIME_AMPM: {
+    name: 'Time (am/pm)', char: '\\@', printable: true, description: 'The time, in 12-hour am/pm format.',
+  },
   /**
    * The time, in 24-hour HH:MM format.
    */
-  TIME_NOSEC: { name: 'Time (without seconds)', char: 'A', description: 'The time, in 24-hour HH:MM format.' },
+  TIME_NOSEC: {
+    name: 'Time (without seconds)', char: '\\A', printable: true, description: 'The time, in 24-hour HH:MM format.',
+  },
   /**
    * The username of the current user.
    */
-  USERNAME: { name: 'Username', char: 'u', description: 'The username of the current user.' },
+  USERNAME: {
+    name: 'Username', char: '\\u', printable: true, description: 'The username of the current user.',
+  },
   /**
-   * The version of Bash (e.g., 2.00)
+   * The hostname, up to the first ‘.’.
    */
-  BASH_VERSION: { name: 'Bash Version', char: 'v', description: 'The version of Bash (e.g., 2.00)' },
+  HOSTNAME_SHORT: {
+    name: 'Hostname (short)', char: '\\h', printable: true, description: 'The hostname, up to the first ‘.’.',
+  },
   /**
-   * The release of Bash, version + patchlevel (e.g., 2.00.0)
+   * The hostname.
    */
-  BASH_RELEASE: { name: 'Bash Release', char: 'V', description: 'The release of Bash, version + patchlevel (e.g., 2.00.0)' },
+  HOSTNAME: {
+    name: 'Hostname', char: '\\H', printable: true, description: 'The hostname.',
+  },
   /**
    * The current working directory, with $HOME abbreviated with a tilde (uses the $PROMPT_DIRTRIM
    * variable).
    */
-  WORKING_DIR: { name: 'Working Directory', char: 'w', description: 'The current working directory, with $HOME abbreviated with a tilde (uses the $PROMPT_DIRTRIM variable).' },
+  WORKING_DIR: {
+    name: 'Working Directory', char: '\\w', printable: true, description: 'The current working directory, with $HOME abbreviated with a tilde (uses the $PROMPT_DIRTRIM variable).',
+  },
   /**
    * The basename of $PWD, with $HOME abbreviated with a tilde.
    */
-  WORKING_DIR_BASENAME: { name: 'Working Directory (Basename)', char: 'W', description: 'The basename of $PWD, with $HOME abbreviated with a tilde.' },
+  WORKING_DIR_BASENAME: {
+    name: 'Working Directory (Basename)', char: '\\W', printable: true, description: 'The basename of $PWD, with $HOME abbreviated with a tilde.',
+  },
+  /**
+   * A newline.
+   */
+  NEWLINE: {
+    name: 'Newline', char: '\\n', printable: false, description: 'A newline.',
+  },
+  /**
+   * A carriage return.
+   */
+  CARRIAGE_RETURN: {
+    name: 'Carriage Return', char: '\\r', printable: false, description: 'A carriage return.',
+  },
+  /**
+   * A bell character.
+   */
+  BELL: {
+    name: 'Bell', char: '\\b', printable: false, description: 'A bell character.',
+  },
+  /**
+   * The basename of the shell’s terminal device name.
+   */
+  TERMINAL: {
+    name: 'Terminal', char: '\\l', printable: true, description: 'The basename of the shell’s terminal device name.',
+  },
+  /**
+   * The name of the shell, the basename of $0 (the portion following the final slash).
+   */
+  SHELL: {
+    name: 'Shell', char: '\\s', printable: true, description: 'The name of the shell, the basename of $0 (the portion following the final slash).',
+  },
+  /**
+   * The version of Bash (e.g., 2.00)
+   */
+  BASH_VERSION: {
+    name: 'Bash Version', char: '\\v', printable: true, description: 'The version of Bash (e.g., 2.00)',
+  },
+  /**
+   * The release of Bash, version + patchlevel (e.g., 2.00.0)
+   */
+  BASH_RELEASE: {
+    name: 'Bash Release', char: '\\V', printable: true, description: 'The release of Bash, version + patchlevel (e.g., 2.00.0)',
+  },
   /**
    * The history number of this command.
    */
-  HISTORY_NUM: { name: 'History Number', char: '!', description: 'The history number of this command.' },
+  HISTORY_NUM: {
+    name: 'History Number', char: '\\!', printable: true, description: 'The history number of this command.',
+  },
   /**
    * The command number of this command.
    */
-  COMMAND_NUM: { name: 'Command Number', char: '#', description: 'The command number of this command.' },
+  COMMAND_NUM: {
+    name: 'Command Number', char: '\\#', printable: true, description: 'The command number of this command.',
+  },
+  /**
+   * The number of jobs currently managed by the shell.
+   */
+  JOBS: {
+    name: 'Jobs', char: '\\j', printable: true, description: 'The number of jobs currently managed by the shell.',
+  },
   /**
    * If the effective uid is 0, #, otherwise $.
    */
-  PROMPT_SIGN: { name: 'Prompt Sign', char: '$', description: 'If the effective uid is 0, #, otherwise $.' },
+  PROMPT_SIGN: {
+    name: 'Prompt Sign', char: '\\$', printable: true, description: 'If the effective uid is 0, #, otherwise $.',
+  },
+  /**
+   * Exit status ($?).
+   */
+  EXIT_STATUS: {
+    name: 'Exit Status', char: '$?', printable: true, description: 'Exit status ($?).',
+  },
+  /**
+   * Git branch.
+   */
+  GIT_BRANCH: {
+    name: 'Git branch', char: '$(git branch 2>/dev/null | grep \'^*\' | colrm 1 2)', printable: true, description: 'Git branch.',
+  },
+  /**
+   * Private IP address.
+   */
+  IP_ADDRESS: {
+    name: 'IP Address', char: '$(ip route get 1.1.1.1 | awk -F"src " \'NR==1{split($2,a," ");print a[1]}\')', printable: true, description: 'Private IP address.',
+  },
+  /**
+  * A custom command.
+  */
+  COMMAND: {
+    name: 'Command', char: '~', data: 'Command', printable: true, description: 'A custom command.',
+  },
+  /**
+  * A custom text.
+  */
+  TEXT: {
+    name: 'Text', char: '~', data: 'Text', printable: true, description: 'A custom text.',
+  },
+  /**
+  * Space.
+  */
+  SPACE: {
+    name: '␣', char: ' ', data: 'Text', printable: false, description: 'Space.',
+  },
+  /**
+  * Tilde.
+  */
+  TILDE: {
+    name: '~', char: '~', printable: true, description: 'Tilde.',
+  },
+  /**
+  * Exclamation mark.
+  */
+  BANG: {
+    name: '!', char: '!', printable: true, description: 'Exclamation mark.',
+  },
+  /**
+  * Question mark.
+  */
+  QUESTION_MARK: {
+    name: '?', char: '?', printable: true, description: 'Question mark.',
+  },
+  /**
+  * Ampersat.
+  */
+  AMPERSAT: {
+    name: '@', char: '@', printable: true, description: 'Ampersat.',
+  },
+  /**
+  * Hash.
+  */
+  HASH: {
+    name: '#', char: '#', printable: true, description: 'Hash.',
+  },
+  /**
+  * Dollar sign.
+  */
+  DOLLAR: {
+    name: '$', char: '$', printable: true, description: 'Dollar sign.',
+  },
+  /**
+  * Percent.
+  */
+  PERCENT: {
+    name: '%', char: '%', printable: true, description: 'Percent.',
+  },
+  /**
+  * Caret.
+  */
+  CARET: {
+    name: '^', char: '^', printable: true, description: 'Caret.',
+  },
+  /**
+  * Ampersand.
+  */
+  AMPERSAND: {
+    name: '&amp;', char: '&', printable: true, description: 'Ampersand.',
+  },
+  /**
+  * .
+  */
+  ASTERISK: {
+    name: '*', char: '*', printable: true, description: 'Asterisk.',
+  },
+  /**
+  * Open paranthesis.
+  */
+  PARANTHESIS_OPEN: {
+    name: '(', char: '(', printable: true, description: 'Open paranthesis.',
+  },
+  /**
+  * Close paranthesis.
+  */
+  PARANTHESIS_CLOSE: {
+    name: ')', char: ')', printable: true, description: 'Close paranthesis.',
+  },
+  /**
+  * Open curly bracket.
+  */
+  CURLY_BRACKET_OPEN: {
+    name: '{', char: '{', printable: true, description: 'Open curly bracket.',
+  },
+  /**
+  * Close curly bracket.
+  */
+  CURLY_BRACKET_CLOSE: {
+    name: '}', char: '}', printable: true, description: 'Close curly bracket.',
+  },
+  /**
+  * Open bracket.
+  */
+  BRACKET_OPEN: {
+    name: '[', char: '[', printable: true, description: 'Open bracket.',
+  },
+  /**
+  * Close bracket.
+  */
+  BRACKET_CLOSE: {
+    name: ']', char: ']', printable: true, description: 'Close bracket.',
+  },
+  /**
+  * Hyphen.
+  */
+  HYPHEN: {
+    name: '-', char: '-', printable: true, description: 'Hyphen.',
+  },
+  /**
+  * Underscore.
+  */
+  UNDERSCORE: {
+    name: '_', char: '_', printable: true, description: 'Underscore.',
+  },
+  /**
+  * +.
+  */
+  PLUS: {
+    name: '+', char: '+', printable: true, description: 'Plus.',
+  },
+  /**
+  * Equal.
+  */
+  EQUAL: {
+    name: '=', char: '=', printable: true, description: 'Equal.',
+  },
+  /**
+  * Forward slash.
+  */
+  SLASH: {
+    name: '/', char: '/', printable: true, description: 'Forward slash.',
+  },
+  /**
+  * Backslash.
+  */
+  BACKSLASH: {
+    name: '\\', char: '\\', printable: true, description: 'Backslash.',
+  },
+  /**
+  * Pipe.
+  */
+  PIPE: {
+    name: '|', char: '|', printable: true, description: 'Pipe.',
+  },
+  /**
+  * Comma.
+  */
+  COMMA: {
+    name: ',', char: ',', printable: true, description: 'Comma.',
+  },
+  /**
+  * Period.
+  */
+  PERIOD: {
+    name: '.', char: '.', printable: true, description: 'Period.',
+  },
+  /**
+  * Colon.
+  */
+  COLON: {
+    name: ':', char: ':', printable: true, description: 'Colon.',
+  },
+  /**
+  * Semicolon.
+  */
+  SEMICOLON: {
+    name: ';', char: ';', printable: true, description: 'Semicolon.',
+  },
+  /**
+  * Quotation mark.
+  */
+  QUOTE: {
+    name: '"', char: '"', printable: true, description: 'Quotation mark.',
+  },
+  /**
+  * Single quote.
+  */
+  SINGLE_QUOTE: {
+    name: '\'', char: '\'', printable: true, description: 'Single quote.',
+  },
+  /**
+  * Less than.
+  */
+  LESS_THAN: {
+    name: '<', char: '<', printable: true, description: 'Less than.',
+  },
+  /**
+  * Greater than.
+  */
+  GREATER_THAN: {
+    name: '>', char: '>', printable: true, description: 'Greater than.',
+  },
 };

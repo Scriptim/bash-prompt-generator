@@ -46,12 +46,7 @@ class EscapedPromptElement {
    */
   toString() {
     const escapeCodes = [];
-    const noDisplayElements = [
-      PromptElement.BELL,
-      PromptElement.NEWLINE,
-      PromptElement.CARRIAGE_RETURN,
-    ];
-    if (!noDisplayElements.includes(this.content)) {
+    if (this.content.printable) {
       escapeCodes.push(Ansi.RESET);
     }
     escapeCodes.push(...this.displayAttribs);
@@ -69,11 +64,12 @@ class EscapedPromptElement {
         escapeCodes.push(48, 5, this.bgColor.id);
       }
     }
-    let text = this.content.char.replace(/\\/g, '\\\\');
-    if (this.content === PromptElement.TEXT || this.content === PromptElement.DATE_FORMATTED) {
-      text = text.replace(/~/g, this.data);
-    } else {
-      text = `\\${text}`;
+    let text = this.content.char;
+    if (this.content.data !== undefined) {
+      text = text.replace(/~/g, this.data).replace(/\\/g, '\\\\');
+    }
+    if (this.content === PromptElement.COMMAND) {
+      text = `$(${text})`;
     }
     return `\\[\\e[${escapeCodes.join(';')}m\\]${text}`;
   }
