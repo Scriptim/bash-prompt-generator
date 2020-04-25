@@ -1,138 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Bash Prompt Generator</title>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Create a custom PS1 variable for your Bash">
-  <meta name="keywords" content="bash,ps1,prompt,shell,terminal,linux,gnu,tool">
+  <meta name="keywords" content="bash,bourneagainshell,shell,prompt,ps1-variable,linux,gnu,gnu-linux,website,tool,webtool,single-page-app,html,css,javascript">
   <meta name="author" content="Scriptim">
   <meta property="og:title" content="Bash Prompt Generator">
   <meta property="og:description" content="Create a custom PS1 variable for your Bash">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://scriptim.github.io/bash-prompt-generator/">
-  <meta property="og:image" content="https://scriptim.github.io/bash-prompt-generator/img/screenshot_terminal.jpg">
+  <meta property="og:image" content="https://scriptim.github.io/bash-prompt-generator/img/logo_og.png">
   <meta property="twitter:title" content="Bash Prompt Generator">
   <meta property="twitter:description" content="Create a custom PS1 variable for your Bash">
-  <meta property="twitter:image" content="https://scriptim.github.io/bash-prompt-generator/img/screenshot_terminal.jpg">
+  <meta property="twitter:image" content="https://scriptim.github.io/bash-prompt-generator/img/logo_twitter.png">
   <meta property="twitter:card" content="summary">
-  <link href="index.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" defer></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" defer></script>
-  <script src="index.js" defer></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/draggable/1.0.0-beta.9/sortable.min.js" integrity="sha256-8NfjKnbvSkwrP/ycwgcOr0Kj0n7kSQneZg/gWtF39aQ=" crossorigin="anonymous"></script>
+  <script src="js/enums.js" defer></script>
+  <script src="js/escaped_prompt_element.js" defer></script>
+  <script src="js/prompt.js" defer></script>
+  <script src="js/index.js" defer></script>
+
+  <title>Bash Prompt Generator</title>
 </head>
 
 <body>
   <header>
-    <h1>Bash Prompt Generator</h1>
+    <h1>$&nbsp;<span id="underscore">_</span>&nbsp;Bash Prompt Generator</h1>
+    <!--
+      The github corner element was adapted from <https://github.com/tholman/github-corners>.
+      MIT License: <https://github.com/tholman/github-corners/blob/master/license.md>
+    -->
+    <a href="https://github.com/Scriptim/bash-prompt-generator" aria-label="View on GitHub" title="View on GitHub" id="github-corner">
+      <svg width="100" height="100" viewbox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor"></path>
+      </svg>
+    </a>
   </header>
-  <div id="container">
-    <div id="elements">
-      <span data-description="The username of the current user">
-        Username
-      </span>
-      <span data-description="The hostname, up to the first ‘.’">
-        Hostname (short)
-      </span>
-      <span data-description="The hostname">
-        Hostname
-      </span>
-      <span data-description="The name of the shell, the basename of $0">
-        Shell Name
-      </span>
-      <span data-description="The version of Bash (e.g., 2.00)">
-        Bash Version
-      </span>
-      <span data-description="The release of Bash, version + patchlevel (e.g., 2.00.0)">
-        Bash Release
-      </span>
-      <span data-description="The basename of the shell’s terminal device name">
-        Terminal
-      </span>
-      <span data-description="The current working directory, with $HOME abbreviated with a tilde">
-        Working Directory
-      </span>
-      <span data-description="The basename of $PWD, with $HOME abbreviated with a tilde">
-        Working Directory (basename)
-      </span>
-      <span data-description="The date, in 'Weekday Month Date' format (e.g., 'Tue May 26'">
-        Date
-      </span>
-      <span data-description="The format is passed to strftime(3) and the result is inserted into the prompt string; an empty format results in a locale-specific
-      time representation">
-        Date (formatted)
-      </span>
-      <span data-description="The time, in 24-hour HH:MM:SS format">
-        Time (24h)
-      </span>
-      <span data-description="The time, in 12-hour HH:MM:SS format">
-        Time (12h)
-      </span>
-      <span data-description="The time, in 12-hour am/pm format">
-        Time (am/pm)
-      </span>
-      <span data-description="The time, in 24-hour HH:MM format">
-        Time (w/o seconds)
-      </span>
-      <span data-description="The return value of the previous command">
-        Exit Status
-      </span>
-      <span data-description="A newline">
-        New Line
-      </span>
-      <span data-description="A carriage return">
-        Carriage Return
-      </span>
-      <span data-description="If the effective uid is 0, #, otherwise $">
-        Prompt Sign
-      </span>
-      <span data-description="The history number of this command">
-        History Number
-      </span>
-      <span data-description="The command number of this command">
-        Command Number
-      </span>
-      <span data-description="Any text">
-        Custom Text
-      </span>
-      <span data-description="The output of function or a shell command">
-        Function/Command
-      </span>
+  <main>
+    <div id="flex1">
+      <h2>Prompt Elements</h2>
+      <p class="hint">Click on an element to add it to your prompt.</p>
     </div>
-    <div id="inputarea"></div>
-    <div id="properties"></div>
-  </div>
-  <div id="dialog-color">
-    <div id="dialog-color-container">
-      <span title="Black">0,0,0</span>
-      <span title="Dark gray">128,128,128</span>
-      <span title="Light gray">192,192,192</span>
-      <span title="White">255,255,255</span>
-      <span title="Red">255,0,0</span>
-      <span title="Light red">255,128,128</span>
-      <span title="Magenta">255,0,255</span>
-      <span title="Light magenta">255,128,255</span>
-      <span title="Blue">0,0,255</span>
-      <span title="Light blue">128,128,255</span>
-      <span title="Cyan">0,255,255</span>
-      <span title="Light cyan">128,255,255</span>
-      <span title="Green">0,255,0</span>
-      <span title="Light green">128,255,128</span>
-      <span title="Yellow">255,255,0</span>
-      <span title="Light yellow">255,255,128</span>
+    <div id="flex2">
+      <h2>Your Prompt</h2>
+      <p class="hint">Drag elements to reorder them or click on the cross to remove an element.</p>
+    </div>
+    <div id="flex3">
+      <h2>Properties</h2>
+      <p class="hint">Select an element of your prompt to edit its properties.</p>
+      <div id="properties">
+        <input type="text" id="properties-data" autocomplete="off">
+        <h3>Colors</h3>
+        <button type="button" id="properties-fg-color">Foreground Color</button>
+        <button type="button" id="properties-bg-color">Background Color</button>
+        <h3>Display Attributes</h3>
+        <label><input type="checkbox" name="properties-bold" id="properties-bold">Bold</label>
+        <label><input type="checkbox" name="properties-dim" id="properties-dim">Dim</label>
+        <label><input type="checkbox" name="properties-italic" id="properties-italic">Italic</label>
+        <label><input type="checkbox" name="properties-underline" id="properties-underline">Underline</label>
+        <label><input type="checkbox" name="properties-blink" id="properties-blink">Blink</label>
+        <label><input type="checkbox" name="properties-reverse" id="properties-reverse">Reverse</label>
+        <label><input type="checkbox" name="properties-overline" id="properties-overline">Overline</label>
+      </div>
+    </div>
+    <div id="flex4">
+      <h2>Output</h2>
+      <p class="hint">Add this line to your <code>~/.bashrc</code> file to permanently set your prompt.</p>
+      <!--
+        The "copy" svg icon was taken from <https://github.com/refactoringui/heroicons>.
+        MIT License: <https://github.com/refactoringui/heroicons/blob/master/LICENSE>
+      -->
+      <svg id="copy-output" fill="currentColor" viewbox="0 0 20 20"><title>Copy to clipboard</title><path d="M8 2a1 1 0 000 2h2a1 1 0 100-2H8z"></path><path d="M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z"></path></svg><br>
+      <span id="prompt-output">PS1=</span>
+    </div>
+  </main>
+  <div id="color-picker-wrapper">
+    <div id="color-picker">
+      <h3>Select a color</h3>
+      <div id="color-picker-unset" title="Unset color"></div>
+      <div id="color-picker-basic">
+        <div id="color-picker-0"></div>
+        <div id="color-picker-4"></div>
+        <div id="color-picker-8"></div>
+        <div id="color-picker-12"></div>
+      </div>
+      <div id="color-picker-greyscale">
+        <div id="color-picker-232"></div>
+        <div id="color-picker-236"></div>
+        <div id="color-picker-240"></div>
+        <div id="color-picker-244"></div>
+        <div id="color-picker-248"></div>
+        <div id="color-picker-252"></div>
+      </div>
+      <div id="color-picker-cubic">
+        <div id="color-picker-16"></div>
+        <div id="color-picker-52"></div>
+        <div id="color-picker-88"></div>
+        <div id="color-picker-124"></div>
+        <div id="color-picker-160"></div>
+        <div id="color-picker-196"></div>
+      </div>
     </div>
   </div>
-  <div id="output">
-    <div id="command">
-      <p></p>
-    </div>
-  </div>
-  <footer>
-    <a id="github" href="https://github.com/Scriptim/bash-prompt-generator" title="GitHub" target="_blank"><i class="fab fa-github"></i></a>
-    <small>For usage instructions click on the GitHub icon in the bottom left corner.</small>
-    <p>This program is licensed under the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a>.<br>The icons are part of the <a href="http://fortawesome.github.com/Font-Awesome/" target="_blank">FontAwesome</a> font (SLI License).</p>
-  </footer>
 </body>
 
 </html>
