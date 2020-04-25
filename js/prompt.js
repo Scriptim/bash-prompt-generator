@@ -57,7 +57,7 @@ class Prompt {
    * @memberof Prompt
    */
   moveElement(oldIndex, newIndex) {
-    const element = this.elements.splice(oldIndex, 1);
+    const element = this.elements.splice(oldIndex, 1)[0];
     this.elements.splice(newIndex, 0, element);
     this.updateCallback();
   }
