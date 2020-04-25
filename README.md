@@ -6,6 +6,12 @@
 
 Create a custom PS1 variable for your Bash.
 
+![Browser (Screenshot)](./img/screenshot_browser.png)
+
+### Example Prompt
+
+![Terminal (Screenshot)](./img/screenshot_terminal.png)
+
 ## See also
 
 - [GNU Bash Manual: Controlling the Prompt](https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html)
