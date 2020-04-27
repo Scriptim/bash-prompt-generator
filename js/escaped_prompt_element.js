@@ -66,7 +66,10 @@ class EscapedPromptElement {
     }
     let text = this.content.char;
     if (this.content.data !== undefined) {
-      text = text.replace(/~/g, this.data).replace(/\\/g, '\\\\');
+      text = text.replace(/~/g, this.data);
+      if (this.content === PromptElement.TEXT) {
+        text = text.replace(/\\/g, '\\\\');
+      }
     }
     if (this.content === PromptElement.COMMAND) {
       text = `$(${text})`;
