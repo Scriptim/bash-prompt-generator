@@ -113,14 +113,8 @@ span.element-selected > svg.remove-element {
   color: var(--color-light);
 }
 
-span.draggable-source--is-dragging {
+span.sortable-ghost {
   opacity: 0.4;
-}
-
-span.draggable-mirror {
-  -webkit-box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
-  -moz-box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
-  box-shadow: 0 0.5em 0.8em -0.2em rgba(0, 0, 0, 0.8);
 }
 
 #properties {

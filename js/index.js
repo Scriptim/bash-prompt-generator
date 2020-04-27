@@ -2,12 +2,8 @@
 
 const SHOW_HIDE_DURATION = 200;
 
-const flex1 = $('#flex1');
-const flex2 = $('#flex2');
-const promptOutput = $('#prompt-output');
-
 const prompt = new Prompt(() => {
-  promptOutput.html(prompt.toString());
+  $('#prompt-output').html(prompt.toString());
 });
 
 /**
@@ -87,9 +83,11 @@ function selectElementAndShowProperties(element) {
 }
 
 function addElementInputs() {
-  // eslint-disable-next-line no-new, new-cap
-  new Sortable.default(flex2.get(), { draggable: 'span.element-added' }).on('sortable:stop', (event) => {
-    prompt.moveElement(event.oldIndex, event.newIndex);
+  const addedElementsContainer = $('#added-elements-container');
+
+  Sortable.create(addedElementsContainer.get()[0], {
+    animation: 100,
+    onEnd: (event) => prompt.moveElement(event.oldIndex, event.newIndex),
   });
 
   Object.keys(PromptElement).forEach((key) => {
@@ -108,11 +106,11 @@ function addElementInputs() {
         elementAdded.fadeOut(SHOW_HIDE_DURATION, () => elementAdded.remove());
       });
       elementAdded.hide();
-      flex2.append(elementAdded);
+      addedElementsContainer.append(elementAdded);
       elementAdded.fadeIn(SHOW_HIDE_DURATION);
       prompt.appendElement(new EscapedPromptElement(PromptElement[key]));
     });
-    flex1.append(elementInput);
+    $('#flex1').append(elementInput);
   });
 }
 
