@@ -293,3 +293,16 @@ span.sortable-ghost {
     border-bottom: 4px dashed #dbdbdb;
   }
 }
+
+.preview-blink {
+  animation: blink 1s infinite;
+  opacity: 1;
+}
+
+@keyframes blink {
+  0%   { color: rgba(0, 0, 0, 0); }
+  47%  { color: rgba(0, 0, 0, 0); }
+  50%  { color: inherit }
+  97%  { color: inherit }
+  100% { color: rgba(0, 0, 0, 0); }
+}

@@ -78,8 +78,59 @@ class EscapedPromptElement {
   }
 
   toHTML() {
-    const el = $('<span>');
-    // @todo ??? escapeCodes.push(...this.displayAttribs);
+    const el = $('<span></span>');
+    let reverse = false;
+    let dim = false;
+    for (var attrib of this.displayAttribs) {
+      let tmpAttribute;
+      switch (attrib) {
+        case Ansi.BOLD:
+          el.css('font-weight', 'bold');
+          break;
+        case Ansi.DIM:
+          dim = true;
+          break;
+        case Ansi.ITALIC:
+          el.css('font-style', 'italic');
+          break;
+        case Ansi.UNDERLINE:
+          tmpAttribute = el.css('text-decoration');
+          tmpAttribute += ' underline';
+          el.css('text-decoration', tmpAttribute);
+          break;
+        case Ansi.BLINK:
+          el.addClass('preview-blink');
+          break;
+        case Ansi.REVERSE:
+          reverse = true;
+          break;
+        case Ansi.OVERLINE:
+          tmpAttribute = el.css('text-decoration');
+          tmpAttribute += ' overline';
+          el.css('text-decoration', tmpAttribute);
+          break;
+        // useless, style resets after each element
+        /*case Ansi.BOLD_DIM_OFF:
+          break;
+        case Ansi.ITALIC_OFF:
+          break;
+        case Ansi.UNDERLINE_OFF:
+          break;
+        case Ansi.BLINK_OFF:
+          break;
+        case Ansi.REVERSE_OFF:
+          break;
+        case Ansi.OVERLINE_OFF:
+          break;
+        case Ansi.DEFAULT_FG_COLOR:
+          break;
+        case Ansi.DEFAULT_BG_COLOR:
+          break;
+        case Ansi.RESET:*/
+        default:
+          break;
+      }
+    }
     if (this.fgColor !== undefined) {
       el.css('color', this.fgColor.hex);
     }
@@ -106,7 +157,17 @@ class EscapedPromptElement {
           break;
       }
     }
-    el.text(preview);
+    if (reverse) {
+      preview = preview.split('').reverse().join('');
+    }
+    if (dim) {
+      let child = $('<span></span>');
+      child.css('opacity', '75%');
+      child.text(preview);
+      el.html(child);
+    } else {
+      el.text(preview);
+    }
     return el;
   }
 }
