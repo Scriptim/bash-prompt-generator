@@ -76,4 +76,37 @@ class EscapedPromptElement {
     }
     return `\\[\\e[${escapeCodes.join(';')}m\\]${text}`;
   }
+
+  toHTML() {
+    const el = $('<span>');
+    // @todo ??? escapeCodes.push(...this.displayAttribs);
+    if (this.fgColor !== undefined) {
+      el.css('color', this.fgColor.hex);
+    }
+    if (this.bgColor !== undefined) {
+      el.css('background-color', this.bgColor.hex);
+    }
+    let preview = this.content.preview;
+    if (preview === undefined) {
+      switch (this.content) {
+        case PromptElement.DATE_FORMATTED:
+          if (this.data.length === 0) {
+            preview = '';
+          } else {
+            let timeString = this.data.replace(/%T/g, '%H:%M:%S');
+            preview = d3.timeFormat(timeString)(new Date);
+          }
+          break;
+        case PromptElement.COMMAND:
+          preview = '�C';
+          break;
+        case PromptElement.TEXT:
+        default:
+          preview = this.data;
+          break;
+      }
+    }
+    el.text(preview);
+    return el;
+  }
 }
