@@ -1513,7 +1513,7 @@ const PromptElement = {
   * Single quote.
   */
   SINGLE_QUOTE: {
-    name: '\'', char: '\'', printable: true, description: 'Single quote.', preview: '\"',
+    name: '\'', char: '\'', printable: true, description: 'Single quote.', preview: '\'',
   },
   /**
   * Less than.
