@@ -164,6 +164,8 @@ class EscapedPromptElement {
       let child = $('<span></span>');
       child.css('opacity', '75%');
       child.text(preview);
+      // inherit does not work
+      child.css('color', el.css('color'));
       el.html(child);
     } else {
       el.text(preview);
