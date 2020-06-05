@@ -1403,16 +1403,16 @@ const PromptElement = {
     name: '*', char: '*', printable: true, description: 'Asterisk.',
   },
   /**
-  * Open paranthesis.
+  * Open parenthesis.
   */
-  PARANTHESIS_OPEN: {
-    name: '(', char: '(', printable: true, description: 'Open paranthesis.',
+  PARENTHESIS_OPEN: {
+    name: '(', char: '(', printable: true, description: 'Open parenthesis.',
   },
   /**
-  * Close paranthesis.
+  * Close parenthesis.
   */
-  PARANTHESIS_CLOSE: {
-    name: ')', char: ')', printable: true, description: 'Close paranthesis.',
+  PARENTHESIS_CLOSE: {
+    name: ')', char: ')', printable: true, description: 'Close parenthesis.',
   },
   /**
   * Open curly bracket.
