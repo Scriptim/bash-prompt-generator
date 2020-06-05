@@ -129,7 +129,7 @@ class EscapedPromptElement {
       switch (this.content) {
         case PromptElement.DATE_FORMATTED:
           if (this.data.length === 0) {
-            preview = '';
+            preview = d3.timeFormat('%I:%M:%S %p')(new Date());
           } else {
             const timeString = this.data.replace(/%T/g, '%H:%M:%S');
             preview = d3.timeFormat(timeString)(new Date());
