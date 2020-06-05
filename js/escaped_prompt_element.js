@@ -81,6 +81,7 @@ class EscapedPromptElement {
     const el = $('<span></span>');
     let reverse = false;
     let dim = false;
+    let blink = false;
     this.displayAttribs.forEach((attrib) => {
       let tmpAttribute;
       switch (attrib) {
@@ -99,7 +100,7 @@ class EscapedPromptElement {
           el.css('text-decoration', tmpAttribute);
           break;
         case Ansi.BLINK:
-          el.addClass('preview-blink');
+          blink = true;
           break;
         case Ansi.REVERSE:
           reverse = true;
@@ -145,9 +146,14 @@ class EscapedPromptElement {
       // for elements that include time
       preview = preview();
     }
-    if (dim) {
+    if (dim || blink) {
       const child = $('<span></span>');
-      child.css('filter', 'brightness(75%)');
+      if (dim) {
+        child.css('filter', 'brightness(75%)');
+      }
+      if (blink) {
+        child.css('animation', 'preview-blink 1.2s infinite');
+      }
       child.text(preview);
       el.html(child);
     } else {

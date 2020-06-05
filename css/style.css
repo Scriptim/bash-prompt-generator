@@ -199,6 +199,13 @@ span.sortable-ghost {
   white-space: pre;
 }
 
+@keyframes preview-blink {
+  0% { opacity: 1; }
+  49% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
 #color-picker-wrapper {
   display: none;
   position: fixed;
@@ -292,17 +299,4 @@ span.sortable-ghost {
   #flex3 {
     border-bottom: 4px dashed #dbdbdb;
   }
-}
-
-.preview-blink {
-  animation: blink 1s infinite;
-  opacity: 1;
-}
-
-@keyframes blink {
-  0% { color: rgba(0, 0, 0, 0); }
-  47% { color: rgba(0, 0, 0, 0); }
-  50% { color: inherit; }
-  97% { color: inherit; }
-  100% { color: rgba(0, 0, 0, 0); }
 }
