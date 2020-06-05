@@ -178,6 +178,7 @@ span.sortable-ghost {
 #prompt-preview {
   display: inline-block;
   margin-top: 0.8em;
+  margin-bottom: 0.6em;
   padding: 1em;
   color: var(--color-light);
   background-color: var(--color-dark);
@@ -188,6 +189,7 @@ span.sortable-ghost {
 }
 
 #prompt-preview {
+  margin-top: 0;
   white-space: pre;
 }
 
