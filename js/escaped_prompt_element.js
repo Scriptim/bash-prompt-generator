@@ -114,10 +114,14 @@ class EscapedPromptElement {
       }
     });
     if (this.fgColor !== undefined) {
-      el.css('color', this.fgColor.hex);
+      el.css(reverse ? 'background-color' : 'color', this.fgColor.hex);
+    } else if (reverse) {
+      el.css('background-color', 'var(--color-light)');
     }
     if (this.bgColor !== undefined) {
-      el.css('background-color', this.bgColor.hex);
+      el.css(reverse ? 'color' : 'background-color', this.bgColor.hex);
+    } else if (reverse) {
+      el.css('color', 'var(--color-dark)');
     }
     let { preview } = this.content;
     if (preview === undefined) {
@@ -141,15 +145,10 @@ class EscapedPromptElement {
       // for elements that include time
       preview = preview();
     }
-    if (reverse) {
-      preview = preview.split('').reverse().join('');
-    }
     if (dim) {
       const child = $('<span></span>');
-      child.css('opacity', '75%');
+      child.css('filter', 'brightness(75%)');
       child.text(preview);
-      // inherit does not work
-      child.css('color', el.css('color'));
       el.html(child);
     } else {
       el.text(preview);
