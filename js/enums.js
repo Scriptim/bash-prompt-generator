@@ -1,3 +1,5 @@
+/* global d3 */
+
 /**
  * 8 bit color with ansi escape codes and name if color is also a 3/4 bit color
  * @typedef {Object<number, Object<string, number|string|Object<string, string>>>} Color
@@ -1173,7 +1175,7 @@ const PromptElement = {
    * The date, in "Weekday Month Date" format (e.g., "Tue May 26").
    */
   DATE: {
-    name: 'Date', char: '\\d', printable: true, description: 'The date, in "Weekday Month Date" format (e.g., "Tue May 26").', preview: d3.timeFormat('%a %b %d')(new Date),
+    name: 'Date', char: '\\d', printable: true, description: 'The date, in "Weekday Month Date" format (e.g., "Tue May 26").', preview: d3.timeFormat('%a %b %d')(new Date()),
   },
   /**
    * The format is passed to [strftime]{@link https://www.gnu.org/software/libc/manual/html_node/Formatting-Calendar-Time.html#index-strftime}
@@ -1187,25 +1189,25 @@ const PromptElement = {
    * The time, in 24-hour HH:MM:SS format.
    */
   TIME_24: {
-    name: 'Time (24-hour)', char: '\\t', printable: true, description: 'The time, in 24-hour HH:MM:SS format.', preview: d3.timeFormat('%H:%M:%S')(new Date) /* %T doesn't exist, %S counts up to 61... great lib, shut up and take my money! */,
+    name: 'Time (24-hour)', char: '\\t', printable: true, description: 'The time, in 24-hour HH:MM:SS format.', preview: d3.timeFormat('%H:%M:%S')(new Date()) /* %T doesn't exist, %S counts up to 61... great lib, shut up and take my money! */,
   },
   /**
    * The time, in 12-hour HH:MM:SS format.
    */
   TIME_12: {
-    name: 'Time (12-hour)', char: '\\T', printable: true, description: 'The time, in 12-hour HH:MM:SS format.', preview: d3.timeFormat('%I:%M:%S')(new Date),
+    name: 'Time (12-hour)', char: '\\T', printable: true, description: 'The time, in 12-hour HH:MM:SS format.', preview: d3.timeFormat('%I:%M:%S')(new Date()),
   },
   /**
    * The time, in 12-hour am/pm format.
    */
   TIME_AMPM: {
-    name: 'Time (am/pm)', char: '\\@', printable: true, description: 'The time, in 12-hour am/pm format.', preview: d3.timeFormat('%I:%M:%S%p')(new Date),
+    name: 'Time (am/pm)', char: '\\@', printable: true, description: 'The time, in 12-hour am/pm format.', preview: d3.timeFormat('%I:%M:%S%p')(new Date()),
   },
   /**
    * The time, in 24-hour HH:MM format.
    */
   TIME_NOSEC: {
-    name: 'Time (without seconds)', char: '\\A', printable: true, description: 'The time, in 24-hour HH:MM format.', preview: d3.timeFormat('%H:%M')(new Date),
+    name: 'Time (without seconds)', char: '\\A', printable: true, description: 'The time, in 24-hour HH:MM format.', preview: d3.timeFormat('%H:%M')(new Date()),
   },
   /**
    * The username of the current user.

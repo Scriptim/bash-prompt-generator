@@ -300,9 +300,9 @@ span.sortable-ghost {
 }
 
 @keyframes blink {
-  0%   { color: rgba(0, 0, 0, 0); }
-  47%  { color: rgba(0, 0, 0, 0); }
-  50%  { color: inherit }
-  97%  { color: inherit }
+  0% { color: rgba(0, 0, 0, 0); }
+  47% { color: rgba(0, 0, 0, 0); }
+  50% { color: inherit; }
+  97% { color: inherit; }
   100% { color: rgba(0, 0, 0, 0); }
 }

@@ -1,4 +1,4 @@
-/* global Ansi, PromptElement */
+/* global $, d3, Ansi, PromptElement */
 
 /**
  * A single element of a prompt with colors and display attributes.
@@ -81,7 +81,7 @@ class EscapedPromptElement {
     const el = $('<span></span>');
     let reverse = false;
     let dim = false;
-    for (var attrib of this.displayAttribs) {
+    this.displayAttribs.forEach((attrib) => {
       let tmpAttribute;
       switch (attrib) {
         case Ansi.BOLD:
@@ -109,8 +109,8 @@ class EscapedPromptElement {
           tmpAttribute += ' overline';
           el.css('text-decoration', tmpAttribute);
           break;
-        // useless, style resets after each element
-        /*case Ansi.BOLD_DIM_OFF:
+        /* useless, style resets after each element
+        case Ansi.BOLD_DIM_OFF:
           break;
         case Ansi.ITALIC_OFF:
           break;
@@ -126,26 +126,26 @@ class EscapedPromptElement {
           break;
         case Ansi.DEFAULT_BG_COLOR:
           break;
-        case Ansi.RESET:*/
+        case Ansi.RESET: */
         default:
           break;
       }
-    }
+    });
     if (this.fgColor !== undefined) {
       el.css('color', this.fgColor.hex);
     }
     if (this.bgColor !== undefined) {
       el.css('background-color', this.bgColor.hex);
     }
-    let preview = this.content.preview;
+    let { preview } = this.content;
     if (preview === undefined) {
       switch (this.content) {
         case PromptElement.DATE_FORMATTED:
           if (this.data.length === 0) {
             preview = '';
           } else {
-            let timeString = this.data.replace(/%T/g, '%H:%M:%S');
-            preview = d3.timeFormat(timeString)(new Date);
+            const timeString = this.data.replace(/%T/g, '%H:%M:%S');
+            preview = d3.timeFormat(timeString)(new Date());
           }
           break;
         case PromptElement.COMMAND:
@@ -161,7 +161,7 @@ class EscapedPromptElement {
       preview = preview.split('').reverse().join('');
     }
     if (dim) {
-      let child = $('<span></span>');
+      const child = $('<span></span>');
       child.css('opacity', '75%');
       child.text(preview);
       // inherit does not work
