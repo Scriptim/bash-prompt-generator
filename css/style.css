@@ -174,7 +174,8 @@ span.sortable-ghost {
   color: var(--color-button-alt);
 }
 
-#prompt-output {
+#prompt-output,
+#prompt-preview {
   display: inline-block;
   margin-top: 0.8em;
   padding: 1em;
@@ -187,15 +188,6 @@ span.sortable-ghost {
 }
 
 #prompt-preview {
-  display: inline-block;
-  margin-top: 0.8em;
-  padding: 1em;
-  color: var(--color-light);
-  background-color: var(--color-dark);
-  font-family: 'Roboto Mono', 'Noto Sans Mono', monospace;
-  line-height: 1.5;
-  min-height: 1.5em;
-  word-break: break-all;
   white-space: pre;
 }
 
