@@ -161,11 +161,15 @@ span.sortable-ghost {
   vertical-align: middle;
 }
 
+#flex4 > p.hint {
+  display: inline-block;
+}
+
 #copy-output {
   height: 2em;
-  margin-right: 0.2em;
+  margin-left: 0.4em;
   color: var(--color-button);
-  vertical-align: middle;
+  vertical-align: top;
   cursor: pointer;
   transition: color 0.2s ease;
 }
@@ -177,7 +181,6 @@ span.sortable-ghost {
 #prompt-output,
 #prompt-preview {
   display: inline-block;
-  margin-top: 0.8em;
   margin-bottom: 0.6em;
   padding: 1em;
   color: var(--color-light);
@@ -189,7 +192,6 @@ span.sortable-ghost {
 }
 
 #prompt-preview {
-  margin-top: 0;
   white-space: pre;
 }
 
