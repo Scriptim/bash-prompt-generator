@@ -1189,7 +1189,7 @@ const PromptElement = {
    * The time, in 24-hour HH:MM:SS format.
    */
   TIME_24: {
-    name: 'Time (24-hour)', char: '\\t', printable: true, description: 'The time, in 24-hour HH:MM:SS format.', preview: d3.timeFormat('%H:%M:%S')(new Date()) /* %T doesn't exist, %S counts up to 61... great lib, shut up and take my money! */,
+    name: 'Time (24-hour)', char: '\\t', printable: true, description: 'The time, in 24-hour HH:MM:SS format.', preview: d3.timeFormat('%H:%M:%S')(new Date()),
   },
   /**
    * The time, in 12-hour HH:MM:SS format.

@@ -109,24 +109,6 @@ class EscapedPromptElement {
           tmpAttribute += ' overline';
           el.css('text-decoration', tmpAttribute);
           break;
-        /* useless, style resets after each element
-        case Ansi.BOLD_DIM_OFF:
-          break;
-        case Ansi.ITALIC_OFF:
-          break;
-        case Ansi.UNDERLINE_OFF:
-          break;
-        case Ansi.BLINK_OFF:
-          break;
-        case Ansi.REVERSE_OFF:
-          break;
-        case Ansi.OVERLINE_OFF:
-          break;
-        case Ansi.DEFAULT_FG_COLOR:
-          break;
-        case Ansi.DEFAULT_BG_COLOR:
-          break;
-        case Ansi.RESET: */
         default:
           break;
       }
