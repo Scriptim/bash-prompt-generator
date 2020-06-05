@@ -130,14 +130,16 @@ class EscapedPromptElement {
             preview = d3.timeFormat(timeString)(new Date());
           }
           break;
-        case PromptElement.COMMAND:
-          preview = '�C';
-          break;
         case PromptElement.TEXT:
-        default:
           preview = this.data;
           break;
+        default:
+          preview = this.content.char;
+          break;
       }
+    } else if (typeof preview === 'function') {
+      // for elements that include time
+      preview = preview();
     }
     if (reverse) {
       preview = preview.split('').reverse().join('');

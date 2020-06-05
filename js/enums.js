@@ -1175,7 +1175,7 @@ const PromptElement = {
    * The date, in "Weekday Month Date" format (e.g., "Tue May 26").
    */
   DATE: {
-    name: 'Date', char: '\\d', printable: true, description: 'The date, in "Weekday Month Date" format (e.g., "Tue May 26").', preview: d3.timeFormat('%a %b %d')(new Date()),
+    name: 'Date', char: '\\d', printable: true, description: 'The date, in "Weekday Month Date" format (e.g., "Tue May 26").', preview: () => d3.timeFormat('%a %b %d')(new Date()),
   },
   /**
    * The format is passed to [strftime]{@link https://www.gnu.org/software/libc/manual/html_node/Formatting-Calendar-Time.html#index-strftime}
@@ -1183,62 +1183,62 @@ const PromptElement = {
    * time representation.
    */
   DATE_FORMATTED: {
-    name: 'Date (formatted)', char: '\\D{~}', data: 'Date format', printable: true, description: 'The format is passed to strftime(3) and the result is inserted into the prompt string; an empty format results in a locale-specific time representation.', preview: undefined,
+    name: 'Date (formatted)', char: '\\D{~}', data: 'Date format', printable: true, description: 'The format is passed to strftime(3) and the result is inserted into the prompt string; an empty format results in a locale-specific time representation.',
   },
   /**
    * The time, in 24-hour HH:MM:SS format.
    */
   TIME_24: {
-    name: 'Time (24-hour)', char: '\\t', printable: true, description: 'The time, in 24-hour HH:MM:SS format.', preview: d3.timeFormat('%H:%M:%S')(new Date()),
+    name: 'Time (24-hour)', char: '\\t', printable: true, description: 'The time, in 24-hour HH:MM:SS format.', preview: () => d3.timeFormat('%H:%M:%S')(new Date()),
   },
   /**
    * The time, in 12-hour HH:MM:SS format.
    */
   TIME_12: {
-    name: 'Time (12-hour)', char: '\\T', printable: true, description: 'The time, in 12-hour HH:MM:SS format.', preview: d3.timeFormat('%I:%M:%S')(new Date()),
+    name: 'Time (12-hour)', char: '\\T', printable: true, description: 'The time, in 12-hour HH:MM:SS format.', preview: () => d3.timeFormat('%I:%M:%S')(new Date()),
   },
   /**
    * The time, in 12-hour am/pm format.
    */
   TIME_AMPM: {
-    name: 'Time (am/pm)', char: '\\@', printable: true, description: 'The time, in 12-hour am/pm format.', preview: d3.timeFormat('%I:%M:%S%p')(new Date()),
+    name: 'Time (am/pm)', char: '\\@', printable: true, description: 'The time, in 12-hour am/pm format.', preview: () => d3.timeFormat('%I:%M %p')(new Date()),
   },
   /**
    * The time, in 24-hour HH:MM format.
    */
   TIME_NOSEC: {
-    name: 'Time (without seconds)', char: '\\A', printable: true, description: 'The time, in 24-hour HH:MM format.', preview: d3.timeFormat('%H:%M')(new Date()),
+    name: 'Time (without seconds)', char: '\\A', printable: true, description: 'The time, in 24-hour HH:MM format.', preview: () => d3.timeFormat('%H:%M')(new Date()),
   },
   /**
    * The username of the current user.
    */
   USERNAME: {
-    name: 'Username', char: '\\u', printable: true, description: 'The username of the current user.', preview: 'scriptim',
+    name: 'Username', char: '\\u', printable: true, description: 'The username of the current user.', preview: 'username',
   },
   /**
    * The hostname, up to the first ‘.’.
    */
   HOSTNAME_SHORT: {
-    name: 'Hostname (short)', char: '\\h', printable: true, description: 'The hostname, up to the first ‘.’.', preview: 'github',
+    name: 'Hostname (short)', char: '\\h', printable: true, description: 'The hostname, up to the first ‘.’.', preview: 'hostname',
   },
   /**
    * The hostname.
    */
   HOSTNAME: {
-    name: 'Hostname', char: '\\H', printable: true, description: 'The hostname.', preview: 'github.com',
+    name: 'Hostname', char: '\\H', printable: true, description: 'The hostname.', preview: 'hostname.com',
   },
   /**
    * The current working directory, with $HOME abbreviated with a tilde (uses the $PROMPT_DIRTRIM
    * variable).
    */
   WORKING_DIR: {
-    name: 'Working Directory', char: '\\w', printable: true, description: 'The current working directory, with $HOME abbreviated with a tilde (uses the $PROMPT_DIRTRIM variable).', preview: '~/Documents',
+    name: 'Working Directory', char: '\\w', printable: true, description: 'The current working directory, with $HOME abbreviated with a tilde (uses the $PROMPT_DIRTRIM variable).', preview: '~/bin',
   },
   /**
    * The basename of $PWD, with $HOME abbreviated with a tilde.
    */
   WORKING_DIR_BASENAME: {
-    name: 'Working Directory (Basename)', char: '\\W', printable: true, description: 'The basename of $PWD, with $HOME abbreviated with a tilde.', preview: 'Documents',
+    name: 'Working Directory (Basename)', char: '\\W', printable: true, description: 'The basename of $PWD, with $HOME abbreviated with a tilde.', preview: 'bin',
   },
   /**
    * A newline.
@@ -1256,7 +1256,7 @@ const PromptElement = {
    * A bell character.
    */
   BELL: {
-    name: 'Bell', char: '\\a', printable: false, description: 'A bell character.',
+    name: 'Bell', char: '\\a', printable: false, description: 'A bell character.', preview: '',
   },
   /**
    * The basename of the shell’s terminal device name.
@@ -1274,13 +1274,13 @@ const PromptElement = {
    * The version of Bash (e.g., 2.00)
    */
   BASH_VERSION: {
-    name: 'Bash Version', char: '\\v', printable: true, description: 'The version of Bash (e.g., 2.00)', preview: '2.0.0',
+    name: 'Bash Version', char: '\\v', printable: true, description: 'The version of Bash (e.g., 2.00)', preview: '5.0',
   },
   /**
    * The release of Bash, version + patchlevel (e.g., 2.00.0)
    */
   BASH_RELEASE: {
-    name: 'Bash Release', char: '\\V', printable: true, description: 'The release of Bash, version + patchlevel (e.g., 2.00.0)', preview: '2.00.0',
+    name: 'Bash Release', char: '\\V', printable: true, description: 'The release of Bash, version + patchlevel (e.g., 2.00.0)', preview: '5.0.0',
   },
   /**
    * The history number of this command.
@@ -1298,7 +1298,7 @@ const PromptElement = {
    * The number of jobs currently managed by the shell.
    */
   JOBS: {
-    name: 'Jobs', char: '\\j', printable: true, description: 'The number of jobs currently managed by the shell.', preview: '0',
+    name: 'Jobs', char: '\\j', printable: true, description: 'The number of jobs currently managed by the shell.', preview: '2',
   },
   /**
    * If the effective uid is 0, #, otherwise $.
@@ -1322,210 +1322,210 @@ const PromptElement = {
    * Private IP address.
    */
   IP_ADDRESS: {
-    name: 'IP Address', char: '$(ip route get 1.1.1.1 | awk -F"src " \'NR==1{split($2,a," ");print a[1]}\')', printable: true, description: 'Private IP address.', preview: '192.168.0.8',
+    name: 'IP Address', char: '$(ip route get 1.1.1.1 | awk -F"src " \'NR==1{split($2,a," ");print a[1]}\')', printable: true, description: 'Private IP address.', preview: '192.168.1.100',
   },
   /**
   * A custom command.
   */
   COMMAND: {
-    name: 'Command', char: '~', data: 'Command', printable: true, description: 'A custom command.', preview: undefined,
+    name: 'Command', char: '~', data: 'Command', printable: true, description: 'A custom command.', preview: 'example command output',
   },
   /**
   * A custom text.
   */
   TEXT: {
-    name: 'Text', char: '~', data: 'Text', printable: true, description: 'A custom text.', preview: undefined,
+    name: 'Text', char: '~', data: 'Text', printable: true, description: 'A custom text.',
   },
   /**
   * Space.
   */
   SPACE: {
-    name: '␣', char: ' ', data: 'Text', printable: false, description: 'Space.', preview: ' ',
+    name: '␣', char: ' ', data: 'Text', printable: false, description: 'Space.',
   },
   /**
   * Tilde.
   */
   TILDE: {
-    name: '~', char: '~', printable: true, description: 'Tilde.', preview: '~',
+    name: '~', char: '~', printable: true, description: 'Tilde.',
   },
   /**
   * Exclamation mark.
   */
   BANG: {
-    name: '!', char: '!', printable: true, description: 'Exclamation mark.', preview: '!',
+    name: '!', char: '!', printable: true, description: 'Exclamation mark.',
   },
   /**
   * Question mark.
   */
   QUESTION_MARK: {
-    name: '?', char: '?', printable: true, description: 'Question mark.', preview: '?',
+    name: '?', char: '?', printable: true, description: 'Question mark.',
   },
   /**
   * Ampersat.
   */
   AMPERSAT: {
-    name: '@', char: '@', printable: true, description: 'Ampersat.', preview: '@',
+    name: '@', char: '@', printable: true, description: 'Ampersat.',
   },
   /**
   * Hash.
   */
   HASH: {
-    name: '#', char: '#', printable: true, description: 'Hash.', preview: '#',
+    name: '#', char: '#', printable: true, description: 'Hash.',
   },
   /**
   * Dollar sign.
   */
   DOLLAR: {
-    name: '$', char: '$', printable: true, description: 'Dollar sign.', preview: '$',
+    name: '$', char: '$', printable: true, description: 'Dollar sign.',
   },
   /**
   * Percent.
   */
   PERCENT: {
-    name: '%', char: '%', printable: true, description: 'Percent.', preview: '%',
+    name: '%', char: '%', printable: true, description: 'Percent.',
   },
   /**
   * Caret.
   */
   CARET: {
-    name: '^', char: '^', printable: true, description: 'Caret.', preview: '^',
+    name: '^', char: '^', printable: true, description: 'Caret.',
   },
   /**
   * Ampersand.
   */
   AMPERSAND: {
-    name: '&amp;', char: '&', printable: true, description: 'Ampersand.', preview: '&amp;',
+    name: '&amp;', char: '&', printable: true, description: 'Ampersand.',
   },
   /**
   * .
   */
   ASTERISK: {
-    name: '*', char: '*', printable: true, description: 'Asterisk.', preview: '*',
+    name: '*', char: '*', printable: true, description: 'Asterisk.',
   },
   /**
   * Open paranthesis.
   */
   PARANTHESIS_OPEN: {
-    name: '(', char: '(', printable: true, description: 'Open paranthesis.', preview: '(',
+    name: '(', char: '(', printable: true, description: 'Open paranthesis.',
   },
   /**
   * Close paranthesis.
   */
   PARANTHESIS_CLOSE: {
-    name: ')', char: ')', printable: true, description: 'Close paranthesis.', preview: ')',
+    name: ')', char: ')', printable: true, description: 'Close paranthesis.',
   },
   /**
   * Open curly bracket.
   */
   CURLY_BRACKET_OPEN: {
-    name: '{', char: '{', printable: true, description: 'Open curly bracket.', preview: '{',
+    name: '{', char: '{', printable: true, description: 'Open curly bracket.',
   },
   /**
   * Close curly bracket.
   */
   CURLY_BRACKET_CLOSE: {
-    name: '}', char: '}', printable: true, description: 'Close curly bracket.', preview: '}',
+    name: '}', char: '}', printable: true, description: 'Close curly bracket.',
   },
   /**
   * Open bracket.
   */
   BRACKET_OPEN: {
-    name: '[', char: '[', printable: true, description: 'Open bracket.', preview: '[',
+    name: '[', char: '[', printable: true, description: 'Open bracket.',
   },
   /**
   * Close bracket.
   */
   BRACKET_CLOSE: {
-    name: ']', char: ']', printable: true, description: 'Close bracket.', preview: ']',
+    name: ']', char: ']', printable: true, description: 'Close bracket.',
   },
   /**
   * Hyphen.
   */
   HYPHEN: {
-    name: '-', char: '-', printable: true, description: 'Hyphen.', preview: '-',
+    name: '-', char: '-', printable: true, description: 'Hyphen.',
   },
   /**
   * Underscore.
   */
   UNDERSCORE: {
-    name: '_', char: '_', printable: true, description: 'Underscore.', preview: '_',
+    name: '_', char: '_', printable: true, description: 'Underscore.',
   },
   /**
   * +.
   */
   PLUS: {
-    name: '+', char: '+', printable: true, description: 'Plus.', preview: '+',
+    name: '+', char: '+', printable: true, description: 'Plus.',
   },
   /**
   * Equal.
   */
   EQUAL: {
-    name: '=', char: '=', printable: true, description: 'Equal.', preview: '=',
+    name: '=', char: '=', printable: true, description: 'Equal.',
   },
   /**
   * Forward slash.
   */
   SLASH: {
-    name: '/', char: '/', printable: true, description: 'Forward slash.', preview: '/',
+    name: '/', char: '/', printable: true, description: 'Forward slash.',
   },
   /**
   * Backslash.
   */
   BACKSLASH: {
-    name: '\\', char: '\\', printable: true, description: 'Backslash.', preview: '\\',
+    name: '\\', char: '\\', printable: true, description: 'Backslash.',
   },
   /**
   * Pipe.
   */
   PIPE: {
-    name: '|', char: '|', printable: true, description: 'Pipe.', preview: '|',
+    name: '|', char: '|', printable: true, description: 'Pipe.',
   },
   /**
   * Comma.
   */
   COMMA: {
-    name: ',', char: ',', printable: true, description: 'Comma.', preview: ',',
+    name: ',', char: ',', printable: true, description: 'Comma.',
   },
   /**
   * Period.
   */
   PERIOD: {
-    name: '.', char: '.', printable: true, description: 'Period.', preview: '.',
+    name: '.', char: '.', printable: true, description: 'Period.',
   },
   /**
   * Colon.
   */
   COLON: {
-    name: ':', char: ':', printable: true, description: 'Colon.', preview: ':',
+    name: ':', char: ':', printable: true, description: 'Colon.',
   },
   /**
   * Semicolon.
   */
   SEMICOLON: {
-    name: ';', char: ';', printable: true, description: 'Semicolon.', preview: ';',
+    name: ';', char: ';', printable: true, description: 'Semicolon.',
   },
   /**
   * Quotation mark.
   */
   QUOTE: {
-    name: '"', char: '"', printable: true, description: 'Quotation mark.', preview: '"',
+    name: '"', char: '"', printable: true, description: 'Quotation mark.',
   },
   /**
   * Single quote.
   */
   SINGLE_QUOTE: {
-    name: '\'', char: '\'', printable: true, description: 'Single quote.', preview: '\'',
+    name: '\'', char: '\'', printable: true, description: 'Single quote',
   },
   /**
   * Less than.
   */
   LESS_THAN: {
-    name: '<', char: '<', printable: true, description: 'Less than.', preview: '<',
+    name: '<', char: '<', printable: true, description: 'Less than.',
   },
   /**
   * Greater than.
   */
   GREATER_THAN: {
-    name: '>', char: '>', printable: true, description: 'Greater than.', preview: '>',
+    name: '>', char: '>', printable: true, description: 'Greater than.',
   },
 };
