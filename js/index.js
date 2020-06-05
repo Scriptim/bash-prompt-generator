@@ -1,9 +1,12 @@
 /* global $, Sortable, Ansi, Color, PromptElement, Prompt, EscapedPromptElement */
 
+/* Fade in/ out animation duration */
 const SHOW_HIDE_DURATION = 200;
 
+/* Creates a new Interface for the prompt */
 const prompt = new Prompt(() => {
   $('#prompt-output').html(prompt.toString());
+  $('#prompt-preview').html(prompt.toHTML());
 });
 
 /**
@@ -40,6 +43,12 @@ function updateColorSettingsElements(promptElement) {
   });
 }
 
+/**
+ * Displays properties section of an element and marks it as selected.
+ * Fills out each available value.
+ * 
+ * @param {HTMLSpanElement} element The element to open the properties for.
+ */
 function selectElementAndShowProperties(element) {
   const selected = !element.hasClass('element-selected');
   $('.element-selected').removeClass('element-selected');
@@ -82,6 +91,7 @@ function selectElementAndShowProperties(element) {
   $('#properties').fadeIn(SHOW_HIDE_DURATION);
 }
 
+/** Adds all available elements. */
 function addElementInputs() {
   const addedElementsContainer = $('#added-elements-container');
 
@@ -90,14 +100,18 @@ function addElementInputs() {
     onEnd: (event) => prompt.moveElement(event.oldIndex, event.newIndex),
   });
 
+  // Iterate through all available elements and add them to the available prompts section.
   Object.keys(PromptElement).forEach((key) => {
     const el = PromptElement[key];
     const elementInput = $(`<span class="element-input" title="${el.description}" data-key="${key}"><span>${el.name}</span></span>`);
+    // Add eventlistener (to the available prompt element) to add the element to the selected prompt section.
     elementInput.click(() => {
       const removeElement = $('<!--\n  The "x" svg icon was taken from <https://github.com/refactoringui/heroicons>.\n  MIT License: <https://github.com/refactoringui/heroicons/blob/master/LICENSE>\n--><svg class="remove-element" title="Remove" fill="currentColor" viewbox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>');
       const elementAdded = $(`<span class="element-added" title="${el.description}" data-key="${key}"><span>${el.name}</span></span>`);
       elementAdded.append(removeElement);
+      // Add eventlistener (to the selected prompt element) to display its properties in the properties section.
       elementAdded.click(() => selectElementAndShowProperties(elementAdded));
+      // Add eventlistener (to the X) to remove the element from the selected prompt section.
       removeElement.click(() => {
         prompt.removeElement($('span.element-added').index(elementAdded));
         if (elementAdded.hasClass('element-selected')) {
@@ -114,6 +128,7 @@ function addElementInputs() {
   });
 }
 
+/** Initiate the colo picker in the properties section */
 function initColorPicker() {
   const colorPicker = $('#color-picker');
 
@@ -143,6 +158,7 @@ function initColorPicker() {
   });
 }
 
+/** Eventlistener to copy the prompt to clipboard. */
 function setCopyOutputHandler() {
   $('#copy-output').click(() => navigator.clipboard.writeText($('#prompt-output').text()));
 }

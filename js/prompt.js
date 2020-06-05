@@ -65,4 +65,8 @@ class Prompt {
   toString() {
     return `PS1='${this.elements.map((el) => el.toString()).join('').replace(/'/g, '\'"\'"\'')}\\[\\e${Ansi.RESET}'`;
   }
+
+  toHTML() {
+    return this.elements.map((el) => el.toHTML());
+  }
 }
