@@ -173,6 +173,7 @@ function setClearPromptHandler() {
     prompt.elements = [];
     prompt.updateCallback();
     $('#added-elements-container').empty();
+    $('#properties').fadeOut(SHOW_HIDE_DURATION);
     $('#prompt-output').text('PS1=');
   });
 }
