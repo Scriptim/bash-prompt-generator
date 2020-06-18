@@ -5,6 +5,11 @@ const SHOW_HIDE_DURATION = 200;
 const prompt = new Prompt(() => {
   $('#prompt-output').html(prompt.toString());
   $('#prompt-preview').html(prompt.toHTML());
+  if (prompt.elements.length === 0) {
+    localStorage.removeItem('prompt');
+  } else {
+    localStorage.setItem('prompt', JSON.stringify(prompt.elements));
+  }
 });
 
 /**
@@ -83,10 +88,26 @@ function selectElementAndShowProperties(element) {
   $('#properties').fadeIn(SHOW_HIDE_DURATION);
 }
 
-function addElementInputs() {
-  const addedElementsContainer = $('#added-elements-container');
+function addPromptElement(key) {
+  const el = PromptElement[key];
+  const removeElement = $('<!--\n  The "x" svg icon was taken from <https://github.com/refactoringui/heroicons>.\n  MIT License: <https://github.com/refactoringui/heroicons/blob/master/LICENSE>\n--><svg class="remove-element" title="Remove" fill="currentColor" viewbox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>');
+  const elementAdded = $(`<span class="element-added" title="${el.description}" data-key="${key}"><span>${el.name}</span></span>`);
+  elementAdded.append(removeElement);
+  elementAdded.click(() => selectElementAndShowProperties(elementAdded));
+  removeElement.click(() => {
+    prompt.removeElement($('span.element-added').index(elementAdded));
+    if (elementAdded.hasClass('element-selected')) {
+      $('#properties').fadeOut(SHOW_HIDE_DURATION);
+    }
+    elementAdded.fadeOut(SHOW_HIDE_DURATION, () => elementAdded.remove());
+  });
+  elementAdded.hide();
+  $('#added-elements-container').append(elementAdded);
+  elementAdded.fadeIn(SHOW_HIDE_DURATION);
+}
 
-  Sortable.create(addedElementsContainer.get()[0], {
+function addElementInputs() {
+  Sortable.create($('#added-elements-container').get()[0], {
     animation: 100,
     onEnd: (event) => prompt.moveElement(event.oldIndex, event.newIndex),
   });
@@ -95,24 +116,27 @@ function addElementInputs() {
     const el = PromptElement[key];
     const elementInput = $(`<span class="element-input" title="${el.description.replace(/"/g, '&quot;')}" data-key="${key}"><span>${el.name}</span></span>`);
     elementInput.click(() => {
-      const removeElement = $('<!--\n  The "x" svg icon was taken from <https://github.com/refactoringui/heroicons>.\n  MIT License: <https://github.com/refactoringui/heroicons/blob/master/LICENSE>\n--><svg class="remove-element" title="Remove" fill="currentColor" viewbox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>');
-      const elementAdded = $(`<span class="element-added" title="${el.description}" data-key="${key}"><span>${el.name}</span></span>`);
-      elementAdded.append(removeElement);
-      elementAdded.click(() => selectElementAndShowProperties(elementAdded));
-      removeElement.click(() => {
-        prompt.removeElement($('span.element-added').index(elementAdded));
-        if (elementAdded.hasClass('element-selected')) {
-          $('#properties').fadeOut(SHOW_HIDE_DURATION);
-        }
-        elementAdded.fadeOut(SHOW_HIDE_DURATION, () => elementAdded.remove());
-      });
-      elementAdded.hide();
-      addedElementsContainer.append(elementAdded);
-      elementAdded.fadeIn(SHOW_HIDE_DURATION);
+      addPromptElement(key);
       prompt.appendElement(new EscapedPromptElement(PromptElement[key]));
     });
     $('#flex1').append(elementInput);
   });
+}
+
+function loadPromptFromLocalStorage() {
+  const storedElements = localStorage.getItem('prompt');
+  if (storedElements) {
+    const elementKeys = Object.keys(PromptElement);
+    prompt.elements = JSON.parse(storedElements).map((element) => {
+      const escapedPromptElement = new EscapedPromptElement();
+      Object.assign(escapedPromptElement, element);
+      addPromptElement(elementKeys.find(((key) => {
+        return PromptElement[key].name === escapedPromptElement.content.name;
+      })));
+      return escapedPromptElement;
+    });
+    prompt.updateCallback();
+  }
 }
 
 function initColorPicker() {
@@ -159,6 +183,7 @@ function setCopyOutputHandler() {
 
 window.onload = () => {
   addElementInputs();
+  loadPromptFromLocalStorage();
   initColorPicker();
   setClearPromptHandler();
   setCopyOutputHandler();
