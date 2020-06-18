@@ -82,6 +82,10 @@ p.hint code {
   outline: none;
 }
 
+#flex2 > h2 {
+  display: inline-block;
+}
+
 span.element-input,
 span.element-added {
   display: inline-flex;
@@ -165,15 +169,24 @@ span.sortable-ghost {
   display: inline-block;
 }
 
+#clear-prompt {
+  vertical-align: bottom;
+}
+
+#copy-output {
+  vertical-align: top;
+}
+
+#clear-prompt,
 #copy-output {
   height: 2em;
   margin-left: 0.4em;
   color: var(--color-button);
-  vertical-align: top;
   cursor: pointer;
   transition: color 0.2s ease;
 }
 
+#clear-prompt:hover,
 #copy-output:hover {
   color: var(--color-button-alt);
 }

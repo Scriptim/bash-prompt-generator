@@ -144,6 +144,15 @@ function initColorPicker() {
   });
 }
 
+function setClearPromptHandler() {
+  $('#clear-prompt').click(() => {
+    prompt.elements = [];
+    prompt.updateCallback();
+    $('#added-elements-container').empty();
+    $('#prompt-output').text('PS1=');
+  });
+}
+
 function setCopyOutputHandler() {
   $('#copy-output').click(() => navigator.clipboard.writeText($('#prompt-output').text()));
 }
@@ -151,5 +160,6 @@ function setCopyOutputHandler() {
 window.onload = () => {
   addElementInputs();
   initColorPicker();
+  setClearPromptHandler();
   setCopyOutputHandler();
 };
