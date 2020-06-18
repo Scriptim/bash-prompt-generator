@@ -1,8 +1,8 @@
 # [Bash Prompt Generator](https://scriptim.github.io/bash-prompt-generator)
 
-![GitHub](https://img.shields.io/github/license/Scriptim/bash-prompt-generator)
-![GitHub stars](https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social)
-![GitHub forks](https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social)
+[![License](https://img.shields.io/github/license/Scriptim/bash-prompt-generator)](./LICENSE "License")
+[![GitHub stars](https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/stargazers "GitHub stars")
+[![GitHub forks](https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/fork "Fork GitHub repo")
 
 Create a custom PS1 variable for your Bash.
 
