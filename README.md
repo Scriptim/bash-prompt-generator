@@ -1,16 +1,20 @@
-# [Bash Prompt Generator](https://scriptim.github.io/bash-prompt-generator)
+# Bash Prompt Generator
 
-[![License](https://img.shields.io/github/license/Scriptim/bash-prompt-generator)](./LICENSE "License")
-[![GitHub stars](https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/stargazers "GitHub stars")
-[![GitHub forks](https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/fork "Fork GitHub repo")
+[![License](https://img.shields.io/github/license/Scriptim/bash-prompt-generator)](./LICENSE "License") [![GitHub stars](https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/stargazers "GitHub stars") [![GitHub forks](https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/fork "Fork GitHub repo")
 
-Create a custom PS1 variable for your Bash.
+<p align="center">
+  <b>Create a custom PS1 variable for your Bash.</b>
+  <br><br>
+  <a align="center" href="https://scriptim.github.io/bash-prompt-generator" title="Check It Out">
+    <img src="https://forthebadge.com/images/badges/check-it-out.svg">
+  </a>
+</p>
 
-![Logo](img/logo_og.png)
-
-### Example
+## Example
 
 ![Browser (Screenshot)](./img/screenshot_browser.png)
+
+### Result
 
 ![Terminal (Screenshot)](./img/screenshot_terminal.png)
 
