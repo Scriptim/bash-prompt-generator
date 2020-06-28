@@ -1,8 +1,16 @@
-# Bash Prompt Generator
-
-[![License](https://img.shields.io/github/license/Scriptim/bash-prompt-generator)](./LICENSE "License") [![GitHub stars](https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/stargazers "GitHub stars") [![GitHub forks](https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/fork "Fork GitHub repo")
+<h1 align="center">Bash Prompt Generator</h1>
 
 <p align="center">
+  <a href="./LICENSE" title="License">
+    <img src="https://img.shields.io/github/license/Scriptim/bash-prompt-generator">
+  </a>
+  <a href="https://github.com/Scriptim/bash-prompt-generator/stargazers" title="GitHub Stars">
+    <img src="https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social">
+  </a>
+  <a href="https://github.com/Scriptim/bash-prompt-generator/fork" title="Fork GitHub Repo">
+    <img src="https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social">
+  </a>
+  <br><br>
   <b>Create a custom PS1 variable for your Bash.</b>
   <br><br>
   <a align="center" href="https://scriptim.github.io/bash-prompt-generator" title="Check It Out">
