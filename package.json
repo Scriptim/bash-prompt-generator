@@ -35,10 +35,10 @@
   "homepage": "https://github.com/Scriptim/bash-prompt-generator#readme",
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
     "htmlhint": "^0.11.0",
-    "stylelint": "^13.3.2",
+    "stylelint": "^13.6.1",
     "stylelint-config-standard": "^20.0.0"
   }
 }
