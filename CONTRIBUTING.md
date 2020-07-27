@@ -8,14 +8,14 @@
 
 - Bugs are reported as [GitHub Issues](https://github.com/Scriptim/bash-prompt-generator/issues).
 - Please make sure that there is no issue for the bug already, to avoid duplicates.
-- Provide a concise title and an precise and clear description of the bug.
+- Provide a concise title and a precise and clear description of the bug.
 - Describe the exact steps to reproduce the bug and include any relevant information such as screenshots.
 
 ### Suggest Enhancements
 
 - Enhancements suggestion are tracked as [GitHub Issues](https://github.com/Scriptim/bash-prompt-generator/issues).
 - If there is already an issue regarding the desired or a similar enhancement, please discuss the details there to avoid duplicates.
-- Provide a concise title and an precise and clear description of the enhancement.
+- Provide a concise title and a precise and clear description of the enhancement.
 
 ### Open a Pull Requests
 
