@@ -168,14 +168,16 @@ function initColorPicker() {
   });
 }
 
+function clearPrompt() {
+  prompt.elements = [];
+  prompt.updateCallback();
+  $('#added-elements-container').empty();
+  $('#properties').fadeOut(SHOW_HIDE_DURATION);
+  $('#prompt-output').text('PS1=');
+}
+
 function setClearPromptHandler() {
-  $('#clear-prompt').click(() => {
-    prompt.elements = [];
-    prompt.updateCallback();
-    $('#added-elements-container').empty();
-    $('#properties').fadeOut(SHOW_HIDE_DURATION);
-    $('#prompt-output').text('PS1=');
-  });
+  $('#clear-prompt').click(clearPrompt);
 }
 
 function setCopyOutputHandler() {
