@@ -4,7 +4,11 @@
   "description": "Create a custom PS1 variable for your Bash",
   "main": "",
   "scripts": {
-    "lint": "eslint js/; htmlhint index.html; stylelint css/; true"
+    "lint": "eslint js/; htmlhint index.html; stylelint css/; true",
+    "make-grammar": "node parser_generator/grammar_generator.js > parser_generator/grammar.pegjs",
+    "make-parser": "pegjs -o js/pegjs_parser.js --format globals --export-var promptParser parser_generator/grammar.pegjs",
+    "minify-parser": "node-minify --compressor uglify-es --input 'js/pegjs_parser.js' --output 'js/pegjs_parser.js'",
+    "build-parser": "npm run make-grammar && npm run make-parser && npm run minify-parser"
   },
   "repository": {
     "type": "git",
@@ -34,10 +38,14 @@
   },
   "homepage": "https://github.com/Scriptim/bash-prompt-generator#readme",
   "devDependencies": {
+    "@node-minify/cli": "^6.2.0",
+    "@node-minify/core": "^6.2.0",
+    "@node-minify/uglify-es": "^6.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "htmlhint": "^0.11.0",
+    "pegjs": "^0.10.0",
     "stylelint": "^13.9.0",
     "stylelint-config-standard": "^20.0.0"
   }

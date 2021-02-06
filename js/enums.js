@@ -1529,3 +1529,8 @@ const PromptElement = {
     name: '>', char: '>', printable: true, description: 'Greater than.',
   },
 };
+
+// export prompt elements for parser generator
+if (typeof exports !== 'undefined') {
+  exports.PromptElement = PromptElement;
+}
