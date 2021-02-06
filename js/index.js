@@ -1,4 +1,4 @@
-/* global $, Sortable, Ansi, Color, PromptElement, Prompt, EscapedPromptElement */
+/* global $, Sortable, Ansi, Color, PromptElement, Prompt, PromptParser, EscapedPromptElement */
 
 const SHOW_HIDE_DURATION = 200;
 
@@ -177,7 +177,33 @@ function clearPrompt() {
 }
 
 function setClearPromptHandler() {
-  $('#clear-prompt').click(clearPrompt);
+  $('#clear-prompt').click(() => {
+    clearPrompt();
+    $('#import-prompt-input').val('');
+    $('#import-prompt-errors').text('');
+  });
+}
+
+function setImportPromptHandler() {
+  $('#import-prompt-btn').click(() => {
+    const input = $('#import-prompt-input').val();
+    const errors = $('#import-prompt-errors');
+    if (input.trim().length === 0) {
+      errors.text('No input given.');
+    } else {
+      const parser = new PromptParser(input);
+
+      try {
+        parser.runParser();
+      } catch (err) {
+        errors.text(`${err.name}: Unexpected '${err.found}' (column: ${err.location.start.column})`);
+        return;
+      }
+
+      parser.buildPrompt();
+      errors.text('');
+    }
+  });
 }
 
 function setCopyOutputHandler() {
@@ -189,5 +215,6 @@ window.onload = () => {
   loadPromptFromLocalStorage();
   initColorPicker();
   setClearPromptHandler();
+  setImportPromptHandler();
   setCopyOutputHandler();
 };
