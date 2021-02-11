@@ -32,23 +32,29 @@ class PromptParser {
       if (typeof el === 'number') {
         escapeCodes.push(el);
       } else if (typeof el === 'object') {
-        const promptEl = new EscapedPromptElement(el);
+        const promptEl = new EscapedPromptElement(el.el);
+
+        if (
+          [PromptElement.DATE_FORMATTED, PromptElement.COMMAND, PromptElement.TEXT].includes(el.el)
+        ) {
+          promptEl.data = el.data;
+        }
 
         for (let i = 0; i < escapeCodes.length; i += 1) {
           // foreground color
           if (escapeCodes[i] === 38 && escapeCodes[i + 1] === 5) {
             promptEl.fgColor = Color[escapeCodes[i + 2]];
             i += 2;
-          // background color
+            // background color
           } else if (escapeCodes[i] === 48 && escapeCodes[i + 1] === 5) {
             promptEl.bgColor = Color[escapeCodes[i + 2]];
             i += 2;
-          // ansi
+            // ansi
           } else if (Object.values(Ansi).includes(escapeCodes[i])) {
             if (escapeCodes[i] !== 0) {
               promptEl.setAttrib(escapeCodes[i], true);
             }
-          // 8 bit color
+            // 8 bit color
           } else {
             for (let j = 0; j < 16; j += 1) {
               if (Color[j].color16.fg === escapeCodes[i].toString()) {
@@ -65,7 +71,7 @@ class PromptParser {
 
         prompt.appendElement(promptEl);
         addPromptElement(
-          Object.keys(PromptElement).find((key) => PromptElement[key].name === el.name),
+          Object.keys(PromptElement).find((key) => PromptElement[key].name === el.el.name),
         );
 
         escapeCodes = [];

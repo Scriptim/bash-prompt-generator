@@ -186,12 +186,13 @@ function setClearPromptHandler() {
 
 function setImportPromptHandler() {
   $('#import-prompt-btn').click(() => {
-    const input = $('#import-prompt-input').val();
+    const input = $('#import-prompt-input');
     const errors = $('#import-prompt-errors');
-    if (input.trim().length === 0) {
+    if (input.val().trim().length === 0) {
       errors.text('No input given.');
     } else {
-      const parser = new PromptParser(input);
+      const parser = new PromptParser(input.val());
+      input.val(parser.promptString);
 
       try {
         parser.runParser();

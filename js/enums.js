@@ -1331,12 +1331,6 @@ const PromptElement = {
     name: 'Command', char: '~', data: 'Command', printable: true, description: 'A custom command.', preview: 'example command output',
   },
   /**
-  * A custom text.
-  */
-  TEXT: {
-    name: 'Text', char: '~', data: 'Text', printable: true, description: 'A custom text.',
-  },
-  /**
   * Space.
   */
   SPACE: {
@@ -1527,6 +1521,12 @@ const PromptElement = {
   */
   GREATER_THAN: {
     name: '>', char: '>', printable: true, description: 'Greater than.',
+  },
+  /**
+  * A custom text.
+  */
+  TEXT: {
+    name: 'Text', char: '~', data: 'Text', printable: true, description: 'A custom text.',
   },
 };
 
