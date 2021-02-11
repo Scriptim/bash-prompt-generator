@@ -74,7 +74,7 @@ class EscapedPromptElement {
     if (this.content === PromptElement.COMMAND) {
       text = `$(${text})`;
     }
-    return `\\[\\e[${escapeCodes.join(';')}m\\]${text}`;
+    return escapeCodes.length > 0 ? `\\[\\e[${escapeCodes.join(';')}m\\]${text}` : text;
   }
 
   toHTML() {

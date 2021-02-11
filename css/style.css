@@ -86,6 +86,20 @@ p.hint code {
   display: inline-block;
 }
 
+#import-prompt-wrapper {
+  padding: 0 0 1em;
+}
+
+#import-prompt-input {
+  max-width: 80%;
+  width: 30em;
+}
+
+#import-prompt-errors {
+  line-height: 2em;
+  color: #bf360c;
+}
+
 span.element-input,
 span.element-added {
   display: inline-flex;

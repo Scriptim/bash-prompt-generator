@@ -1,4 +1,4 @@
-/* global $, Sortable, Ansi, Color, PromptElement, Prompt, EscapedPromptElement */
+/* global $, Sortable, Ansi, Color, PromptElement, Prompt, PromptParser, EscapedPromptElement */
 
 const SHOW_HIDE_DURATION = 200;
 
@@ -168,13 +168,42 @@ function initColorPicker() {
   });
 }
 
+function clearPrompt() {
+  prompt.elements = [];
+  prompt.updateCallback();
+  $('#added-elements-container').empty();
+  $('#properties').fadeOut(SHOW_HIDE_DURATION);
+  $('#prompt-output').text('PS1=');
+}
+
 function setClearPromptHandler() {
   $('#clear-prompt').click(() => {
-    prompt.elements = [];
-    prompt.updateCallback();
-    $('#added-elements-container').empty();
-    $('#properties').fadeOut(SHOW_HIDE_DURATION);
-    $('#prompt-output').text('PS1=');
+    clearPrompt();
+    $('#import-prompt-input').val('');
+    $('#import-prompt-errors').text('');
+  });
+}
+
+function setImportPromptHandler() {
+  $('#import-prompt-btn').click(() => {
+    const input = $('#import-prompt-input');
+    const errors = $('#import-prompt-errors');
+    if (input.val().trim().length === 0) {
+      errors.text('No input given.');
+    } else {
+      const parser = new PromptParser(input.val());
+      input.val(parser.promptString);
+
+      try {
+        parser.runParser();
+      } catch (err) {
+        errors.text(`${err.name}: Unexpected '${err.found}' (column: ${err.location.start.column})`);
+        return;
+      }
+
+      parser.buildPrompt();
+      errors.text('');
+    }
   });
 }
 
@@ -187,5 +216,6 @@ window.onload = () => {
   loadPromptFromLocalStorage();
   initColorPicker();
   setClearPromptHandler();
+  setImportPromptHandler();
   setCopyOutputHandler();
 };
