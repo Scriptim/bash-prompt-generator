@@ -1,4 +1,4 @@
-/* global Ansi */
+/* global $, Ansi */
 
 /**
  * Represents a prompt and provides methods for manipulation.
@@ -67,7 +67,33 @@ class Prompt {
   }
 
   toHTML() {
-    return this.elements.map((el) => el.toHTML());
+    const elements = this.elements.map((el) => el.toHTML());
+
+    const carriageReturnPartitions = [];
+    for (let i = 0; i < elements.length; i += 1) {
+      if ($(elements[i]).attr('data-carriage-return')) {
+        carriageReturnPartitions.push(elements.splice(0, i));
+        i = 0;
+      }
+    }
+    carriageReturnPartitions.push(elements);
+
+    for (let i = carriageReturnPartitions.length - 1; i > 0; i -= 1) {
+      let total = carriageReturnPartitions[i].reduce((accu, el) => accu + $(el).text().length, 0);
+      for (let j = 0; j < carriageReturnPartitions[i - 1].length; j += 1) {
+        const element = $(carriageReturnPartitions[i - 1][j]);
+        if (element.text().length < total) {
+          total -= element.text().length;
+          element.text('');
+        } else {
+          element.text(element.text().substring(total));
+          break;
+        }
+      }
+      carriageReturnPartitions[i - 1].unshift(...carriageReturnPartitions[i]);
+    }
+
+    return carriageReturnPartitions[0];
   }
 
   serialize() {

@@ -1250,7 +1250,7 @@ const PromptElement = {
    * A carriage return.
    */
   CARRIAGE_RETURN: {
-    name: 'Carriage Return', char: '\\r', printable: false, description: 'A carriage return.', preview: '\r',
+    name: 'Carriage Return', char: '\\r', printable: false, description: 'A carriage return.',
   },
   /**
    * A bell character.
