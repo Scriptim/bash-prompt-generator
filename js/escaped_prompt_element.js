@@ -138,6 +138,10 @@ class EscapedPromptElement {
         case PromptElement.TEXT:
           preview = this.data;
           break;
+        case PromptElement.CARRIAGE_RETURN:
+          preview = '';
+          el.attr('data-carriage-return', true);
+          break;
         default:
           preview = this.content.char;
           break;
