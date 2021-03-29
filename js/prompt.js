@@ -69,4 +69,8 @@ class Prompt {
   toHTML() {
     return this.elements.map((el) => el.toHTML());
   }
+
+  serialize() {
+    return this.elements.map((el) => el.serialize());
+  }
 }
