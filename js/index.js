@@ -8,7 +8,7 @@ const prompt = new Prompt(() => {
   if (prompt.elements.length === 0) {
     localStorage.removeItem('prompt');
   } else {
-    localStorage.setItem('prompt', JSON.stringify(prompt.elements));
+    localStorage.setItem('prompt', JSON.stringify(prompt.serialize()));
   }
 });
 
@@ -126,13 +126,15 @@ function addElementInputs() {
 function loadPromptFromLocalStorage() {
   const storedElements = localStorage.getItem('prompt');
   if (storedElements) {
-    const elementKeys = Object.keys(PromptElement);
     prompt.elements = JSON.parse(storedElements).map((element) => {
-      const escapedPromptElement = new EscapedPromptElement();
-      Object.assign(escapedPromptElement, element);
-      addPromptElement(elementKeys.find(((key) => {
-        return PromptElement[key].name === escapedPromptElement.content.name;
-      })));
+      const escapedPromptElement = new EscapedPromptElement(
+        PromptElement[element.c],
+        element.f ? Color[element.f] : undefined,
+        element.b ? Color[element.b] : undefined,
+        element.d,
+      );
+      element.a.forEach((attrib) => escapedPromptElement.setAttrib(attrib, true));
+      addPromptElement(element.c);
       return escapedPromptElement;
     });
     prompt.updateCallback();

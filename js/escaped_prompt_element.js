@@ -161,4 +161,25 @@ class EscapedPromptElement {
     }
     return el;
   }
+
+  /**
+   * Serializes the prompt element into a stringifiable JSON object with the following structure:
+   *     {
+   *         c: <string key for PromptElement>,
+   *         f: <id of the foreground color>,
+   *         b: <id of the background color>,
+   *         d: <data>,
+   *         a: <display attributes>
+   *     }
+   * @returns the object
+   */
+  serialize() {
+    return {
+      c: Object.keys(PromptElement).find((key) => PromptElement[key].name === this.content.name),
+      f: this.fgColor ? this.fgColor.id : undefined,
+      b: this.bgColor ? this.bgColor.id : undefined,
+      d: this.data,
+      a: this.displayAttribs,
+    };
+  }
 }
