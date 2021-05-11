@@ -41,12 +41,12 @@
     "@node-minify/cli": "^6.2.0",
     "@node-minify/core": "^6.2.0",
     "@node-minify/uglify-es": "^6.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "htmlhint": "^0.11.0",
+    "htmlhint": "^0.14.2",
     "pegjs": "^0.10.0",
-    "stylelint": "^13.9.0",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0"
   }
 }
