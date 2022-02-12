@@ -85,8 +85,59 @@ function selectElementAndShowProperties(element) {
     });
   });
 
+  $('#properties-duplicate').off('click').click(() => {
+    duplicateElement(element);
+    prompt.updateCallback();
+  }); 
+
   $('#properties').fadeIn(SHOW_HIDE_DURATION);
 }
+
+function duplicateElement(element){
+  // Make a copy of the element 
+  const copiedElement = element.clone();
+  
+  // Remove the class element-selected
+  copiedElement.removeClass('element-selected');
+ 
+  // Insert to added-elements-container 
+  $('#added-elements-container').append(copiedElement);
+  
+  // Get the index of the element
+  const index = $('.element-added').index(element);
+  
+  // Get the element prompt 
+  const elementPrompt = prompt.getElement(index);
+  
+  // Make a new Escaped Prompt Element using the copied data
+  const newElement = new EscapedPromptElement(
+      elementPrompt.content,
+      elementPrompt.fgColor,
+      elementPrompt.bgColor,
+      elementPrompt.data,
+  );
+
+  // Copy the display attribs to the new element
+  for(let i=0; i<elementPrompt.displayAttribs.length; i++){
+    newElement.displayAttribs.push(elementPrompt.displayAttribs[i])
+  }
+  
+  // Add the element to the pormpt 
+  prompt.appendElement(newElement);
+
+  // Add the click event
+  copiedElement.click(() => {
+    selectElementAndShowProperties(copiedElement);
+  });
+
+  // Add the delete event 
+  copiedElement.find('.remove-element').click(() => {
+    copiedElement.fadeOut(SHOW_HIDE_DURATION, () => copiedElement.remove());
+    prompt.removeElement(index);
+    prompt.updateCallback();
+  });
+}
+
 
 function addPromptElement(key) {
   const el = PromptElement[key];

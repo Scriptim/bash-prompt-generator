@@ -139,7 +139,7 @@ span.sortable-ghost {
   display: none;
 }
 
-#properties input[type='text'] {
+#colors input[type='text'] {
   width: 100%;
   max-width: 20em;
   margin: 0 0.2em;
@@ -147,7 +147,7 @@ span.sortable-ghost {
   color: var(--color-dark);
 }
 
-#properties button {
+#colors button {
   min-width: 10em;
   margin: 0 0.2em 0.6em;
   padding: 0.5em;
@@ -159,8 +159,8 @@ span.sortable-ghost {
   transition: background-color 0.2s ease, outline-color 0.2s ease;
 }
 
-#properties button:hover,
-#properties button:focus {
+#colors button:hover,
+#colors button:focus {
   background-color: var(--color-button-alt);
   outline-color: var(--color-button-alt);
 }
@@ -177,6 +177,23 @@ span.sortable-ghost {
   margin-right: 0.4em;
   color: var(--color-accent);
   vertical-align: middle;
+}
+
+#controls button{
+  margin: 0.4em 0;
+  padding: 0.5em;
+  color: var(--color-light);
+  background-color: var(--color-button);
+  border: 0.2em solid var(--color-light);
+  outline: 0.2em solid var(--color-button);
+  cursor: pointer;
+  transition: background-color 0.2s ease, outline-color 0.2s ease;
+}
+
+#controls button:hover,
+#controls button:focus {
+  background-color: var(--color-button-alt);
+  outline-color: var(--color-button-alt);
 }
 
 #flex4 > p.hint {
