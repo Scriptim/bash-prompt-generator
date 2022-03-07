@@ -94,50 +94,26 @@ function selectElementAndShowProperties(element) {
 }
 
 function duplicateElement(element){
-  // Make a copy of the element 
-  const copiedElement = element.clone();
-  
-  // Remove the class element-selected
-  copiedElement.removeClass('element-selected');
- 
-  // Insert to added-elements-container 
-  $('#added-elements-container').append(copiedElement);
-  
-  // Get the index of the element
-  const index = $('.element-added').index(element);
-  
-  // Get the element prompt 
-  const elementPrompt = prompt.getElement(index);
-  
-  // Make a new Escaped Prompt Element using the copied data
-  const newElement = new EscapedPromptElement(
-      elementPrompt.content,
-      elementPrompt.fgColor,
-      elementPrompt.bgColor,
-      elementPrompt.data,
-  );
-
-  // Copy the display attribs to the new element
-  for(let i=0; i<elementPrompt.displayAttribs.length; i++){
-    newElement.displayAttribs.push(elementPrompt.displayAttribs[i])
+  // Make a copy of element properties
+  function cloneElement(element, newElement){
+    for (const prop in element) {
+      if (element.hasOwnProperty(prop)) {
+        newElement[prop] = element[prop];
+      }
+    }
   }
-  
-  // Add the element to the pormpt 
-  prompt.appendElement(newElement);
 
-  // Add the click event
-  copiedElement.click(() => {
-    selectElementAndShowProperties(copiedElement);
-  });
+  // Get the current prompt element
+  const index = $('.element-added').index(element);
+  const elementPrompt = prompt.getElement(index);
+  const key = element.attr('data-key');
 
-  // Add the delete event 
-  copiedElement.find('.remove-element').click(() => {
-    copiedElement.fadeOut(SHOW_HIDE_DURATION, () => copiedElement.remove());
-    prompt.removeElement(index);
-    prompt.updateCallback();
-  });
+  // Create and add the new element
+  const newElement = new EscapedPromptElement(PromptElement[key])
+  cloneElement(elementPrompt, newElement);    
+  addPromptElement(key);
+  prompt.appendElement(newElement);    
 }
-
 
 function addPromptElement(key) {
   const el = PromptElement[key];
