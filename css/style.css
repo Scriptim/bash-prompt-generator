@@ -184,8 +184,7 @@ span.sortable-ghost {
   padding: 0.5em;
   color: var(--color-light);
   background-color: var(--color-button);
-  border: 0.2em solid var(--color-light);
-  outline: 0.2em solid var(--color-button);
+  border: none;
   cursor: pointer;
   transition: background-color 0.2s ease, outline-color 0.2s ease;
 }
