@@ -85,7 +85,34 @@ function selectElementAndShowProperties(element) {
     });
   });
 
+  $('#properties-duplicate').off('click').click(() => {
+    duplicateElement(element);
+    prompt.updateCallback();
+  }); 
+
   $('#properties').fadeIn(SHOW_HIDE_DURATION);
+}
+
+function duplicateElement(element){
+  // Make a copy of element properties
+  function cloneElement(element, newElement){
+    for (const prop in element) {
+      if (element.hasOwnProperty(prop)) {
+        newElement[prop] = element[prop];
+      }
+    }
+  }
+
+  // Get the current prompt element
+  const index = $('.element-added').index(element);
+  const elementPrompt = prompt.getElement(index);
+  const key = element.attr('data-key');
+
+  // Create and add the new element
+  const newElement = new EscapedPromptElement(PromptElement[key])
+  cloneElement(elementPrompt, newElement);    
+  addPromptElement(key);
+  prompt.appendElement(newElement);    
 }
 
 function addPromptElement(key) {
