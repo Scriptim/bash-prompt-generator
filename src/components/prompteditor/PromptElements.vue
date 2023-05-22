@@ -16,6 +16,9 @@ import draggable from 'vuedraggable';
 import prompt from '@/lib/prompt';
 import PromptElement from './AddedPromptElement.vue';
 
+/**
+ * The list of elements currently added to the prompt.
+ */
 export default defineComponent({
   name: 'PromptElements',
   data() {
@@ -28,6 +31,9 @@ export default defineComponent({
     draggable,
   },
   methods: {
+    /**
+     * Store which elements are currently added to the prompt to make it available globally.
+     */
     storeState() {
       prompt.state().elements = this.elements;
     },

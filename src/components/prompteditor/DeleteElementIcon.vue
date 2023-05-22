@@ -5,6 +5,9 @@
 <script lang="ts">
 import { XIcon } from '@heroicons/vue/outline';
 
+/**
+ * A deletion icon for removing elements from the prompt.
+ */
 export default {
   name: 'DeleteElementIcon',
   components: {
@@ -21,7 +24,7 @@ export default {
   color: $color-accent
   width: 1.2em
   height: 1.2em
-  padding: 0.05em // catch misclicks
+  padding: 0.02em // catch misclicks
   margin-left: 0.4em
   vertical-align: middle
   cursor: pointer
