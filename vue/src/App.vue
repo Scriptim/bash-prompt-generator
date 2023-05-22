@@ -1,27 +1,90 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <SiteHeader></SiteHeader>
+  <main>
+    <div id="element-selection">
+      <h2>Prompt Elements</h2>
+      <ElementSelection></ElementSelection>
+    </div>
+    <div id="prompt-editor">
+      <h2>Your Prompt</h2>
+      <PromptElements></PromptElements>
+    </div>
+    <div id="properties">
+      <h2>Properties</h2>
+      <ElementProperties></ElementProperties>
+    </div>
+    <div id="output">
+      <h2>Output</h2>
+      <PS1Variable></PS1Variable>
+      <br />
+      <PromptPreview></PromptPreview>
+    </div>
+  </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import SiteHeader from './components/SiteHeader.vue';
+import ElementSelection from './components/elementselection/ElementSelection.vue';
+import PromptElements from './components/prompteditor/PromptElements.vue';
+import ElementProperties from './components/properties/ElementProperties.vue';
+import PS1Variable from './components/output/PS1Variable.vue';
+import PromptPreview from './components/output/PromptPreview.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld,
+    SiteHeader,
+    ElementSelection,
+    PromptElements,
+    ElementProperties,
+    PS1Variable,
+    PromptPreview,
   },
 });
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+@import "@/assets/sass/_variables.sass"
+
+body, main
+  margin: 0
+
+body
+  color: $color-foreground
+  background-color: $color-background
+  font-family: Helvetica, Arial, sans-serif
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  text-align: center
+  color: $color-foreground
+
+main
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-content: flex-start
+  padding: 1em 2em
+
+  &>div
+    padding: 1em
+
+#element-selection,
+#properties
+  flex: 1
+  min-width: 28em
+
+#prompt-editor,
+#output
+  flex: 2
+  min-width: 32em
+
+ul.list-row,
+ol.list-row
+  li
+    display: inline-block
+    margin: 0.2em
+
+h3
+  margin: 0
 </style>
