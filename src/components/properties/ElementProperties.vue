@@ -1,4 +1,6 @@
 <template>
+  <h2>Properties</h2>
+  <br />
   <div class="properties-wrapper" v-if="selected !== null && element !== null">
     <div class="properties_parameter" v-if="element.type.parameters.length > 0">
       <label v-for="parameter in element.type.parameters" :key="parameter.id" :for="parameter.id">

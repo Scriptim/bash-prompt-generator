@@ -50,6 +50,13 @@ const prompt = defineStore({
         this.selected = null;
       }
     },
+    /**
+     * Removes all elements from the prompt.
+     */
+    clear() {
+      this.elements = [];
+      this.selected = null;
+    },
   },
   getters: {
     /**

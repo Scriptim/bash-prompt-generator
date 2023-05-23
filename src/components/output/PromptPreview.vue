@@ -1,6 +1,6 @@
 <template>
   <h3>Example Preview</h3>
-  <LightBulbIcon class="preview-switch" @click="togglePreview"></LightBulbIcon>
+  <IconButton icon="LightBulbIcon" @click="togglePreview"></IconButton>
   <br />
   <div class="preview" :class="{ light, dark: !light }">
     <span
@@ -41,7 +41,7 @@
 import { defineComponent } from 'vue';
 import prompt from '@/lib/prompt';
 import { UniquePromptElement } from '@/lib/promptElement';
-import { LightBulbIcon } from '@heroicons/vue/outline';
+import IconButton from '../ui/IconButton.vue';
 
 /**
  * Merges two lists of prompt elements that are separated by a carriage return (`\r`).
@@ -103,7 +103,7 @@ function mergeCrPartitions(part1: UniquePromptElement[], part2: UniquePromptElem
 export default defineComponent({
   name: 'PromptPreview',
   components: {
-    LightBulbIcon,
+    IconButton,
   },
   data() {
     return {
@@ -182,14 +182,6 @@ h3
   &.dark
     background-color: #212121
     color: #fafafa
-
-.preview-switch
-  width: 2em
-  height: 2em
-  vertical-align: bottom
-  margin: 0 0.5em
-  cursor: pointer
-  color: $color-accent
 
 // display attributes
 

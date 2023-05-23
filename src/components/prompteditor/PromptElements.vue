@@ -1,4 +1,7 @@
 <template>
+  <h2>Your Prompt</h2>
+  <IconButton icon="TrashIcon" @click="clear"></IconButton>
+  <br />
   <ol class="list-row">
     <draggable v-model="elements" item-key="id" @end="storeState">
       <template #item="{ element }">
@@ -15,6 +18,7 @@ import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 import prompt from '@/lib/prompt';
 import PromptElement from './AddedPromptElement.vue';
+import IconButton from '../ui/IconButton.vue';
 
 /**
  * The list of elements currently added to the prompt.
@@ -29,6 +33,7 @@ export default defineComponent({
   components: {
     PromptElement,
     draggable,
+    IconButton,
   },
   methods: {
     /**
@@ -36,6 +41,12 @@ export default defineComponent({
      */
     storeState() {
       prompt.state().elements = this.elements;
+    },
+    /**
+     * Clear all elements from the prompt.
+     */
+    clear() {
+      prompt.state().clear();
     },
   },
 });

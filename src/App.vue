@@ -2,19 +2,15 @@
   <SiteHeader></SiteHeader>
   <main>
     <div id="element-selection">
-      <h2>Prompt Elements</h2>
       <ElementSelection></ElementSelection>
     </div>
     <div id="prompt-editor">
-      <h2>Your Prompt</h2>
       <PromptElements></PromptElements>
     </div>
     <div id="properties">
-      <h2>Properties</h2>
       <ElementProperties></ElementProperties>
     </div>
     <div id="output">
-      <h2>Output</h2>
       <PS1Variable></PS1Variable>
       <br />
       <PromptPreview></PromptPreview>
@@ -85,6 +81,8 @@ ol.list-row
     display: inline-block
     margin: 0.2em
 
+h2,
 h3
+  display: inline-block
   margin: 0
 </style>

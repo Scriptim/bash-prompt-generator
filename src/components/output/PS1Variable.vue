@@ -1,4 +1,6 @@
 <template>
+  <h2>Output</h2>
+  <br />
   <div class="ps1">
     <span>{{ ps1 }}</span>
   </div>

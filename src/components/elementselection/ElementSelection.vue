@@ -1,4 +1,6 @@
 <template>
+  <h2>Prompt Elements</h2>
+  <br />
   <ol class="list-row">
     <li v-for="(element, index) in elements" :key="element.name">
       <BasePromptElement :label="element.name" :tooltip="element.description" @click="pushToPrompt(index)">
