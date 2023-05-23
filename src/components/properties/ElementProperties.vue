@@ -23,8 +23,7 @@
             :class="{ selected: element.foregroundColor !== null }"
             :style="{
               backgroundColor: element.foregroundColor ? `${element.foregroundColor!.hex} !important` : undefined
-            }
-              "
+            }"
           />
           Foreground color
         </label>
@@ -42,8 +41,7 @@
             :class="{ selected: element.backgroundColor !== null }"
             :style="{
               backgroundColor: element.backgroundColor ? `${element.backgroundColor!.hex} !important` : undefined
-            }
-              "
+            }"
           />
           Background color
         </label>
@@ -89,6 +87,10 @@
       </label>
     </div>
   </div>
+  <EmptyState :empty="empty">
+    <p>You have not selected an element.</p>
+    <p>Click on an element in your prompt to change its properties.</p>
+  </EmptyState>
 </template>
 
 <script lang="ts">
@@ -97,6 +99,7 @@ import Popper from 'vue3-popper';
 import prompt from '@/lib/prompt';
 import ColorPicker from '@/components/ui/ColorPicker.vue';
 import { Color } from '@/lib/enum/color';
+import EmptyState from '../base/EmptyState.vue';
 
 /**
  * Settings for the element's properties such as parameters, colors and display attributes.
@@ -106,6 +109,7 @@ export default defineComponent({
   components: {
     ColorPicker,
     Popper,
+    EmptyState,
   },
   data() {
     return {
@@ -121,6 +125,17 @@ export default defineComponent({
        */
       element: prompt.refs().selectedElement,
     };
+  },
+  computed: {
+    /**
+     * Whether the properties section is empty, i.e. no element is selected.
+     *
+     * This will also return `false` if the prompt is empty because we don't want to ask the user to select an element
+     * when there are none.
+     */
+    empty(): boolean {
+      return prompt.refs().elements.value.length > 0 && prompt.refs().selected.value === null;
+    },
   },
   methods: {
     /**

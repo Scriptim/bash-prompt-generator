@@ -7,10 +7,10 @@
     <div id="prompt-editor">
       <PromptElements></PromptElements>
     </div>
-    <div id="properties">
+    <div id="properties" :style="{ visibility: visibleState }">
       <ElementProperties></ElementProperties>
     </div>
-    <div id="output">
+    <div id="output" :style="{ visibility: visibleState }">
       <PS1Variable></PS1Variable>
       <br />
       <PromptPreview></PromptPreview>
@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import prompt from '@/lib/prompt';
 import SiteHeader from './components/SiteHeader.vue';
 import ElementSelection from './components/elementselection/ElementSelection.vue';
 import PromptElements from './components/prompteditor/PromptElements.vue';
@@ -36,6 +37,17 @@ export default defineComponent({
     ElementProperties,
     PS1Variable,
     PromptPreview,
+  },
+  computed: {
+    /**
+     * Returns 'hidden' if the prompt is empty, 'visible' otherwise.
+     *
+     * This string can be used as the value of the CSS `visibility` property to hide or show elements depending on
+     * whether the prompt is empty.
+     */
+    visibleState(): 'hidden' | 'visible' {
+      return prompt.refs().elements.value.length === 0 ? 'hidden' : 'visible';
+    },
   },
 });
 </script>

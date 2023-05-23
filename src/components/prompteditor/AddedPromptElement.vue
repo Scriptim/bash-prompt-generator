@@ -16,6 +16,9 @@ import prompt from '@/lib/prompt';
 import BasePromptElement from '../base/PromptElement.vue';
 import DeleteElementIcon from './DeleteElementIcon.vue';
 
+/**
+ * An element that has been added to the prompt.
+ */
 export default defineComponent({
   name: 'AddedPromptElement',
   props: {
@@ -30,10 +33,15 @@ export default defineComponent({
     };
   },
   computed: {
+    /**
+     * Whether the element is currently selected.
+     */
     selected() {
       return prompt.refs().selected.value === this.id;
     },
-    // displays the parameters of the element (e. g. text or date format)
+    /**
+     * Displays the parameters of the element (e. g. text or date format).
+     */
     parameterString() {
       const parameters = prompt.state().elementById(this.id)?.parameters;
       if (parameters === undefined || Object.keys(parameters).length === 0) {
@@ -54,9 +62,15 @@ export default defineComponent({
     DeleteElementIcon,
   },
   methods: {
+    /**
+     * Selects the element.
+     */
     selectPromptElement() {
       prompt.state().selected = this.id;
     },
+    /**
+     * Removes the element from the prompt.
+     */
     deletePromptElement() {
       prompt.state().remove(this.id);
     },

@@ -11,6 +11,10 @@
       </template>
     </draggable>
   </ol>
+  <EmptyState :empty="empty">
+    <p>You have not added any elements to your prompt yet.</p>
+    <p>Click on a prompt element to start.</p>
+  </EmptyState>
 </template>
 
 <script lang="ts">
@@ -19,6 +23,7 @@ import draggable from 'vuedraggable';
 import prompt from '@/lib/prompt';
 import PromptElement from './AddedPromptElement.vue';
 import IconButton from '../ui/IconButton.vue';
+import EmptyState from '../base/EmptyState.vue';
 
 /**
  * The list of elements currently added to the prompt.
@@ -34,6 +39,15 @@ export default defineComponent({
     PromptElement,
     draggable,
     IconButton,
+    EmptyState,
+  },
+  computed: {
+    /**
+     * Whether the prompt is empty.
+     */
+    empty(): boolean {
+      return this.elements.length === 0;
+    },
   },
   methods: {
     /**
