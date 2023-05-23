@@ -2,16 +2,19 @@
   <h2>Prompt Elements</h2>
   <br />
   <ol class="list-row">
-    <li v-for="(element, index) in elements" :key="element.name">
-      <BasePromptElement :label="element.name" :tooltip="element.description" @click="pushToPrompt(index)">
-      </BasePromptElement>
-    </li>
+    <template v-for="(element, index) in elements" :key="element.name">
+      <li v-if="separate(element)" class="separator"></li>
+      <li>
+        <BasePromptElement :label="element.name" :tooltip="element.description" @click="pushToPrompt(index)">
+        </BasePromptElement>
+      </li>
+    </template>
   </ol>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { PROMPT_ELEMENT_TYPES } from '@/lib/enum/promptElementType';
+import { PromptElementType, PROMPT_ELEMENT_TYPES, PROMPT_ELEMENT_TYPES_SEPARATORS } from '@/lib/enum/promptElementType';
 import { PromptElement } from '@/lib/promptElement';
 import prompt from '@/lib/prompt';
 import BasePromptElement from '../base/PromptElement.vue';
@@ -40,6 +43,19 @@ export default defineComponent({
     pushToPrompt(index: number) {
       prompt.state().push(new PromptElement(PROMPT_ELEMENT_TYPES[index]));
     },
+    /**
+     * Whether to add a separator before the given element type, as specified in `PROMPT_ELEMENT_TYPES_SEPARATORS`
+     * (`lib/enum/promptElementType.ts`).
+     */
+    separate(element: PromptElementType) {
+      return PROMPT_ELEMENT_TYPES_SEPARATORS.includes(element.name);
+    }
   },
 });
 </script>
+
+<style lang="sass" scoped>
+li.separator
+  display: block
+  height: 0.2em
+</style>

@@ -2,7 +2,7 @@ import { timeFormat } from 'd3-time-format';
 
 /**
  * A parameter for a {@link PromptElementType}, e.g. a date format. Parameters are specified by the user in the UI.
- * 
+ *
  * Use this in combination with {@link ParameterizedString}.
  */
 type Parameter = {
@@ -233,4 +233,21 @@ export const PROMPT_ELEMENT_TYPES = [
     'A custom text.',
     (args) => args.text ?? '',
   ),
+];
+
+/**
+ * {@linkcode PROMPT_ELEMENT_TYPES_SEPARATORS} is a list labels of {@linkcode PromptElementType}s in
+ * {@linkcode PROMPT_ELEMENT_TYPES} *before* which a separator should be inserted in the UI.
+ *
+ * This is used to group similar elements.
+ */
+export const PROMPT_ELEMENT_TYPES_SEPARATORS = [
+  'Username',
+  'Newline',
+  'Terminal',
+  'History Number',
+  'Prompt Sign',
+  'Git branch',
+  '␣',
+  'Text',
 ];

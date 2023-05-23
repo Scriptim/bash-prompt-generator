@@ -77,6 +77,8 @@ main
 
 ul.list-row,
 ol.list-row
+  text-align: left
+
   li
     display: inline-block
     margin: 0.2em
