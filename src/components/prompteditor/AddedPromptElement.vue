@@ -82,9 +82,6 @@ export default defineComponent({
 @import "@/assets/sass/_variables.sass"
 
 .selected
-  color: $color-foreground
-  background-color: $color-accent
-
-  .delete-icon
-    color: $color-background
+  // darken the background color because the delete icon has the same color
+  background-color: darken($color-accent, 15%)
 </style>
