@@ -54,7 +54,7 @@ export class PromptElement {
 }
 
 /**
- * Wrapper for {@link UniquePromptElement} providing a unique id in order to distinguish elements of the same type.
+ * Wrapper for {@link PromptElement} providing a unique id in order to distinguish elements of the same type.
  */
 export type UniquePromptElement = {
   /**

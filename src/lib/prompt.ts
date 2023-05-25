@@ -1,11 +1,29 @@
 import { defineStore, storeToRefs } from 'pinia';
 import { PromptElement, UniquePromptElement } from './promptElement';
+import { PromptElementType, PROMPT_ELEMENT_TYPES } from './enum/promptElementType';
 
 /**
  * The prompt store holding the global state of the current prompt.
  */
 const prompt = defineStore({
   id: 'prompt',
+  persist: {
+    // don't use 'prompt' as key because it has been used by the old prompt store
+    // and would cause conflicts when loading the old persisted data
+    key: 'prompt-pinia',
+    // we cannot serialize the prompt element type because it is a complex object with functions
+    // so we serialize the type manually by only storing its name
+    serializer: {
+      serialize: (state) =>
+        JSON.stringify(state, (key, value) => (key === 'type' ? (value as PromptElementType).name : value)),
+      deserialize: (state) =>
+        JSON.parse(state, (key, value) =>
+          key === 'type' ? PROMPT_ELEMENT_TYPES.find((type) => type.name === value) : value,
+        ),
+    },
+    // we don't want to persist the selected element because it is only used for the UI
+    paths: ['elementsIdCounter', 'elements'],
+  },
   state: () => ({
     /**
      * An increasing counter providing unique ids for prompt elements.
