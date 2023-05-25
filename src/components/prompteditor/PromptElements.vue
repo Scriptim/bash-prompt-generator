@@ -2,6 +2,7 @@
   <h2>Your Prompt</h2>
   <IconButton icon="TrashIcon" @click="clear"></IconButton>
   <br />
+  <p v-if="!empty" class="hint">Drag elements to reorder them or click the &times; icon to remove them.</p>
   <ol class="list-row">
     <draggable v-model="elements" item-key="id" @end="storeState">
       <template #item="{ element }">

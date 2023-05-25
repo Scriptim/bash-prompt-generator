@@ -99,4 +99,7 @@ h2,
 h3
   display: inline-block
   margin: 0
+
+.hint
+  opacity: 0.6
 </style>

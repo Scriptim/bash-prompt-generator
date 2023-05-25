@@ -2,6 +2,10 @@
   <h2>Output</h2>
   <IconButton icon="ClipboardCopyIcon" @click="copyToClipboard"></IconButton>
   <br />
+  <p class="hint">
+    Paste this line into your shell to test your prompt or append it to your <code>~/.bashrc</code> file to set it
+    permanently.
+  </p>
   <div class="ps1">
     <span>{{ ps1 }}</span>
   </div>
