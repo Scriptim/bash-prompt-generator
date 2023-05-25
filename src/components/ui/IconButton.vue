@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 // import all icons that will be used; also register them in the components section below
-import { LightBulbIcon, TrashIcon, XIcon } from '@heroicons/vue/outline';
+import { ClipboardCopyIcon, LightBulbIcon, TrashIcon, XIcon } from '@heroicons/vue/outline';
 
 /**
  * An icon that should perform an action when clicked.
@@ -26,6 +26,7 @@ export default defineComponent({
     },
   },
   components: {
+    ClipboardCopyIcon,
     LightBulbIcon,
     TrashIcon,
     XIcon,
