@@ -7,17 +7,17 @@
       v-for="element in elements"
       :key="element.id"
       :style="{
-        backgroundColor: element.data.attributes.reverse
+        backgroundColor: (element.data.attributes.reverse
           ? element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')
-          : element.data.backgroundColor?.hex,
+          : element.data.backgroundColor?.hex) + ' !important',
       }"
     >
       <span
         v-if="element.data.type.preview(element.data.parameters) !== '\n'"
         :style="{
-          color: element.data.attributes.reverse
+          color: (element.data.attributes.reverse
             ? element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')
-            : element.data.foregroundColor?.hex,
+            : element.data.foregroundColor?.hex) + ' !important',
         }"
         :class="{
           'preview-bold': element.data.attributes.bold,
@@ -176,12 +176,12 @@ h3
   word-break: break-all
 
   &.light
-    background-color: #fafafa
-    color: #212121
+    background-color: #fafafa !important
+    color: #212121 !important
 
   &.dark
-    background-color: #212121
-    color: #fafafa
+    background-color: #212121 !important
+    color: #fafafa !important
 
 // display attributes
 
