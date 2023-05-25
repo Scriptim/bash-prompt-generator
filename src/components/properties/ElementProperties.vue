@@ -92,6 +92,11 @@
         <span>Overline</span>
       </label>
     </div>
+    <div class="properties_actions">
+      <h3>Actions</h3>
+      <br />
+      <IconButton icon="DuplicateIcon" @click="duplicate"></IconButton>
+    </div>
   </div>
   <EmptyState :empty="empty">
     <p>You have not selected an element.</p>
@@ -105,7 +110,9 @@ import Popper from 'vue3-popper';
 import prompt from '@/lib/prompt';
 import ColorPicker from '@/components/ui/ColorPicker.vue';
 import { Color } from '@/lib/enum/color';
+import { PromptElement } from '@/lib/promptElement';
 import EmptyState from '../base/EmptyState.vue';
+import IconButton from '../ui/IconButton.vue';
 
 /**
  * Settings for the element's properties such as parameters, colors and display attributes.
@@ -116,7 +123,8 @@ export default defineComponent({
     ColorPicker,
     Popper,
     EmptyState,
-  },
+    IconButton
+},
   data() {
     return {
       /**
@@ -162,6 +170,19 @@ export default defineComponent({
     selectBg(color: Color | null) {
       if (this.element) {
         this.element.backgroundColor = color;
+      }
+    },
+    /**
+     * Duplicates the currently selected element and appends it to the prompt.
+     */
+    duplicate() {
+      if (this.element !== null) {
+        const element = new PromptElement(this.element.type);
+        element.foregroundColor = this.element.foregroundColor;
+        element.backgroundColor = this.element.backgroundColor;
+        element.attributes = { ...this.element.attributes };
+        element.parameters = { ...this.element.parameters };
+        prompt.state().push(element);
       }
     },
   },
