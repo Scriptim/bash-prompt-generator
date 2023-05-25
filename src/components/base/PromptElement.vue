@@ -34,7 +34,7 @@ export default defineComponent({
 .prompt-element
   display: inline-block
   border-radius: 0.2em
-  padding: 0.4em 0.5em
+  padding: 0.3em 0.4em
   background-color: $color-foreground
   color: $color-background
   cursor: pointer

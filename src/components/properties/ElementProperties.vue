@@ -3,6 +3,8 @@
   <br />
   <div class="properties-wrapper" v-if="selected !== null && element !== null">
     <div class="properties_parameter" v-if="element.type.parameters.length > 0">
+      <h3>Parameters</h3>
+      <br />
       <label v-for="parameter in element.type.parameters" :key="parameter.id" :for="parameter.id">
         {{ parameter.label }}<br />
         <input
@@ -14,6 +16,8 @@
       </label>
     </div>
     <div class="properties_color" v-if="element.type.printable">
+      <h3>Colors</h3>
+      <br />
       <Popper placement="left-start" arrow>
         <label for="color-picker-btn-fg">
           <input
@@ -51,6 +55,8 @@
       </Popper>
     </div>
     <div class="properties_attributes" v-if="element.type.printable">
+      <h3>Display Attributes</h3>
+      <br />
       <label for="attribute-bold">
         <input type="checkbox" id="attribute-bold" v-model="element.attributes.bold" />
         <span>Bold</span>
@@ -170,10 +176,12 @@ export default defineComponent({
   --popper-theme-background-color: white
   --popper-theme-background-color-hover: white
 
+h3
+  margin: 0.7em 0 0.3em
+
 label
   display: inline-block
-  margin: 0.8em 0
-  margin: 0.5em 0
+  margin: 0.4em 0
 
   span
     vertical-align: middle

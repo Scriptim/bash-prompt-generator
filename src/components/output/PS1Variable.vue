@@ -314,7 +314,7 @@ export default defineComponent({
 
 .ps1
   display: inline-block
-  margin: 1em 0 2em 0
+  margin: 0.5em 0 1em 0
   padding: 1em
   color: $color-background
   background-color: $color-foreground

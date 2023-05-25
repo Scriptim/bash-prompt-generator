@@ -55,6 +55,10 @@ export default defineComponent({
 </script>
 
 <style lang="sass" scoped>
+.list-row
+  li
+    margin: 0.1em
+
 li.separator
   display: block
   height: 0.2em

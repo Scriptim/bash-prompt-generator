@@ -24,9 +24,9 @@ header
   background-color: $color-foreground
 
   h1
-    font-size: 2em
+    font-size: 1.9em
     margin: 0
-    padding: 0.6em
+    padding: 0.5em
 
   .underscore
     color: #4caa25
