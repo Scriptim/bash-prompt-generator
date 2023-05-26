@@ -198,7 +198,7 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType('?', '?', [], true, 'Question mark.', '?'),
   new PromptElementType('@', '@', [], true, 'Ampersat.', '@'),
   new PromptElementType('#', '#', [], true, 'Hash.', '#'),
-  new PromptElementType('$', '\\$', [], true, 'Dollar sign.', '$'),
+  new PromptElementType('$', '\\\\$', [], true, 'Dollar sign.', '$'),
   new PromptElementType('%', '%', [], true, 'Percent.', '%'),
   new PromptElementType('^', '^', [], true, 'Caret.', '^'),
   new PromptElementType('&', '&', [], true, 'Ampersand.', '&'),
