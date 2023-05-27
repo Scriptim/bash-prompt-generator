@@ -81,8 +81,10 @@ export function propertiesDelta(propBefore: PropertiesState, propAfter: Properti
         delta[key] = valBefore === valAfter ? 'keepUnset' : 'override';
       } else if (valBefore === valAfter) {
         delta[key] = 'keepSet';
-      } else {
+      } else if (valAfter === null || valAfter === false) {
         delta[key] = 'reset';
+      } else {
+        delta[key] = 'override';
       }
     });
   });

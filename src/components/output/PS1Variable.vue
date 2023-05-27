@@ -120,7 +120,6 @@ function resetOrOverrideEscapeCodes(
 function generateEscapeCodes(propsBefore: PropertiesState, propsAfter: PropertiesState): string {
   // we can ignore properties that are not set in either state as we will not set any unset properties anyway
   const { keepSets, resets, overrides } = propertiesDelta(propsBefore, propsAfter);
-  console.log(propertiesDelta(propsBefore, propsAfter));
 
   // no escape codes
   if (resets.length === 0 && overrides.length === 0) {
