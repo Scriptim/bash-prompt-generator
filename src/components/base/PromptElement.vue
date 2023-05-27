@@ -1,11 +1,12 @@
 <template>
-  <div class="prompt-element" :title="tooltip">
+  <div class="prompt-element" :title="tooltip" :class="{ dark: darkMode }">
     <span class="prompt-element_label">{{ label }}</span>
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
+import darkMode from '@/lib/darkMode';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -28,6 +29,14 @@ export default defineComponent({
       default: '',
     },
   },
+  computed: {
+    /**
+     * Returns `true` if the dark mode is enabled, `false` otherwise.
+     */
+    darkMode(): boolean {
+      return darkMode().enabled;
+    },
+  },
 });
 </script>
 
@@ -38,9 +47,12 @@ export default defineComponent({
   display: inline-block
   border-radius: 0.2em
   padding: 0.3em 0.4em
-  background-color: $color-foreground
+  background-color: $color-dark
   color: $color-background
   cursor: pointer
+
+  &.dark
+    color: $color-dim
 
   .prompt-element_label
     vertical-align: middle

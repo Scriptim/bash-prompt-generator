@@ -1,7 +1,7 @@
 <template>
   <h2>Properties</h2>
   <br />
-  <div class="properties-wrapper" v-if="selected !== null && element !== null">
+  <div class="properties-wrapper" v-if="selected !== null && element !== null" :class="{ dark: darkMode }">
     <div class="properties_parameter" v-if="element.type.parameters.length > 0">
       <h3>Parameters</h3>
       <br />
@@ -110,6 +110,7 @@ import Popper from 'vue3-popper';
 import prompt from '@/lib/prompt';
 import { Color } from '@/lib/enum/color';
 import { PromptElement } from '@/lib/promptElement';
+import darkMode from '@/lib/darkMode';
 import EmptyState from '../base/EmptyState.vue';
 import ColorPicker from '../ui/ColorPicker.vue';
 import IconButton from '../ui/IconButton.vue';
@@ -123,8 +124,8 @@ export default defineComponent({
     ColorPicker,
     Popper,
     EmptyState,
-    IconButton
-},
+    IconButton,
+  },
   data() {
     return {
       /**
@@ -149,6 +150,12 @@ export default defineComponent({
      */
     empty(): boolean {
       return prompt.refs().elements.value.length > 0 && prompt.refs().selected.value === null;
+    },
+    /**
+     * Returns `true` if the dark mode is enabled, `false` otherwise.
+     */
+    darkMode(): boolean {
+      return darkMode().enabled;
     },
   },
   methods: {
@@ -194,8 +201,14 @@ export default defineComponent({
 
 .properties-wrapper
   text-align: left
-  --popper-theme-background-color: white
-  --popper-theme-background-color-hover: white
+  // lighten($color-background, 10%)
+  --popper-theme-background-color: #ffffff
+  --popper-theme-background-color-hover: #ffffff
+
+  &.dark
+    // lighten($color-foreground, 10%)
+    --popper-theme-background-color: #37414f
+    --popper-theme-background-color-hover: #37414f
 
 h3
   margin: 0.7em 0 0.3em

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="empty" class="empty-state">
+  <div v-if="empty" class="empty-state" :class="{ dark: darkMode }">
     <CubeTransparentIcon class="empty-state-icon" />
     <br />
     <slot></slot>
@@ -9,6 +9,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { CubeTransparentIcon } from '@heroicons/vue/24/outline';
+import darkMode from '@/lib/darkMode';
 
 export default defineComponent({
   name: 'BaseEmptyState',
@@ -26,6 +27,14 @@ export default defineComponent({
       required: true,
     },
   },
+  computed: {
+    /**
+     * Returns `true` if the dark mode is enabled, `false` otherwise.
+     */
+    darkMode(): boolean {
+      return darkMode().enabled;
+    },
+  },
 });
 </script>
 
@@ -41,4 +50,9 @@ export default defineComponent({
 .empty-state-icon
   width: 6em
   opacity: 0.5
+
+.dark
+  .empty-state,
+  .empty-state-icon
+    opacity: 0.7
 </style>
