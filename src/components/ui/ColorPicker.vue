@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { XCircleIcon } from '@heroicons/vue/outline';
+import { XCircleIcon } from '@heroicons/vue/24/outline';
 import { Color, COLORS } from '@/lib/enum/color';
 
 /**
@@ -51,6 +51,7 @@ export default defineComponent({
      */
     selectedColor: {
       type: Color,
+      default: null,
     },
   },
   data() {

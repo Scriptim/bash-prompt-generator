@@ -1,6 +1,6 @@
 <template>
   <h2>Output</h2>
-  <IconButton icon="ClipboardCopyIcon" title="Copy command to clipboard" @click="copyToClipboard"></IconButton>
+  <IconButton icon="ClipboardIcon" title="Copy command to clipboard" @click="copyToClipboard"></IconButton>
   <br />
   <p class="hint">
     Paste this line into your shell to test your prompt or append it to your <code>~/.bashrc</code> file to set it

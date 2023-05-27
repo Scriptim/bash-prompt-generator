@@ -95,7 +95,7 @@
     <div class="properties_actions">
       <h3>Actions</h3>
       <br />
-      <IconButton icon="DuplicateIcon" title="Duplicate element" @click="duplicate"></IconButton>
+      <IconButton icon="Square2StackIcon" title="Duplicate element" @click="duplicate"></IconButton>
     </div>
   </div>
   <EmptyState :empty="empty">
@@ -108,10 +108,10 @@
 import { defineComponent } from 'vue';
 import Popper from 'vue3-popper';
 import prompt from '@/lib/prompt';
-import ColorPicker from '@/components/ui/ColorPicker.vue';
 import { Color } from '@/lib/enum/color';
 import { PromptElement } from '@/lib/promptElement';
 import EmptyState from '../base/EmptyState.vue';
+import ColorPicker from '../ui/ColorPicker.vue';
 import IconButton from '../ui/IconButton.vue';
 
 /**

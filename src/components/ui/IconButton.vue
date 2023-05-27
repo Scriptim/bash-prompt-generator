@@ -7,7 +7,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 // import all icons that will be used; also register them in the components section below
-import { ClipboardCopyIcon, LightBulbIcon, DuplicateIcon, SaveIcon, TrashIcon, XIcon } from '@heroicons/vue/outline';
+import {
+  ClipboardIcon,
+  LightBulbIcon,
+  Square2StackIcon,
+  ArrowDownOnSquareIcon,
+  TrashIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/outline';
 
 /**
  * An icon that should perform an action when clicked.
@@ -29,15 +36,18 @@ export default defineComponent({
     /**
      * The title of the icon that is displayed when hovering over it.
      */
-    title: String,
+    title: {
+      type: String,
+      default: '',
+    },
   },
   components: {
-    ClipboardCopyIcon,
+    ClipboardIcon,
     LightBulbIcon,
-    DuplicateIcon,
+    Square2StackIcon,
     TrashIcon,
-    SaveIcon,
-    XIcon,
+    ArrowDownOnSquareIcon,
+    XMarkIcon,
   },
 });
 </script>

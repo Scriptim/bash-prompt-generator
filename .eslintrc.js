@@ -19,6 +19,7 @@ module.exports = {
       code: 120,
       comments: 120,
     }],
+    'import/extensions': ['error', 'never'],
   },
   overrides: [
     {
@@ -31,4 +32,9 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
+  },
 };

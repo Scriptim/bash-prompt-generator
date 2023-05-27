@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { CubeTransparentIcon } from '@heroicons/vue/outline';
+import { CubeTransparentIcon } from '@heroicons/vue/24/outline';
 
 export default defineComponent({
   name: 'BaseEmptyState',

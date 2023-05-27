@@ -26,7 +26,7 @@
       <code>PS1</code>:&nbsp;
       <input type="text" id="import-ps1" v-model="ps1input" placeholder="echo $PS1" />
     </label>
-    <IconButton icon="SaveIcon" title="Import PS1" @click="importPS1" />
+    <IconButton icon="ArrowDownOnSquareIcon" title="Import PS1" @click="importPS1" />
   </EmptyState>
 </template>
 

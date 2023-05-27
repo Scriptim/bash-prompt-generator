@@ -1,5 +1,5 @@
 <template>
-  <IconButton icon="XIcon" title="Remove element" class="inline"></IconButton>
+  <IconButton icon="XMarkIcon" title="Remove element" class="inline"></IconButton>
 </template>
 
 <script lang="ts">

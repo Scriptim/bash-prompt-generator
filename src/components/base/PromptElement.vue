@@ -23,7 +23,10 @@ export default defineComponent({
      * The tooltip that is displayed when hovering over the element.
      * Tooltips are defined in `PROMPT_ELEMENT_TYPES` (`lib/enum/promptElementType.ts`).
      */
-    tooltip: String,
+    tooltip: {
+      type: String,
+      default: '',
+    },
   },
 });
 </script>
