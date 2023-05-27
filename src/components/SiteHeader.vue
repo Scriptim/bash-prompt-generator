@@ -1,6 +1,7 @@
 <!-- eslint-disable max-len -->
 <template>
-  <header>
+  <header :class="{ dark: darkMode }">
+    <IconButton icon="MoonIcon" title="Toggle dark mode" @click="toggleDarkMode" class="toggle-darkmode-btn"></IconButton>
     <h1>$&nbsp;<span class="underscore">_</span>&nbsp;Bash Prompt Generator</h1>
     <!--
       The github corner element was adapted from <https://github.com/tholman/github-corners>.
@@ -34,12 +35,33 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import darkMode from '@/lib/darkMode';
+import IconButton from './ui/IconButton.vue';
 
 /**
  * The site header containing the title.
  */
 export default defineComponent({
   name: 'SiteHeader',
+  components: {
+    IconButton,
+  },
+  methods: {
+    /**
+     * Toggles the dark mode.
+     */
+    toggleDarkMode(): void {
+      darkMode().toggle();
+    },
+  },
+  computed: {
+    /**
+     * Returns `true` if the dark mode is enabled, `false` otherwise.
+     */
+    darkMode(): boolean {
+      return darkMode().enabled;
+    },
+  },
 });
 </script>
 
@@ -49,7 +71,7 @@ export default defineComponent({
 header
   margin: 0
   color: $color-background
-  background-color: $color-foreground
+  background-color: #212121
   text-align: center
 
   h1
@@ -57,60 +79,71 @@ header
     margin: 0
     padding: 0.5em
 
+  .toggle-darkmode-btn
+    position: absolute
+    top: 1em
+    left: 2em
+
   .underscore
     color: #4caa25
 
+.github-corner
+  svg
+    position: absolute
+    top: 0
+    right: 0
+    border: 0
+    width: 140px
+    height: 140px
+
+  .corner
+    color: $color-accent
+
+  .octo-arm,
+  .octo-body
+    color: $color-background
+
+  .octo-arm
+    transform-origin: 130px 106px
+
+.github-corner:hover
+  .octo-arm
+    animation: octocat-wave 560ms ease-in-out
+
+.dark
+  .github-corner
+    .octo-arm,
+    .octo-body
+      color: $color-foreground
+
+@keyframes octocat-wave
+  0%,
+  100%
+    transform: rotate(0)
+
+  20%,
+  60%
+    transform: rotate(-25deg)
+
+  40%,
+  80%
+    transform: rotate(10deg)
+
+@media screen and (max-width: 500px)
   .github-corner
     svg
-      position: absolute
-      top: 0
-      right: 0
-      border: 0
-      width: 140px
-      height: 140px
-
-    .corner
-      color: $color-accent
+      width: 100px
+      height: 100px
 
     .octo-arm,
     .octo-body
-      color: $color-background
-
-    .octo-arm
-      transform-origin: 130px 106px
+      color: $color-foreground
 
   .github-corner:hover
     .octo-arm
+      animation: none
+
+  .github-corner
+    .octo-arm
       animation: octocat-wave 560ms ease-in-out
-
-  @keyframes octocat-wave
-    0%,
-    100%
-      transform: rotate(0)
-
-    20%,
-    60%
-      transform: rotate(-25deg)
-
-    40%,
-    80%
-      transform: rotate(10deg)
-
-  @media screen and (max-width: 500px)
-    .github-corner
-      svg
-        width: 100px
-        height: 100px
-
-      .octo-arm,
-      .octo-body
-        color: $color-foreground
-
-    .github-corner:hover
-      .octo-arm
-        animation: none
-
-    .github-corner
-      .octo-arm
-        animation: octocat-wave 560ms ease-in-out
 </style>

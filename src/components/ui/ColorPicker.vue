@@ -1,5 +1,5 @@
 <template>
-  <div class="color-picker">
+  <div class="color-picker" :class="{ dark: darkMode }">
     <div class="color-picker_reset">
       <div class="color-picker_color" title="Reset color" @click="selectColor(null)" @keydown="selectColor(null)">
         <XCircleIcon></XCircleIcon>
@@ -36,6 +36,7 @@
 import { defineComponent } from 'vue';
 import { XCircleIcon } from '@heroicons/vue/24/outline';
 import { Color, COLORS } from '@/lib/enum/color';
+import darkMode from '@/lib/darkMode';
 
 /**
  * Color picker for setting the foreground or background color of an element.
@@ -71,6 +72,14 @@ export default defineComponent({
       this.$emit('selectColor', color);
     },
   },
+  computed: {
+    /**
+     * Returns `true` if the dark mode is enabled, `false` otherwise.
+     */
+    darkMode(): boolean {
+      return darkMode().enabled;
+    },
+  },
 });
 </script>
 
@@ -83,6 +92,9 @@ export default defineComponent({
   background: lighten($color-background, 10%)
   box-shadow: 0 0 0.8em 0.2em rgba(0, 0, 0, 0.2)
   z-index: 2
+
+  &.dark
+    background: lighten($color-foreground, 10%)
 
 .color-picker_color4
   margin-bottom: 0.4em
@@ -113,6 +125,10 @@ export default defineComponent({
   &:hover
     transform: scale(1.2)
     box-shadow: 0.02em 0.1em 0.3em 0.1em rgba(0, 0, 0, 0.2)
+
+.dark
+  .color-picker_color.selected
+    outline: 0.2em solid $color-background
 
 .color-picker_reset
   margin-bottom: 0.4em

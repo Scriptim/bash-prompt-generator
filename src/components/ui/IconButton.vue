@@ -8,10 +8,11 @@
 import { defineComponent } from 'vue';
 // import all icons that will be used; also register them in the components section below
 import {
+  ArrowDownOnSquareIcon,
   ClipboardIcon,
   LightBulbIcon,
+  MoonIcon,
   Square2StackIcon,
-  ArrowDownOnSquareIcon,
   TrashIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/outline';
@@ -42,11 +43,12 @@ export default defineComponent({
     },
   },
   components: {
+    ArrowDownOnSquareIcon,
     ClipboardIcon,
     LightBulbIcon,
+    MoonIcon,
     Square2StackIcon,
     TrashIcon,
-    ArrowDownOnSquareIcon,
     XMarkIcon,
   },
 });

@@ -1,19 +1,21 @@
 <template>
-  <SiteHeader></SiteHeader>
-  <main>
-    <div id="element-selection">
-      <ElementSelection></ElementSelection>
-    </div>
-    <div id="prompt-editor">
-      <PromptElements></PromptElements>
-    </div>
-    <div id="properties" :style="{ visibility: visibleState }">
-      <ElementProperties></ElementProperties>
-    </div>
-    <div id="output" :style="{ visibility: visibleState }">
-      <PS1Variable></PS1Variable>
-      <br />
-      <PromptPreview></PromptPreview>
+  <main :class="{ dark: darkMode }">
+    <SiteHeader></SiteHeader>
+    <div class="flex-wrapper">
+      <div id="element-selection">
+        <ElementSelection></ElementSelection>
+      </div>
+      <div id="prompt-editor">
+        <PromptElements></PromptElements>
+      </div>
+      <div id="properties" :style="{ visibility: visibleState }">
+        <ElementProperties></ElementProperties>
+      </div>
+      <div id="output" :style="{ visibility: visibleState }">
+        <PS1Variable></PS1Variable>
+        <br />
+        <PromptPreview></PromptPreview>
+      </div>
     </div>
   </main>
 </template>
@@ -27,6 +29,7 @@ import PromptElements from './components/prompteditor/PromptElements.vue';
 import ElementProperties from './components/properties/ElementProperties.vue';
 import PS1Variable from './components/output/PS1Variable.vue';
 import PromptPreview from './components/output/PromptPreview.vue';
+import darkMode from './lib/darkMode';
 
 export default defineComponent({
   name: 'App',
@@ -48,6 +51,12 @@ export default defineComponent({
     visibleState(): 'hidden' | 'visible' {
       return prompt.refs().elements.value.length === 0 ? 'hidden' : 'visible';
     },
+    /**
+     * Returns `true` if the dark mode is enabled, `false` otherwise.
+     */
+    darkMode(): boolean {
+      return darkMode().enabled;
+    },
   },
 });
 </script>
@@ -57,16 +66,23 @@ export default defineComponent({
 
 body, main
   margin: 0
+  box-sizing: border-box
 
 body
-  color: $color-foreground
-  background-color: $color-background
   font-family: Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  color: $color-foreground
 
 main
+  color: $color-foreground
+  background-color: $color-background
+  min-height: 100vh
+
+  &.dark
+    color: $color-dim
+    background-color: $color-foreground
+
+.flex-wrapper
   display: flex
   flex-wrap: wrap
   justify-content: space-between
@@ -106,11 +122,25 @@ h3
 .hint
   opacity: 0.6
 
+.dark
+  h2,
+  h3
+    color: $color-background
+
+  .hint
+    opacity: 0.7
+
 br
   user-select: none
 
+.dark
+  input[type="text"],
+  input[type="number"]
+    background-color: $color-dim
+    color: $color-foreground
+
 @media screen and (max-width: 800px)
-  main
+  .flex-wrapper
     padding: 1em 1.2em
 
     &>div
