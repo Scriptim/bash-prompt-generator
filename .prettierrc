@@ -1,0 +1,13 @@
+{
+  "printWidth": 120,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "printWidth": 200
+      }
+    }
+  ]
+}
