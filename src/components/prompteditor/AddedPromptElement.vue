@@ -5,7 +5,7 @@
     :class="{ selected }"
     @click="selectPromptElement"
   >
-    <span v-if="data.parameters">{{ parameterString }}</span>
+    <span v-if="data.parameters" class="parameter">{{ parameterString }}</span>
     <DeleteElementIcon @click.stop="deletePromptElement"></DeleteElementIcon>
   </BasePromptElement>
 </template>
@@ -54,7 +54,7 @@ export default defineComponent({
       }
 
       // truncate the string to avoid excessive width of the element
-      return parameterString.length > 20 ? `: ${parameterString.slice(0, 16)}…` : `: ${parameterString}`;
+      return parameterString.length > 20 ? ` • ${parameterString.slice(0, 16)}…` : ` • ${parameterString}`;
     },
   },
   components: {
@@ -84,4 +84,8 @@ export default defineComponent({
 .selected
   // darken the background color because the delete icon has the same color
   background-color: darken($color-accent, 15%)
+
+.parameter
+  vertical-align: middle
+  font-family: monospace
 </style>
