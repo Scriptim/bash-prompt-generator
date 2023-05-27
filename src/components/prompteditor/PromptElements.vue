@@ -15,6 +15,13 @@
   <EmptyState :empty="empty">
     <p>You have not added any elements to your prompt yet.</p>
     <p>Click on a prompt element to start.</p>
+    <hr />
+    <p>Alternatively, you can paste your existing <code>PS1</code> string to import it:</p>
+    <label for="import-ps1" class="import-ps1">
+      <code>PS1</code>:&nbsp;
+      <input type="text" id="import-ps1" v-model="ps1input" placeholder="echo $PS1" />
+    </label>
+    <IconButton icon="SaveIcon" @click="importPS1" />
   </EmptyState>
 </template>
 
@@ -22,6 +29,7 @@
 import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 import prompt from '@/lib/prompt';
+import parsePS1 from '@/lib/promptParser';
 import PromptElement from './AddedPromptElement.vue';
 import IconButton from '../ui/IconButton.vue';
 import EmptyState from '../base/EmptyState.vue';
@@ -34,6 +42,7 @@ export default defineComponent({
   data() {
     return {
       elements: prompt.refs().elements,
+      ps1input: '',
     };
   },
   components: {
@@ -63,6 +72,17 @@ export default defineComponent({
     clear() {
       prompt.state().clear();
     },
+    importPS1() {
+      // TODO: error handling
+      const promptElements = parsePS1(this.ps1input);
+      if (promptElements === null) {
+        return;
+      }
+      prompt.state().clear();
+      promptElements.forEach((element) => {
+        prompt.state().push(element);
+      });
+    },
   },
 });
 </script>
@@ -70,4 +90,17 @@ export default defineComponent({
 <style lang="sass" scoped>
 .sortable-ghost
   opacity: 0.4
+
+hr
+  width: 50%
+  margin: 2em auto
+
+.import-ps1
+  font-size: 1.2em
+
+  input
+    min-width: 20em
+    font-size: 1.1em
+    font-family: monospace
+    margin-right: 0.2em
 </style>

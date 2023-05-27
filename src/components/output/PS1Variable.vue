@@ -17,81 +17,10 @@
 import { defineComponent } from 'vue';
 import prompt from '@/lib/prompt';
 import { PromptElement } from '@/lib/promptElement';
-import { ANSI, displayAttribute, displayColor } from '@/lib/enum/ansi';
+import { PropertiesState, defaultPropertiesState, propertiesDelta } from '@/lib/promptElementProperties';
+import { ANSI, displayColor } from '@/lib/enum/ansi';
 import { Color } from '@/lib/enum/color';
 import IconButton from '../ui/IconButton.vue';
-
-/**
- * The state of the colors and display attributes of the prompt at a certain position.
- *
- * Colors and display attributes are set using ANSI escape codes. Escape codes affect all following characters until
- * overridden or reset. Therefore, we can determine the escape codes that need to be inserted at a certain position by
- * comparing the state of properties before and after that position. This allows us to minimize the total number of
- * escape codes that need to be inserted.
- */
-type PropertiesState = {
-  colors: Record<displayColor, Color | null>;
-  attributes: Record<displayAttribute, boolean>;
-};
-/**
- * The type of change that needs to be made to a property to get from one state to another.
- *
- * - `keepUnset`: the property is not set in either state
- * - `keepSet`: the property is set in both states and the value is the same
- * - `reset`: the property is set in the first state but not in the second state
- * - `override`: the property is set in the second state but differently or not at all in the first state
- */
-type PropertyDelta = 'keepUnset' | 'keepSet' | 'reset' | 'override';
-/**
- * Generalizes {@link PropertyDelta} to all properties of a {@link PropertiesState}.
- *
- * A delta of properties contains four lists of property names according to {@link PropertyDelta}. The lists are
- * disjoint and their union contains all possible property names.
- */
-type PropertiesDelta = {
-  keepSets: string[];
-  resets: string[];
-  overrides: string[];
-  keepUnsets: string[];
-};
-
-/**
- * Calculates the {@link PropertiesDelta} between two {@link PropertiesState}s.
- *
- * @param propBefore the before state
- * @param propAfter the after state
- */
-function propertiesDelta(propBefore: PropertiesState, propAfter: PropertiesState): PropertiesDelta {
-  // first, we calculate the delta for each property
-  const delta: Record<string, PropertyDelta> = {};
-
-  Object.keys(propBefore).forEach((keyGroup) => {
-    const typedKeyGroup = keyGroup as keyof PropertiesState;
-
-    Object.keys(propBefore[typedKeyGroup]).forEach((key) => {
-      const typedKey = key as keyof PropertiesState[typeof typedKeyGroup];
-
-      const valBefore = propBefore[typedKeyGroup][typedKey];
-      const valAfter = propAfter[typedKeyGroup][typedKey];
-
-      if (valBefore === null || valBefore === false) {
-        delta[key] = valBefore === valAfter ? 'keepUnset' : 'override';
-      } else if (valBefore === valAfter) {
-        delta[key] = 'keepSet';
-      } else {
-        delta[key] = 'reset';
-      }
-    });
-  });
-
-  // then, we group the properties by their delta
-  return {
-    keepSets: Object.keys(delta).filter((key) => delta[key] === 'keepSet'),
-    resets: Object.keys(delta).filter((key) => delta[key] === 'reset'),
-    overrides: Object.keys(delta).filter((key) => delta[key] === 'override'),
-    keepUnsets: Object.keys(delta).filter((key) => delta[key] === 'keepUnset'),
-  };
-}
 
 /**
  * Returns an ordered list of escape codes used to set the foreground or background color of the prompt element.
@@ -191,6 +120,7 @@ function resetOrOverrideEscapeCodes(
 function generateEscapeCodes(propsBefore: PropertiesState, propsAfter: PropertiesState): string {
   // we can ignore properties that are not set in either state as we will not set any unset properties anyway
   const { keepSets, resets, overrides } = propertiesDelta(propsBefore, propsAfter);
+  console.log(propertiesDelta(propsBefore, propsAfter));
 
   // no escape codes
   if (resets.length === 0 && overrides.length === 0) {
@@ -223,21 +153,7 @@ function generateEscapeCodes(propsBefore: PropertiesState, propsAfter: Propertie
 function generatePS1(elements: PromptElement[]): string {
   // the initial state of the properties is that all colors and attributes are not set
   // this might actually be false if any escape codes are printed before the prompt but we ignore that
-  let propertiesState: PropertiesState = {
-    colors: {
-      foregroundColor: null,
-      backgroundColor: null,
-    },
-    attributes: {
-      bold: false,
-      dim: false,
-      italic: false,
-      underline: false,
-      blink: false,
-      reverse: false,
-      overline: false,
-    },
-  };
+  let propertiesState: PropertiesState = defaultPropertiesState();
 
   const outputElements: string[] = [];
 
