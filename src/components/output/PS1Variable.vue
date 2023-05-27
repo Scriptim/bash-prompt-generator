@@ -237,4 +237,7 @@ export default defineComponent({
   line-height: 1.5
   min-height: 1.5em
   word-break: break-all
+
+  span
+    user-select: all
 </style>

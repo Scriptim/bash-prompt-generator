@@ -102,4 +102,7 @@ h3
 
 .hint
   opacity: 0.6
+
+br
+  user-select: none
 </style>
