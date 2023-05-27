@@ -20,6 +20,8 @@ module.exports = {
       comments: 120,
     }],
     'import/extensions': ['error', 'never'],
+    'semi': ['error', 'always'],
+    'quotes': ['error', 'single'],
   },
   overrides: [
     {

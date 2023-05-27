@@ -95,7 +95,6 @@ export default defineComponent({
           prompt.state().push(element);
         });
       } catch (err) {
-        console.error('ERROR CAUGHT', err);
         if (err instanceof PromptParserError) {
           this.ps1inputError = err.message;
         } else {

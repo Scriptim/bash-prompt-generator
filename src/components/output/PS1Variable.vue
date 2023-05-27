@@ -198,6 +198,7 @@ function generatePS1(elements: PromptElement[]): string {
   // we cannot escape single quotes inside single-quoted strings
   // therefore we have to split the string and insert a double-quoted single quote in between:
   // 'prefix' "'" 'suffix'
+  // eslint-disable-next-line quotes
   return `PS1='${outputElements.join('').replace(/'/g, "'\"'\"'")}${endReset}'`;
 }
 

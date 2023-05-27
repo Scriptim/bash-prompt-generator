@@ -170,6 +170,7 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType('Exit Status', '$?', [], true, 'Exit status ($?).', '0'),
   new PromptElementType(
     'Git branch',
+    // eslint-disable-next-line quotes
     "$(git branch 2>/dev/null | grep ' ^* ' | colrm 1 2)",
     [],
     true,
@@ -221,6 +222,7 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType(':', ':', [], true, 'Colon.', ':'),
   new PromptElementType(';', ';', [], true, 'Semicolon.', ';'),
   new PromptElementType('"', '"', [], true, 'Quotation mark.', '"'),
+  // eslint-disable-next-line quotes
   new PromptElementType("'", "'", [], true, 'Single quote.', "'"),
   new PromptElementType('<', '<', [], true, 'Less than.', '<'),
   new PromptElementType('>', '>', [], true, 'Greater than.', '>'),
