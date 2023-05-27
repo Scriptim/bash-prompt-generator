@@ -24,9 +24,17 @@
     <p>Alternatively, you can paste your existing <code>PS1</code> string to import it:</p>
     <label for="import-ps1" class="import-ps1">
       <code>PS1</code>:&nbsp;
-      <input type="text" id="import-ps1" v-model="ps1input" placeholder="echo $PS1" />
+      <input
+        type="text"
+        id="import-ps1"
+        v-model="ps1input"
+        @change="ps1inputError = ''"
+        placeholder="echo $PS1"
+        spellcheck="false"
+      />
     </label>
     <IconButton icon="ArrowDownOnSquareIcon" title="Import PS1" @click="importPS1" />
+    <p v-if="ps1inputError" class="import-error">{{ ps1inputError }}</p>
   </EmptyState>
 </template>
 
@@ -34,7 +42,7 @@
 import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 import prompt from '@/lib/prompt';
-import parsePS1 from '@/lib/promptParser';
+import { parsePS1, PromptParserError } from '@/lib/promptParser';
 import PromptElement from './AddedPromptElement.vue';
 import IconButton from '../ui/IconButton.vue';
 import EmptyState from '../base/EmptyState.vue';
@@ -48,6 +56,7 @@ export default defineComponent({
     return {
       elements: prompt.refs().elements,
       ps1input: '',
+      ps1inputError: '',
     };
   },
   components: {
@@ -78,21 +87,29 @@ export default defineComponent({
       prompt.state().clear();
     },
     importPS1() {
-      // TODO: error handling
-      const promptElements = parsePS1(this.ps1input);
-      if (promptElements === null) {
-        return;
+      try {
+        const promptElements = parsePS1(this.ps1input);
+        prompt.state().clear();
+        this.ps1inputError = '';
+        promptElements.forEach((element) => {
+          prompt.state().push(element);
+        });
+      } catch (err) {
+        console.error('ERROR CAUGHT', err);
+        if (err instanceof PromptParserError) {
+          this.ps1inputError = err.message;
+        } else {
+          throw err;
+        }
       }
-      prompt.state().clear();
-      promptElements.forEach((element) => {
-        prompt.state().push(element);
-      });
     },
   },
 });
 </script>
 
 <style lang="sass" scoped>
+@import "@/assets/sass/_variables.sass"
+
 .sortable-ghost
   opacity: 0.4
 
@@ -104,8 +121,14 @@ hr
   font-size: 1.2em
 
   input
-    min-width: 20em
+    width: 20em
+    // keep space for the label text and icon
+    max-width: 70%
     font-size: 1.1em
     font-family: monospace
     margin-right: 0.2em
+
+.import-error
+  color: $color-error
+  opacity: 2
 </style>

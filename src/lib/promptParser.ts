@@ -5,6 +5,24 @@ import { PropertiesState, defaultPropertiesState } from './promptElementProperti
 import { COLORS } from './enum/color';
 
 /**
+ * Thrown when the prompt parser encounters an error.
+ */
+export class PromptParserError extends Error {
+  /**
+   * Creates a new prompt parser error.
+   *
+   * @param message The error message should be capitalized and not end with a period.
+   * @param ps1 The prompt string given by the user.
+   * @param cursor The position in the prompt string where the error occurred.
+   * @param length The number of characters to include in the error message after the cursor (default: `5`).
+   */
+  constructor(message: string, ps1: string, cursor: number, length = 5) {
+    super(`${message} at column ${cursor + 1}: …${ps1.substring(cursor, cursor + length)}…`);
+    this.name = 'PromptParserError';
+  }
+}
+
+/**
  * List of prompt element types that do not take any parameters.
  */
 const unparameterized = PROMPT_ELEMENT_TYPES.filter((element) => element.parameters.length === 0);
@@ -43,6 +61,7 @@ function readUnparameterized(ps1: string, cursor: number): { element: PromptElem
  * @param cursor The position in the prompt string to start reading from.
  * @param before The properties state before the escape code sequence.
  * @returns The properties state after the escape code sequence and the cursor position after that sequence.
+ * @throws {PromptParserError} If the prompt string could not be parsed.
  */
 function readEscapeCodes(
   ps1: string,
@@ -50,13 +69,27 @@ function readEscapeCodes(
   before: PropertiesState,
 ): { state: PropertiesState; newCursor: number } {
   // read escape codes
-  let escapeCodesString = '';
+  const escapeCodes: (typeof ANSI)[keyof typeof ANSI][] = [];
   let localCursor = cursor;
   while (!ps1.startsWith('m\\]', localCursor)) {
-    escapeCodesString += ps1[localCursor];
-    localCursor += 1;
+    const escapeCode = parseInt(ps1.substring(localCursor), 10);
+    if (Number.isNaN(escapeCode) || escapeCode < 0) {
+      throw new PromptParserError('Invalid escape code', ps1, localCursor);
+    }
+
+    escapeCodes.push(escapeCode);
+    localCursor += escapeCode.toString().length;
+
+    // we consume the separator ';' if it is present
+    // otherwise the loop will terminate ('m\]') or throw an error in the next iteration
+    if (ps1.startsWith(';', localCursor)) {
+      localCursor += 1;
+    }
+
+    if (localCursor >= ps1.length) {
+      throw new PromptParserError('Unterminated escape code sequence', ps1, cursor - 5, 8);
+    }
   }
-  const escapeCodes: typeof ANSI[keyof typeof ANSI][] = escapeCodesString.split(';').map((code) => parseInt(code, 10));
 
   // apply escape codes
   let after = {
@@ -111,12 +144,44 @@ function readEscapeCodes(
         break;
       case ANSI.FOREGROUNDCOLOR:
         // 8-bit foreground colors
+        if (escapeCodes.length <= i + 1 || escapeCodes[i + 1] !== 5) {
+          throw new PromptParserError(
+            `Missing '5' after foreground color escape code '${ANSI.FOREGROUNDCOLOR}'`,
+            ps1,
+            cursor,
+          );
+        }
+        if (escapeCodes.length <= i + 2 || escapeCodes[i + 2] >= COLORS.length) {
+          throw new PromptParserError(
+            `Missing or invalid foreground color escape code after '${ANSI.FOREGROUNDCOLOR};5;'`,
+            ps1,
+            cursor,
+            escapeCodes.length <= i + 2 ? 5 : escapeCodes[i + 2].toString().length + 5,
+          );
+        }
+
         after.colors.foregroundColor = COLORS[escapeCodes[i + 2]];
         // skip '5' and color code
         i += 2;
         break;
       case ANSI.BACKGROUNDCOLOR:
         // 8-bit background colors
+        if (escapeCodes.length <= i + 1 || escapeCodes[i + 1] !== 5) {
+          throw new PromptParserError(
+            `Missing '5' after background color escape code '${ANSI.BACKGROUNDCOLOR}'`,
+            ps1,
+            cursor,
+          );
+        }
+        if (escapeCodes.length <= i + 2 || escapeCodes[i + 2] >= COLORS.length) {
+          throw new PromptParserError(
+            `Missing or invalid background color escape code after '${ANSI.BACKGROUNDCOLOR};5;'`,
+            ps1,
+            cursor,
+            escapeCodes.length <= i + 2 ? 5 : escapeCodes[i + 2].toString().length + 5,
+          );
+        }
+
         after.colors.backgroundColor = COLORS[escapeCodes[i + 2]];
         // skip '5' and color code
         i += 2;
@@ -133,6 +198,7 @@ function readEscapeCodes(
             break;
           }
         }
+        throw new PromptParserError('Unknown escape code', ps1, cursor, escapeCodes[i].toString().length);
     }
   }
 
@@ -179,9 +245,10 @@ function equalProperties(a: PromptElement, b: PromptElement): boolean {
  * This allows the user to import their existing prompt string and use it in the prompt editor.
  *
  * @param ps1 The value of the `PS1` environment variable as output by `echo $PS1`.
- * @returns A list of prompt elements or `null` if the prompt string could not be parsed.
+ * @returns A list of prompt elements.
+ * @throws {PromptParserError} If the prompt string could not be parsed.
  */
-export default function parsePS1(ps1: string): PromptElement[] | null {
+export function parsePS1(ps1: string): PromptElement[] {
   const elements: PromptElement[] = [];
 
   let cursor = 0;
@@ -223,6 +290,7 @@ export default function parsePS1(ps1: string): PromptElement[] | null {
     }
     // manual handling of command element
     else if (ps1.startsWith('$(', cursor)) {
+      const openCursor = cursor;
       // skip '$('
       cursor += 2;
       let command = '';
@@ -235,6 +303,10 @@ export default function parsePS1(ps1: string): PromptElement[] | null {
         }
         command += ps1[cursor];
         cursor += 1;
+
+        if (cursor >= ps1.length) {
+          throw new PromptParserError('Missing closing parenthesis for command', ps1, openCursor, 1);
+        }
       }
       // skip ')'
       cursor += 1;
