@@ -1,6 +1,6 @@
 <template>
   <h3>Example Preview</h3>
-  <IconButton icon="LightBulbIcon" @click="togglePreview"></IconButton>
+  <IconButton icon="LightBulbIcon" title="Toggle dark/light preview" @click="togglePreview"></IconButton>
   <br />
   <div class="preview" :class="{ light, dark: !light }">
     <span

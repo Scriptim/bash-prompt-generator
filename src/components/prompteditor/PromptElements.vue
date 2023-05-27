@@ -1,6 +1,11 @@
 <template>
   <h2>Your Prompt</h2>
-  <IconButton :style="{ visibility: empty ? 'hidden' : undefined }" icon="TrashIcon" @click="clear"></IconButton>
+  <IconButton
+    :style="{ visibility: empty ? 'hidden' : undefined }"
+    title="Remove all elements"
+    icon="TrashIcon"
+    @click="clear"
+  ></IconButton>
   <br />
   <p v-if="!empty" class="hint">Drag elements to reorder them or click the &times; icon to remove them.</p>
   <ol class="list-row">
@@ -21,7 +26,7 @@
       <code>PS1</code>:&nbsp;
       <input type="text" id="import-ps1" v-model="ps1input" placeholder="echo $PS1" />
     </label>
-    <IconButton icon="SaveIcon" @click="importPS1" />
+    <IconButton icon="SaveIcon" title="Import PS1" @click="importPS1" />
   </EmptyState>
 </template>
 

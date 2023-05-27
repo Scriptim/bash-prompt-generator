@@ -95,7 +95,7 @@
     <div class="properties_actions">
       <h3>Actions</h3>
       <br />
-      <IconButton icon="DuplicateIcon" @click="duplicate"></IconButton>
+      <IconButton icon="DuplicateIcon" title="Duplicate element" @click="duplicate"></IconButton>
     </div>
   </div>
   <EmptyState :empty="empty">

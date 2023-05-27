@@ -1,5 +1,7 @@
 <template>
-  <component :is="icon" class="icon-button"></component>
+  <span :title="title">
+    <component :is="icon" class="icon-button"></component>
+  </span>
 </template>
 
 <script lang="ts">
@@ -24,6 +26,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    /**
+     * The title of the icon that is displayed when hovering over it.
+     */
+    title: String,
   },
   components: {
     ClipboardCopyIcon,
@@ -49,9 +55,10 @@ export default defineComponent({
   vertical-align: bottom
   cursor: pointer
 
-.icon-button.inline
-  width: 1.2em
-  height: 1.2em
-  margin-left: 0.4em
-  vertical-align: middle
+.inline
+  .icon-button
+    width: 1.2em
+    height: 1.2em
+    margin-left: 0.4em
+    vertical-align: middle
 </style>
