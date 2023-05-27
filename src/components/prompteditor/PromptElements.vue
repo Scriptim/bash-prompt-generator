@@ -1,6 +1,6 @@
 <template>
   <h2>Your Prompt</h2>
-  <IconButton icon="TrashIcon" @click="clear"></IconButton>
+  <IconButton :style="{ visibility: empty ? 'hidden' : undefined }" icon="TrashIcon" @click="clear"></IconButton>
   <br />
   <p v-if="!empty" class="hint">Drag elements to reorder them or click the &times; icon to remove them.</p>
   <ol class="list-row">
