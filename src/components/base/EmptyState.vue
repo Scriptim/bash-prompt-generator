@@ -34,11 +34,11 @@ export default defineComponent({
 
 .empty-state
   text-align: center
-  padding: 4em
+  padding: 2em 4em
   opacity: 0.5
   font-weight: bold
 
 .empty-state-icon
-  width: 8em
+  width: 6em
   opacity: 0.5
 </style>

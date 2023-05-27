@@ -64,7 +64,6 @@ body
   font-family: Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  text-align: center
   color: $color-foreground
 
 main
@@ -75,21 +74,25 @@ main
   padding: 1em 2em
 
   &>div
-    padding: 1em
+    padding: 0.8em 1em 0.2em
 
-#element-selection,
+#element-selection
+  flex: 2
+  min-width: 28em
+
 #properties
   flex: 1
-  min-width: 28em
+  min-width: 20em
 
 #prompt-editor,
 #output
-  flex: 2
+  flex: 3
   min-width: 32em
 
 ul.list-row,
 ol.list-row
   text-align: left
+  padding: 0.5em 1em
 
   li
     display: inline-block
@@ -105,4 +108,16 @@ h3
 
 br
   user-select: none
+
+@media screen and (max-width: 800px)
+  main
+    padding: 1em 1.2em
+
+    &>div
+      padding: 0.5em
+
+  ul.list-row
+  ol.list-row
+    li
+      margin: 0.1em
 </style>

@@ -49,6 +49,7 @@ header
   margin: 0
   color: $color-background
   background-color: $color-foreground
+  text-align: center
 
   h1
     font-size: 1.9em
