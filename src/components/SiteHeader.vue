@@ -1,7 +1,10 @@
 <!-- eslint-disable max-len -->
 <template>
   <header :class="{ dark: darkMode }">
-    <IconButton icon="MoonIcon" title="Toggle dark mode" @click="toggleDarkMode" class="toggle-darkmode-btn"></IconButton>
+    <div class="header-buttons">
+      <IconButton icon="QuestionMarkCircleIcon" title="Help" @click="openHelp"></IconButton>
+      <IconButton icon="MoonIcon" title="Toggle dark mode" @click="toggleDarkMode"></IconButton>
+    </div>
     <h1>$&nbsp;<span class="underscore">_</span>&nbsp;Bash Prompt Generator</h1>
     <!--
       The github corner element was adapted from <https://github.com/tholman/github-corners>.
@@ -48,6 +51,15 @@ export default defineComponent({
   },
   methods: {
     /**
+     * Opens the usage instructions in the README.md file on GitHub.
+     */
+    openHelp(): void {
+      window.open(
+        'https://github.com/Scriptim/bash-prompt-generator#how-to-use',
+        '_blank',
+      );
+    },
+    /**
      * Toggles the dark mode.
      */
     toggleDarkMode(): void {
@@ -79,10 +91,14 @@ header
     margin: 0
     padding: 0.5em
 
-  .toggle-darkmode-btn
+  .header-buttons
     position: absolute
     top: 1em
     left: 2em
+    display: flex
+    align-content: center
+    gap: 1em
+
 
   .underscore
     color: #4caa25
