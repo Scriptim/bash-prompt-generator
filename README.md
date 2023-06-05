@@ -1,35 +1,117 @@
-<h1 align="center">Bash Prompt Generator</h1>
+# Bash Prompt Generator
 
-<p align="center">
-  <a href="./LICENSE" title="License">
-    <img src="https://img.shields.io/github/license/Scriptim/bash-prompt-generator">
-  </a>
-  <a href="https://github.com/Scriptim/bash-prompt-generator/stargazers" title="GitHub Stars">
-    <img src="https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social">
-  </a>
-  <a href="https://github.com/Scriptim/bash-prompt-generator/fork" title="Fork GitHub Repo">
-    <img src="https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social">
-  </a>
-  <br><br>
-  <b>Create a custom PS1 variable for your Bash.</b>
-  <br><br>
-  <a align="center" href="https://scriptim.github.io/bash-prompt-generator" title="Check It Out">
-    <img src="https://forthebadge.com/images/badges/check-it-out.svg">
-  </a>
-</p>
+**Create a custom PS1 variable for your Bash.**
 
-## Example
+[![github-stars](https://img.shields.io/github/stars/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/stargazers "Stargazers")
+&emsp;
+[![github-forks](https://img.shields.io/github/forks/Scriptim/bash-prompt-generator?style=social)](https://github.com/Scriptim/bash-prompt-generator/fork "Forks")
 
-![Browser (Screenshot)](./img/screenshot_browser.png)
 
-### Result
+<!-- badge generated using https://forthebadge.com/generator/ -->
+[![generate-your-prompt](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNjIuMTQiIGhlaWdodD0iMzUiIHZpZXdCb3g9IjAgMCAyNjIuMTQgMzUiPjxyZWN0IGNsYXNzPSJzdmdfX3JlY3QiIHg9IjAiIHk9IjAiIHdpZHRoPSIxMDcuMDYiIGhlaWdodD0iMzUiIGZpbGw9IiM0MTU2NTgiLz48cmVjdCBjbGFzcz0ic3ZnX19yZWN0IiB4PSIxMDUuMDYiIHk9IjAiIHdpZHRoPSIxNTcuMDc5OTk5OTk5OTk5OTgiIGhlaWdodD0iMzUiIGZpbGw9IiMwMEFEQjUiLz48cGF0aCBjbGFzcz0ic3ZnX190ZXh0IiBkPSJNMTMuOTcgMTguMTNMMTMuOTcgMTguMTNMMTMuOTcgMTcuNDZRMTMuOTcgMTUuNTMgMTQuOTAgMTQuNDRRMTUuODIgMTMuMzUgMTcuNDggMTMuMzVMMTcuNDggMTMuMzVRMTguOTAgMTMuMzUgMTkuNzQgMTQuMDVRMjAuNTggMTQuNzYgMjAuNzUgMTYuMDhMMjAuNzUgMTYuMDhMMTkuMzAgMTYuMDhRMTkuMDUgMTQuNTQgMTcuNTEgMTQuNTRMMTcuNTEgMTQuNTRRMTYuNTEgMTQuNTQgMTYuMDAgMTUuMjZRMTUuNDggMTUuOTggMTUuNDYgMTcuMzdMMTUuNDYgMTcuMzdMMTUuNDYgMTguMDJRMTUuNDYgMTkuNDAgMTYuMDQgMjAuMTdRMTYuNjMgMjAuOTMgMTcuNjYgMjAuOTNMMTcuNjYgMjAuOTNRMTguODAgMjAuOTMgMTkuMjggMjAuNDJMMTkuMjggMjAuNDJMMTkuMjggMTguNzVMMTcuNTIgMTguNzVMMTcuNTIgMTcuNjJMMjAuNzYgMTcuNjJMMjAuNzYgMjAuODlRMjAuMjkgMjEuNTAgMTkuNDcgMjEuODFRMTguNjUgMjIuMTIgMTcuNjEgMjIuMTJMMTcuNjEgMjIuMTJRMTYuNTQgMjIuMTIgMTUuNzEgMjEuNjNRMTQuODkgMjEuMTQgMTQuNDQgMjAuMjRRMTMuOTkgMTkuMzMgMTMuOTcgMTguMTNaTTMwLjk1IDIyTDI1LjM3IDIyTDI1LjM3IDEzLjQ3TDMwLjkxIDEzLjQ3TDMwLjkxIDE0LjY2TDI2Ljg2IDE0LjY2TDI2Ljg2IDE3LjAyTDMwLjM2IDE3LjAyTDMwLjM2IDE4LjE5TDI2Ljg2IDE4LjE5TDI2Ljg2IDIwLjgyTDMwLjk1IDIwLjgyTDMwLjk1IDIyWk0zNi42MyAyMkwzNS4xNSAyMkwzNS4xNSAxMy40N0wzNi42MyAxMy40N0w0MC40NCAxOS41NEw0MC40NCAxMy40N0w0MS45MSAxMy40N0w0MS45MSAyMkw0MC40MyAyMkwzNi42MyAxNS45NUwzNi42MyAyMlpNNTIuMjMgMjJMNDYuNjUgMjJMNDYuNjUgMTMuNDdMNTIuMTkgMTMuNDdMNTIuMTkgMTQuNjZMNDguMTQgMTQuNjZMNDguMTQgMTcuMDJMNTEuNjQgMTcuMDJMNTEuNjQgMTguMTlMNDguMTQgMTguMTlMNDguMTQgMjAuODJMNTIuMjMgMjAuODJMNTIuMjMgMjJaTTU3LjkxIDIyTDU2LjQzIDIyTDU2LjQzIDEzLjQ3TDU5LjQzIDEzLjQ3UTYwLjkwIDEzLjQ3IDYxLjcxIDE0LjEzUTYyLjUxIDE0Ljc5IDYyLjUxIDE2LjA1TDYyLjUxIDE2LjA1UTYyLjUxIDE2LjkwIDYyLjEwIDE3LjQ4UTYxLjY4IDE4LjA2IDYwLjk1IDE4LjM3TDYwLjk1IDE4LjM3TDYyLjg2IDIxLjkyTDYyLjg2IDIyTDYxLjI3IDIyTDU5LjU2IDE4LjcxTDU3LjkxIDE4LjcxTDU3LjkxIDIyWk01Ny45MSAxNC42Nkw1Ny45MSAxNy41Mkw1OS40MyAxNy41MlE2MC4xOCAxNy41MiA2MC42MSAxNy4xNVE2MS4wMyAxNi43NyA2MS4wMyAxNi4xMUw2MS4wMyAxNi4xMVE2MS4wMyAxNS40MyA2MC42NCAxNS4wNVE2MC4yNSAxNC42OCA1OS40OCAxNC42Nkw1OS40OCAxNC42Nkw1Ny45MSAxNC42NlpNNjcuNjggMjJMNjYuMTQgMjJMNjkuMzcgMTMuNDdMNzAuNzAgMTMuNDdMNzMuOTIgMjJMNzIuMzggMjJMNzEuNjggMjAuMDFMNjguMzggMjAuMDFMNjcuNjggMjJaTTcwLjAzIDE1LjI4TDY4Ljc5IDE4LjgyTDcxLjI2IDE4LjgyTDcwLjAzIDE1LjI4Wk03OS41NiAxNC42Nkw3Ni45MiAxNC42Nkw3Ni45MiAxMy40N0w4My42OSAxMy40N0w4My42OSAxNC42Nkw4MS4wMyAxNC42Nkw4MS4wMyAyMkw3OS41NiAyMkw3OS41NiAxNC42NlpNOTMuMDMgMjJMODcuNDUgMjJMODcuNDUgMTMuNDdMOTIuOTggMTMuNDdMOTIuOTggMTQuNjZMODguOTMgMTQuNjZMODguOTMgMTcuMDJMOTIuNDMgMTcuMDJMOTIuNDMgMTguMTlMODguOTMgMTguMTlMODguOTMgMjAuODJMOTMuMDMgMjAuODJMOTMuMDMgMjJaIiBmaWxsPSIjRkZGRkZGIi8+PHBhdGggY2xhc3M9InN2Z19fdGV4dCIgZD0iTTEyMS4zNyAxOC45NUwxMTguMTcgMTMuNjBMMTIwLjY4IDEzLjYwTDEyMi42NyAxNi45NEwxMjQuNjYgMTMuNjBMMTI2Ljk2IDEzLjYwTDEyMy43NSAxOC45OUwxMjMuNzUgMjJMMTIxLjM3IDIyTDEyMS4zNyAxOC45NVpNMTMwLjYyIDE3LjgwTDEzMC42MiAxNy44MFExMzAuNjIgMTYuNTUgMTMxLjIyIDE1LjU1UTEzMS44MyAxNC41NiAxMzIuODkgMTQuMDBRMTMzLjk1IDEzLjQzIDEzNS4yOCAxMy40M0wxMzUuMjggMTMuNDNRMTM2LjYyIDEzLjQzIDEzNy42OCAxNC4wMFExMzguNzQgMTQuNTYgMTM5LjM1IDE1LjU1UTEzOS45NSAxNi41NSAxMzkuOTUgMTcuODBMMTM5Ljk1IDE3LjgwUTEzOS45NSAxOS4wNSAxMzkuMzUgMjAuMDRRMTM4Ljc0IDIxLjA0IDEzNy42OCAyMS42MFExMzYuNjIgMjIuMTcgMTM1LjI4IDIyLjE3TDEzNS4yOCAyMi4xN1ExMzMuOTUgMjIuMTcgMTMyLjg5IDIxLjYwUTEzMS44MyAyMS4wNCAxMzEuMjIgMjAuMDRRMTMwLjYyIDE5LjA1IDEzMC42MiAxNy44MFpNMTMzLjAyIDE3LjgwTDEzMy4wMiAxNy44MFExMzMuMDIgMTguNTEgMTMzLjMyIDE5LjA1UTEzMy42MiAxOS42MCAxMzQuMTQgMTkuOTBRMTM0LjY1IDIwLjIwIDEzNS4yOCAyMC4yMEwxMzUuMjggMjAuMjBRMTM1LjkyIDIwLjIwIDEzNi40NCAxOS45MFExMzYuOTUgMTkuNjAgMTM3LjI1IDE5LjA1UTEzNy41NSAxOC41MSAxMzcuNTUgMTcuODBMMTM3LjU1IDE3LjgwUTEzNy41NSAxNy4wOSAxMzcuMjUgMTYuNTRRMTM2Ljk1IDE2IDEzNi40NCAxNS43MFExMzUuOTIgMTUuNDAgMTM1LjI4IDE1LjQwTDEzNS4yOCAxNS40MFExMzQuNjUgMTUuNDAgMTM0LjEzIDE1LjcwUTEzMy42MiAxNiAxMzMuMzIgMTYuNTRRMTMzLjAyIDE3LjA5IDEzMy4wMiAxNy44MFpNMTQ0LjYxIDE4LjI2TDE0NC42MSAxOC4yNkwxNDQuNjEgMTMuNjBMMTQ2Ljk5IDEzLjYwTDE0Ni45OSAxOC4xOVExNDYuOTkgMjAuMjAgMTQ4LjU5IDIwLjIwTDE0OC41OSAyMC4yMFExNTAuMTcgMjAuMjAgMTUwLjE3IDE4LjE5TDE1MC4xNyAxOC4xOUwxNTAuMTcgMTMuNjBMMTUyLjUxIDEzLjYwTDE1Mi41MSAxOC4yNlExNTIuNTEgMjAuMTMgMTUxLjQ3IDIxLjE1UTE1MC40MyAyMi4xNyAxNDguNTYgMjIuMTdMMTQ4LjU2IDIyLjE3UTE0Ni42OSAyMi4xNyAxNDUuNjUgMjEuMTVRMTQ0LjYxIDIwLjEzIDE0NC42MSAxOC4yNlpNMTU5Ljk4IDIyTDE1Ny42MCAyMkwxNTcuNjAgMTMuNjBMMTYxLjQ0IDEzLjYwUTE2Mi41OCAxMy42MCAxNjMuNDIgMTMuOThRMTY0LjI2IDE0LjM1IDE2NC43MiAxNS4wNlExNjUuMTcgMTUuNzYgMTY1LjE3IDE2LjcxTDE2NS4xNyAxNi43MVExNjUuMTcgMTcuNjIgMTY0Ljc1IDE4LjMwUTE2NC4zMiAxOC45OCAxNjMuNTMgMTkuMzZMMTYzLjUzIDE5LjM2TDE2NS4zNCAyMkwxNjIuNzkgMjJMMTYxLjI3IDE5Ljc3TDE1OS45OCAxOS43N0wxNTkuOTggMjJaTTE1OS45OCAxNS40N0wxNTkuOTggMTcuOTNMMTYxLjI5IDE3LjkzUTE2Mi4wMyAxNy45MyAxNjIuNDAgMTcuNjFRMTYyLjc3IDE3LjI5IDE2Mi43NyAxNi43MUwxNjIuNzcgMTYuNzFRMTYyLjc3IDE2LjEyIDE2Mi40MCAxNS43OVExNjIuMDMgMTUuNDcgMTYxLjI5IDE1LjQ3TDE2MS4yOSAxNS40N0wxNTkuOTggMTUuNDdaTTE3OS4zMSAyMkwxNzYuOTMgMjJMMTc2LjkzIDEzLjYwTDE4MC43OCAxMy42MFExODEuOTEgMTMuNjAgMTgyLjc1IDEzLjk4UTE4My42MCAxNC4zNSAxODQuMDUgMTUuMDZRMTg0LjUxIDE1Ljc2IDE4NC41MSAxNi43MUwxODQuNTEgMTYuNzFRMTg0LjUxIDE3LjY2IDE4NC4wNSAxOC4zNVExODMuNjAgMTkuMDUgMTgyLjc1IDE5LjQyUTE4MS45MSAxOS44MCAxODAuNzggMTkuODBMMTgwLjc4IDE5LjgwTDE3OS4zMSAxOS44MEwxNzkuMzEgMjJaTTE3OS4zMSAxNS40N0wxNzkuMzEgMTcuOTNMMTgwLjYzIDE3LjkzUTE4MS4zNiAxNy45MyAxODEuNzQgMTcuNjFRMTgyLjExIDE3LjI5IDE4Mi4xMSAxNi43MUwxODIuMTEgMTYuNzFRMTgyLjExIDE2LjEyIDE4MS43NCAxNS44MFExODEuMzYgMTUuNDcgMTgwLjYzIDE1LjQ3TDE4MC42MyAxNS40N0wxNzkuMzEgMTUuNDdaTTE5MS42NCAyMkwxODkuMjYgMjJMMTg5LjI2IDEzLjYwTDE5My4xMSAxMy42MFExOTQuMjUgMTMuNjAgMTk1LjA5IDEzLjk4UTE5NS45MiAxNC4zNSAxOTYuMzggMTUuMDZRMTk2Ljg0IDE1Ljc2IDE5Ni44NCAxNi43MUwxOTYuODQgMTYuNzFRMTk2Ljg0IDE3LjYyIDE5Ni40MSAxOC4zMFExOTUuOTggMTguOTggMTk1LjE5IDE5LjM2TDE5NS4xOSAxOS4zNkwxOTcuMDAgMjJMMTk0LjQ2IDIyTDE5Mi45NCAxOS43N0wxOTEuNjQgMTkuNzdMMTkxLjY0IDIyWk0xOTEuNjQgMTUuNDdMMTkxLjY0IDE3LjkzTDE5Mi45NiAxNy45M1ExOTMuNjkgMTcuOTMgMTk0LjA2IDE3LjYxUTE5NC40NCAxNy4yOSAxOTQuNDQgMTYuNzFMMTk0LjQ0IDE2LjcxUTE5NC40NCAxNi4xMiAxOTQuMDYgMTUuNzlRMTkzLjY5IDE1LjQ3IDE5Mi45NiAxNS40N0wxOTIuOTYgMTUuNDdMMTkxLjY0IDE1LjQ3Wk0yMDEuMjAgMTcuODBMMjAxLjIwIDE3LjgwUTIwMS4yMCAxNi41NSAyMDEuODAgMTUuNTVRMjAyLjQwIDE0LjU2IDIwMy40NyAxNC4wMFEyMDQuNTMgMTMuNDMgMjA1Ljg2IDEzLjQzTDIwNS44NiAxMy40M1EyMDcuMTkgMTMuNDMgMjA4LjI1IDE0LjAwUTIwOS4zMiAxNC41NiAyMDkuOTIgMTUuNTVRMjEwLjUzIDE2LjU1IDIxMC41MyAxNy44MEwyMTAuNTMgMTcuODBRMjEwLjUzIDE5LjA1IDIwOS45MiAyMC4wNFEyMDkuMzIgMjEuMDQgMjA4LjI2IDIxLjYwUTIwNy4yMCAyMi4xNyAyMDUuODYgMjIuMTdMMjA1Ljg2IDIyLjE3UTIwNC41MyAyMi4xNyAyMDMuNDcgMjEuNjBRMjAyLjQwIDIxLjA0IDIwMS44MCAyMC4wNFEyMDEuMjAgMTkuMDUgMjAxLjIwIDE3LjgwWk0yMDMuNTkgMTcuODBMMjAzLjU5IDE3LjgwUTIwMy41OSAxOC41MSAyMDMuOTAgMTkuMDVRMjA0LjIwIDE5LjYwIDIwNC43MSAxOS45MFEyMDUuMjMgMjAuMjAgMjA1Ljg2IDIwLjIwTDIwNS44NiAyMC4yMFEyMDYuNTAgMjAuMjAgMjA3LjAyIDE5LjkwUTIwNy41MyAxOS42MCAyMDcuODMgMTkuMDVRMjA4LjEzIDE4LjUxIDIwOC4xMyAxNy44MEwyMDguMTMgMTcuODBRMjA4LjEzIDE3LjA5IDIwNy44MyAxNi41NFEyMDcuNTMgMTYgMjA3LjAyIDE1LjcwUTIwNi41MCAxNS40MCAyMDUuODYgMTUuNDBMMjA1Ljg2IDE1LjQwUTIwNS4yMiAxNS40MCAyMDQuNzEgMTUuNzBRMjA0LjIwIDE2IDIwMy45MCAxNi41NFEyMDMuNTkgMTcuMDkgMjAzLjU5IDE3LjgwWk0yMTcuNDYgMjJMMjE1LjI2IDIyTDIxNS4yNiAxMy42MEwyMTcuMjIgMTMuNjBMMjIwLjE3IDE4LjQ1TDIyMy4wNSAxMy42MEwyMjUuMDAgMTMuNjBMMjI1LjAzIDIyTDIyMi44NSAyMkwyMjIuODIgMTcuNTVMMjIwLjY2IDIxLjE3TDIxOS42MSAyMS4xN0wyMTcuNDYgMTcuNjdMMjE3LjQ2IDIyWk0yMzIuNTcgMjJMMjMwLjE5IDIyTDIzMC4xOSAxMy42MEwyMzQuMDMgMTMuNjBRMjM1LjE3IDEzLjYwIDIzNi4wMSAxMy45OFEyMzYuODUgMTQuMzUgMjM3LjMxIDE1LjA2UTIzNy43NyAxNS43NiAyMzcuNzcgMTYuNzFMMjM3Ljc3IDE2LjcxUTIzNy43NyAxNy42NiAyMzcuMzEgMTguMzVRMjM2Ljg1IDE5LjA1IDIzNi4wMSAxOS40MlEyMzUuMTcgMTkuODAgMjM0LjAzIDE5LjgwTDIzNC4wMyAxOS44MEwyMzIuNTcgMTkuODBMMjMyLjU3IDIyWk0yMzIuNTcgMTUuNDdMMjMyLjU3IDE3LjkzTDIzMy44OSAxNy45M1EyMzQuNjIgMTcuOTMgMjM0Ljk5IDE3LjYxUTIzNS4zNiAxNy4yOSAyMzUuMzYgMTYuNzFMMjM1LjM2IDE2LjcxUTIzNS4zNiAxNi4xMiAyMzQuOTkgMTUuODBRMjM0LjYyIDE1LjQ3IDIzMy44OSAxNS40N0wyMzMuODkgMTUuNDdMMjMyLjU3IDE1LjQ3Wk0yNDQuMzEgMTUuNDhMMjQxLjczIDE1LjQ4TDI0MS43MyAxMy42MEwyNDkuMjUgMTMuNjBMMjQ5LjI1IDE1LjQ4TDI0Ni42OCAxNS40OEwyNDYuNjggMjJMMjQ0LjMxIDIyTDI0NC4zMSAxNS40OFoiIGZpbGw9IiNGRkZGRkYiIHg9IjExOC4wNiIvPjwvc3ZnPg==)](https://bash-prompt-generator.org "Check it out")
 
-![Terminal (Screenshot)](./img/screenshot_terminal.png)
+## What is a Bash  Prompt?
 
-## See also
+The prompt is a short piece of text that is displayed in the Bash shell prompting you to enter a command.
+
+![Bash Prompt Example](./docs/bash_prompt_example.png)
+
+It usually contains some useful information about the current user, the working directory, etc.
+
+## Where is the Prompt Configured?
+
+The `PS1` environment variable determines what information the prompt contains and how it is displayed.
+
+![Echo $PS1](./docs/bash_echo_ps1.png)
+
+The default value may vary between different distributions and versions.
+
+Setting the `PS1` variable yourself (e.&nbsp;g. by appending the line `PS1='[\u@\h \w]\$ '` to your `~/.bashrc` file) allows you to customize your prompt.
+
+## How is the Prompt Configured?
+
+The syntax of the `PS1` variable allows versatile customization options.
+In addition to the information displayed, colors as well as other display attributes can be adjusted.
+
+However, this syntax is difficult to read by humans and manual customization is therefore extremely tedious.
+
+For this reason, this project provides a way to create a prompt via a GUI without having to modify the PS1 variable itself.
+
+### See also
 
 - [GNU Bash Manual: Controlling the Prompt](https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html)
 - [ArchWiki: Bash/Prompt customization](https://wiki.archlinux.org/index.php/Bash/Prompt_customization)
+
+## How to Use
+
+### Getting Started
+
+When you visit the [website](https://bash-prompt-generator.org) for the first time, you have the option to either create a new prompt from scratch or import your current prompt for adjustment.
+
+![Website First View](./docs/bash_prompt_generator_initial.png)
+
+A prompt consists of multiple so-called *elements*.
+You can click on one of the elements on the left (*Prompt Elements*) to add it to your prompt.
+If you choose to import your existing prompt, paste the output of `echo $PS1` (e.&nbsp;g. `[\u@\h \w]\$ `) into the text field and the according elements will be automatically added to your prompt.
+
+### Your Prompt
+
+The *Your Prompt* sections lists all elements that are currently part of your prompt.
+
+![Your Prompt](./docs/bash_prompt_generator_your_prompt.png)
+
+You can always add more elements from the *Prompt Elements* section on the left, reorder the elements in your prompt using drag and drop or remove them.
+
+The trash icon will remove all elements from your prompt, letting you start from scratch.
+
+The command for setting the `PS1` variable is displayed in the *Output* section, along with an example preview of how your prompt might look like.
+
+![Output](./docs/bash_prompt_generator_output.png)
+
+The clipboard icon will copy the full command to your clipboard.
+
+If you run the generated command in your terminal, you will immediately see the changes to your prompt.
+These changes will be lost when you close your terminal, however.
+In order to make the changes permanent, you have to add the command to your `~/.bashrc` file.
+
+Note that the preview will most likely differ from the actual prompt in your terminal because the environment (such as the current user, hostname, etc.) is different.
+
+You can click on the lightbulb icon to toggle between a dark and a light background for the preview.
+
+### Properties
+
+All elements can be selected by clicking on them.
+
+![Selected](./docs/bash_prompt_generator_selected.png)
+
+Depending on the type of the selected element, different properties can be adjusted.
+
+![Properties](./docs/bash_prompt_generator_properties.png)
+
+Most elements support colors and various display attributes.
+
+Look at the example preview to see how these properties affect the prompt.
+
+Foreground and background colors can be choosen via a color picker.
+
+![Color Picker](./docs/bash_prompt_generator_colors.png)
+
+The color picker provides a *no color* option for resetting to the default color, 16 4-bit colors (top row) and 256 8-bit colors (bottom rows).
+
+Note that some terminals may not support all colors.
+The same applies to display attributes.
+
+Additionally, you can duplicate the selected element with the copy icon under *Actions*.
+
+#### Special Elements
+
+Some element types have special properties:
+
+* *Date (formatted)* requires a string specifying the date format which will be passed to [`strftime(3)`](https://linux.die.net/man/3/strftime "man 3 strftime").
+* *Command* requires a string specifying the command to be executed.
+The prompt will contain the standard output of the command.
+  * The *Git branch* and *IP Address* elements are functionally equivalent to a *Command* element with the command already filled in.
+* *Text* requires an arbitrary string that will be included as is in the prompt.
 
 ## License
 
