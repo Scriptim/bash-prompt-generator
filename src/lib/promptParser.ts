@@ -186,19 +186,32 @@ function readEscapeCodes(
         // skip '5' and color code
         i += 2;
         break;
-      default:
+      default: {
+        // local scope for foundColor variable as lexical declarations would be visible in the whole switch statement
         // 4-bit foreground and background colors
+        let foundColor = false;
         for (let color = 0; color < 16; color += 1) {
           if (COLORS[color].color16?.foreground === escapeCodes[i]) {
             after.colors.foregroundColor = COLORS[color];
+            foundColor = true;
             break;
           }
           if (COLORS[color].color16?.background === escapeCodes[i]) {
             after.colors.backgroundColor = COLORS[color];
+            foundColor = true;
             break;
           }
         }
-        throw new PromptParserError('Unknown escape code', ps1, cursor, escapeCodes[i].toString().length);
+
+        if (!foundColor) {
+          throw new PromptParserError(
+            `Unknown escape code '${escapeCodes[i]}' in sequence`,
+            ps1,
+            cursor,
+            localCursor - cursor,
+          );
+        }
+      }
     }
   }
 
