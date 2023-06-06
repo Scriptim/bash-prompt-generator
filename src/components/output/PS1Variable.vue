@@ -245,6 +245,7 @@ export default defineComponent({
   line-height: 1.5
   min-height: 1.5em
   word-break: break-all
+  white-space: pre-wrap
 
   &.dark
     color: $color-dim

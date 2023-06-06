@@ -174,6 +174,7 @@ h3
   line-height: 1.5
   min-height: 1.5em
   word-break: break-all
+  white-space: pre-wrap
 
   &.light
     background-color: #fafafa !important
