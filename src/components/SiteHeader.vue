@@ -91,17 +91,16 @@ header
     margin: 0
     padding: 0.5em
 
-  .header-buttons
-    position: absolute
-    top: 1em
-    left: 2em
-    display: flex
-    align-content: center
-    gap: 1em
-
-
   .underscore
     color: #4caa25
+
+.header-buttons
+  position: absolute
+  top: 1em
+  left: 2em
+  display: flex
+  align-content: center
+  gap: 1em
 
 .github-corner
   svg
@@ -145,7 +144,11 @@ header
   80%
     transform: rotate(10deg)
 
-@media screen and (max-width: 500px)
+@media screen and (max-width: $breakpoint-medium)
+  .header-buttons
+    left: 1em
+    gap: 0.4em
+
   .github-corner
     svg
       width: 100px
@@ -162,4 +165,36 @@ header
   .github-corner
     .octo-arm
       animation: octocat-wave 560ms ease-in-out
+
+@media screen and (max-width: $breakpoint-small)
+  header
+    font-size: 0.8em
+
+    h1
+      // keep space for buttons and github corner and wrap text instead
+      padding-left: 3em
+      padding-right: 3em
+
+  .header-buttons
+    left: 0.5em
+    gap: 0.2em
+
+  .github-corner
+    svg
+      width: 80px
+      height: 80px
+
+@media screen and (max-width: $breakpoint-tiny)
+  header
+    font-size: 0.7em
+
+    h1
+      margin: 0 auto
+
+  .github-corner
+    svg
+      width: 60px
+      height: 60px
+
+
 </style>

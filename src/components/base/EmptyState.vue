@@ -55,4 +55,8 @@ export default defineComponent({
   .empty-state,
   .empty-state-icon
     opacity: 0.7
+
+@media screen and (max-width: $breakpoint-small)
+  .empty-state
+    padding: 0.5em
 </style>

@@ -139,15 +139,29 @@ br
     background-color: $color-dim
     color: $color-foreground
 
-@media screen and (max-width: 800px)
+@media screen and (max-width: $breakpoint-medium)
   .flex-wrapper
     padding: 1em 1.2em
 
     &>div
-      padding: 0.5em
+      padding: 1em 0 0.8em
+      border-bottom: 1px solid $color-dim
 
   ul.list-row
   ol.list-row
+    padding-left: 0
+
     li
       margin: 0.1em
+
+@media screen and (max-width: $breakpoint-small)
+  #element-selection,
+  #properties,
+  #prompt-editor,
+  #output
+    flex: 1
+    min-width: 100%
+
+  .flex-wrapper
+    padding: 0.8em
 </style>
