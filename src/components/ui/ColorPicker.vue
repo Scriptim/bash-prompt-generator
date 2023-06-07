@@ -57,7 +57,7 @@ export default defineComponent({
   },
   data() {
     return {
-      colors4: COLORS.slice(0, 15),
+      colors4: COLORS.slice(0, 16),
       colors8: COLORS.slice(16),
     };
   },
