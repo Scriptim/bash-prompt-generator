@@ -147,7 +147,7 @@ br
       padding: 1em 0 0.8em
       border-bottom: 1px solid $color-dim
 
-  ul.list-row
+  ul.list-row,
   ol.list-row
     padding-left: 0
 
