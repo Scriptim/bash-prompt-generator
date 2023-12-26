@@ -329,6 +329,41 @@ export function parsePS1(ps1: string): PromptElement[] {
       element.parameters.command = command;
       elements.push(applyState(element, propertiesState));
     }
+    // manual handling of environment variable element
+    else if (ps1.startsWith('$', cursor)) {
+      // the generator always wraps environment variables in curly braces but we try to also support them without
+      const curly = ps1[cursor + 1] === '{';
+      const openCursor = cursor;
+
+      // skip '$' or '${'
+      cursor += curly ? 2 : 1;
+
+      const variableNameMatch = ps1.slice(cursor).match(/^[A-Z_][A-Z0-9_]*/);
+      if (variableNameMatch === null) {
+        throw new PromptParserError('Missing environment variable name', ps1, cursor, 2);
+      }
+      const [variableName] = variableNameMatch;
+      cursor += variableName.length;
+
+      if (curly) {
+        if (ps1[cursor] !== '}') {
+          throw new PromptParserError(
+            'Missing closing curly brace for environment variable',
+            ps1,
+            openCursor,
+            Math.min(10, variableName.length + 2),
+          );
+        }
+
+        // skip '}'
+        cursor += 1;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const element = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Environment Variable')!);
+      element.parameters.variable = variableName;
+      elements.push(applyState(element, propertiesState));
+    }
     // manual handling of custom text element (fallback)
     else {
       // we create text elements with single characters only because the next char might be a special character
