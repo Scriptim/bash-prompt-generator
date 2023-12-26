@@ -253,7 +253,7 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType(
     'Text',
     // https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
-    (args) => (args.text ?? '').replace(/([$`\\!])/g, '\\$1'),
+    (args) => (args.text ?? '').replace(/([$`\\])/g, '\\$1'),
     [{ id: 'text', label: 'Text' }],
     true,
     false,
