@@ -22,19 +22,34 @@
     <p>Click on a prompt element to start.</p>
     <hr />
     <p>Alternatively, you can paste your existing <code>PS1</code> string to import it:</p>
-    <label for="import-ps1" class="import-ps1">
-      <code>PS1</code>:&nbsp;
+    <label for="import-ps1" class="import-prompt">
+      <code>$PS1</code>
+      <br>
       <input
         type="text"
         id="import-ps1"
         v-model="ps1input"
-        @change="ps1inputError = ''"
+        @change="promptInputError = ''"
         placeholder="echo $PS1"
         spellcheck="false"
       />
     </label>
-    <IconButton icon="ArrowDownOnSquareIcon" title="Import PS1" @click="importPS1" />
-    <p v-if="ps1inputError" class="import-error">{{ ps1inputError }}</p>
+    <br>
+    <label for="import-prompt_command" class="import-prompt">
+      <code>$PROMPT_COMMAND</code>&nbsp;<small>(optional)</small>
+      <br>
+      <input
+        type="text"
+        id="import-prompt_command"
+        v-model="promptCommandInput"
+        @change="promptInputError = ''"
+        placeholder="echo $PROMPT_COMMAND"
+        spellcheck="false"
+      />
+    </label>
+    <br>
+    <IconButton icon="ArrowDownOnSquareIcon" title="Import prompt" @click="importPS1" />
+    <p v-if="promptInputError" class="import-error">{{ promptInputError }}</p>
   </EmptyState>
 </template>
 
@@ -42,7 +57,7 @@
 import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 import prompt from '@/lib/prompt';
-import { parsePS1, PromptParserError } from '@/lib/promptParser';
+import { parsePrompt, PromptParserError } from '@/lib/promptParser';
 import PromptElement from './AddedPromptElement.vue';
 import IconButton from '../ui/IconButton.vue';
 import EmptyState from '../base/EmptyState.vue';
@@ -56,7 +71,8 @@ export default defineComponent({
     return {
       elements: prompt.refs().elements,
       ps1input: '',
-      ps1inputError: '',
+      promptCommandInput: '',
+      promptInputError: '',
     };
   },
   components: {
@@ -88,15 +104,15 @@ export default defineComponent({
     },
     importPS1() {
       try {
-        const promptElements = parsePS1(this.ps1input);
+        const promptElements = parsePrompt(this.ps1input, this.promptCommandInput);
         prompt.state().clear();
-        this.ps1inputError = '';
+        this.promptInputError = '';
         promptElements.forEach((element) => {
           prompt.state().push(element);
         });
       } catch (err) {
         if (err instanceof PromptParserError) {
-          this.ps1inputError = err.message;
+          this.promptInputError = err.message;
         } else {
           throw err;
         }
@@ -116,16 +132,19 @@ hr
   width: 50%
   margin: 2em auto
 
-.import-ps1
+.import-prompt
   font-size: 1.2em
 
+  code
+    text-align: left
+
   input
-    width: 20em
-    // keep space for the label text and icon
-    max-width: 70%
+    width: 90%
+    max-width: 24em
     font-size: 1.1em
     font-family: monospace
-    margin-right: 0.2em
+    margin-top: 0.1em
+    margin-bottom: 0.8em
 
 .import-error
   color: $color-error

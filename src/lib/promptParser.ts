@@ -253,15 +253,98 @@ function equalProperties(a: PromptElement, b: PromptElement): boolean {
 }
 
 /**
+ * Substitutes environment variables in the prompt by their according commands that are defined in `PROMPT_COMMAND`.
+ * Only variable assignments of the form `VAR1=$(command); VAR2=$(command); …` are supported.
+ *
+ * @param ps1 The list of prompt elements as created by `parsePrompt`.
+ * @param promptCommand The value of the `PROMPT_COMMAND` environment variable as output by `echo $PROMPT_COMMAND`.
+ * @returns The list of prompt element with the according commands substituted.
+ */
+function applyPromptCommand(ps1: PromptElement[], promptCommand: string): PromptElement[] {
+  if (promptCommand === '') {
+    return ps1;
+  }
+
+  // find variable assignments of the form 'VAR=$(command)'
+  // this does not support nested assignments
+  const varAssignments: string[] = [];
+  let cursor = 0;
+  Array.from(promptCommand.matchAll(/[A-Z_][A-Z0-9_]*=\$\(/g)).forEach((declarationStart) => {
+    if (declarationStart.index === undefined) {
+      return;
+    }
+
+    if (declarationStart.index > cursor) {
+      varAssignments.push(promptCommand.substring(cursor, declarationStart.index));
+      cursor = declarationStart.index;
+    }
+  });
+  varAssignments.push(promptCommand.substring(cursor));
+
+  // extract variable name and command from each assignment
+  const assignmentRegex = /^([A-Z_][A-Z0-9_]*)=\$\((.*)\);?\s*$/;
+  const commands: Record<string, string> = {};
+  varAssignments.forEach((assignment) => {
+    const match = assignment.match(assignmentRegex);
+    console.log(match);
+    if (match === null) {
+      throw new PromptParserError(
+        'Could not parse command assignments in prompt command',
+        promptCommand,
+        0,
+        10
+      );
+    }
+
+    const variableName = match[1];
+    const command = match[2];
+    commands[variableName] = command;
+  });
+
+  console.log('Commands', commands);
+
+  // replace environment variables with their according commands
+  return ps1.map((element) => {
+    if (element.type.name !== 'Environment Variable') {
+      return element;
+    }
+
+    const command = commands[element.parameters.variable];
+    console.log(element, command);
+    if (command === undefined) {
+      // the environment variable is not defined in PROMPT_COMMAND so we keep it as is
+      return element;
+    }
+
+    // use the predefined command elements (e. g. 'Git branch') if possible
+    const predefinedCommand = PROMPT_ELEMENT_TYPES.find((e) => e.command && e.char({}) === command);
+    let newElement: PromptElement;
+    if (predefinedCommand !== undefined) {
+      newElement = new PromptElement(predefinedCommand);
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      newElement = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Command')!);
+      newElement.parameters.command = command;
+    }
+    newElement.foregroundColor = element.foregroundColor;
+    newElement.backgroundColor = element.backgroundColor;
+    newElement.attributes = { ...element.attributes };
+
+    return newElement;
+  });
+}
+
+/**
  * Parses a prompt string into a list of prompt elements.
  *
  * This allows the user to import their existing prompt string and use it in the prompt editor.
  *
  * @param ps1 The value of the `PS1` environment variable as output by `echo $PS1`.
+ * @param promptCommand The value of the `PROMPT_COMMAND` environment variable as output by `echo $PROMPT_COMMAND`.
  * @returns A list of prompt elements.
  * @throws {PromptParserError} If the prompt string could not be parsed.
  */
-export function parsePS1(ps1: string): PromptElement[] {
+export function parsePrompt(ps1: string, promptCommand: string): PromptElement[] {
   const elements: PromptElement[] = [];
 
   let cursor = 0;
@@ -389,5 +472,5 @@ export function parsePS1(ps1: string): PromptElement[] {
     }
   }
 
-  return elements;
+  return applyPromptCommand(elements, promptCommand);
 }
