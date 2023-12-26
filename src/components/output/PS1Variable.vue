@@ -155,6 +155,7 @@ function generatePS1(elements: PromptElement[]): string {
   // this might actually be false if any escape codes are printed before the prompt but we ignore that
   let propertiesState: PropertiesState = defaultPropertiesState();
 
+  const commands: string[] = [];
   const outputElements: string[] = [];
 
   elements.forEach((element) => {
@@ -183,7 +184,13 @@ function generatePS1(elements: PromptElement[]): string {
     };
 
     const escapeCodes = generateEscapeCodes(propertiesState, newPropertiesState);
-    outputElements.push(`${escapeCodes}${element.type.char(element.parameters)}`);
+    if (element.type.command) {
+      const commandVariable = `PS1_CMD${commands.length + 1}`;
+      commands.push(`${commandVariable}=$(${element.type.char(element.parameters)})`);
+      outputElements.push(`${escapeCodes}$\{${commandVariable}}`);
+    } else {
+      outputElements.push(`${escapeCodes}${element.type.char(element.parameters)}`);
+    }
 
     propertiesState = newPropertiesState;
   });
@@ -200,7 +207,18 @@ function generatePS1(elements: PromptElement[]): string {
   // therefore we have to split the string and insert a double-quoted single quote in between:
   // 'prefix' "'" 'suffix'
   // eslint-disable-next-line quotes
-  return `PS1='${outputElements.join('').replace(/'/g, "'\"'\"'")}${endReset}'`;
+  const escapeQuotes = (str: string) => str.replace(/'/g, "'\"'\"'");
+
+  let output = '';
+  // execute commands before setting the prompt
+  // each command output will be stored in a separate environment variable PS1_CMD1, PS1_CMD2, ... which will then be
+  // inserted into the prompt
+  // this is necessary because a command inside the PS1 variable would modify the exit code
+  if (commands.length > 0) {
+    output += `PROMPT_COMMAND='${escapeQuotes(commands.join('; '))}'; `;
+  }
+  output += `PS1='${escapeQuotes(outputElements.join(''))}${endReset}'`;
+  return output;
 }
 
 /**

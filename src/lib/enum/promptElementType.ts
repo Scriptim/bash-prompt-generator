@@ -52,6 +52,14 @@ export class PromptElementType {
   printable: boolean;
 
   /**
+   * Whether the prompt element displays the output of a command.
+   *
+   * A command element is not included directly in the PS1 variable. Instead, the command is executed using the
+   * PROMPT_COMMAND variable and the output is inserted into the PS1 variable via an environment variable.
+   */
+  command: boolean;
+
+  /**
    * A description of the prompt element that will be used as a tooltip in the UI.
    */
   description: string;
@@ -72,6 +80,7 @@ export class PromptElementType {
     char: string | ParameterizedString,
     parameters: Parameter[],
     printable: boolean,
+    command: boolean,
     description: string,
     preview: string | ParameterizedString,
   ) {
@@ -79,6 +88,7 @@ export class PromptElementType {
     this.char = typeof char === 'string' ? () => char : char;
     this.parameters = parameters;
     this.printable = printable;
+    this.command = command;
     this.description = description;
     this.preview = typeof preview === 'string' ? () => preview : preview;
   }
@@ -94,8 +104,14 @@ export class PromptElementType {
  * The list contains further useful elements, such as several characters, custom text or certain commands.
  */
 export const PROMPT_ELEMENT_TYPES = [
-  new PromptElementType('Date', '\\d', [], true, 'The date, in "Weekday Month Date" format (e.g., "Tue May 26").', () =>
-    timeFormat('%a %b %d')(new Date()),
+  new PromptElementType(
+    'Date',
+    '\\d',
+    [],
+    true,
+    false,
+    'The date, in "Weekday Month Date" format (e.g., "Tue May 26").',
+    () => timeFormat('%a %b %d')(new Date()),
   ),
   new PromptElementType(
     'Date (formatted)',
@@ -107,30 +123,32 @@ export const PROMPT_ELEMENT_TYPES = [
       },
     ],
     true,
+    false,
     'The format is passed to strftime(3) and the result is inserted into the prompt string; ' +
       'an empty format results in a locale-specific time representation.',
     (args) => timeFormat(args.dateformat ?? '')(new Date()),
   ),
-  new PromptElementType('Time (24-hour)', '\\t', [], true, 'The time, in 24-hour HH:MM:SS format.', () =>
+  new PromptElementType('Time (24-hour)', '\\t', [], true, false, 'The time, in 24-hour HH:MM:SS format.', () =>
     timeFormat('%H:%M:%S')(new Date()),
   ),
-  new PromptElementType('Time (12-hour)', '\\T', [], true, 'The time, in 12-hour HH:MM:SS format.', () =>
+  new PromptElementType('Time (12-hour)', '\\T', [], true, false, 'The time, in 12-hour HH:MM:SS format.', () =>
     timeFormat('%I:%M:%S')(new Date()),
   ),
-  new PromptElementType('Time (am/pm)', '\\@', [], true, 'The time, in 12-hour am/pm format.', () =>
+  new PromptElementType('Time (am/pm)', '\\@', [], true, false, 'The time, in 12-hour am/pm format.', () =>
     timeFormat('%I:%M %p')(new Date()),
   ),
-  new PromptElementType('Time (without seconds)', '\\A', [], true, 'The time, in 24-hour HH:MM format.', () =>
+  new PromptElementType('Time (without seconds)', '\\A', [], true, false, 'The time, in 24-hour HH:MM format.', () =>
     timeFormat('%H:%M')(new Date()),
   ),
-  new PromptElementType('Username', '\\u', [], true, 'The username of the current user.', 'username'),
-  new PromptElementType('Hostname (short)', '\\h', [], true, 'The hostname, up to the first ‘.’.', 'hostname'),
-  new PromptElementType('Hostname', '\\H', [], true, 'The hostname.', 'hostname.com'),
+  new PromptElementType('Username', '\\u', [], true, false, 'The username of the current user.', 'username'),
+  new PromptElementType('Hostname (short)', '\\h', [], true, false, 'The hostname, up to the first ‘.’.', 'hostname'),
+  new PromptElementType('Hostname', '\\H', [], true, false, 'The hostname.', 'hostname.com'),
   new PromptElementType(
     'Working Directory',
     '\\w',
     [],
     true,
+    false,
     'The current working directory, with $HOME abbreviated with a tilde (uses the $PROMPT_DIRTRIM variable).',
     '~/bin',
   ),
@@ -139,99 +157,106 @@ export const PROMPT_ELEMENT_TYPES = [
     '\\W',
     [],
     true,
+    false,
     'The basename of $PWD, with $HOME abbreviated with a tilde.',
     'bin',
   ),
-  new PromptElementType('Newline', '\\n', [], false, 'A newline.', '\n'),
-  new PromptElementType('Carriage Return', '\\r', [], false, 'A carriage return.', '\r'),
-  new PromptElementType('Bell', '\\a', [], false, 'A bell character.', ''),
-  new PromptElementType('Terminal', '\\l', [], true, 'The basename of the shell’s terminal device name.', '2'),
+  new PromptElementType('Newline', '\\n', [], false, false, 'A newline.', '\n'),
+  new PromptElementType('Carriage Return', '\\r', [], false, false, 'A carriage return.', '\r'),
+  new PromptElementType('Bell', '\\a', [], false, false, 'A bell character.', ''),
+  new PromptElementType('Terminal', '\\l', [], true, false, 'The basename of the shell’s terminal device name.', '2'),
   new PromptElementType(
     'Shell',
     '\\s',
     [],
     true,
+    false,
     'The name of the shell, the basename of $0 (the portion following the final slash).',
     'bash',
   ),
-  new PromptElementType('Bash Version', '\\v', [], true, 'The version of Bash (e.g., 2.00)', '5.0'),
+  new PromptElementType('Bash Version', '\\v', [], true, false, 'The version of Bash (e.g., 2.00)', '5.0'),
   new PromptElementType(
     'Bash Release',
     '\\V',
     [],
     true,
+    false,
     'The release of Bash, version + patchlevel (e.g., 2.00.0)',
     '5.0.0',
   ),
-  new PromptElementType('History Number', '\\!', [], true, 'The history number of this command.', '8'),
-  new PromptElementType('Command Number', '\\#', [], true, 'The command number of this command.', '4'),
-  new PromptElementType('Jobs', '\\j', [], true, 'The number of jobs currently managed by the shell.', '2'),
-  new PromptElementType('Prompt Sign', '\\$', [], true, 'If the effective uid is 0, #, otherwise $.', '$'),
-  new PromptElementType('Exit Status', '$?', [], true, 'Exit status ($?).', '0'),
+  new PromptElementType('History Number', '\\!', [], true, false, 'The history number of this command.', '8'),
+  new PromptElementType('Command Number', '\\#', [], true, false, 'The command number of this command.', '4'),
+  new PromptElementType('Jobs', '\\j', [], true, false, 'The number of jobs currently managed by the shell.', '2'),
+  new PromptElementType('Prompt Sign', '\\$', [], true, false, 'If the effective uid is 0, #, otherwise $.', '$'),
+  new PromptElementType('Exit Status', '$?', [], true, false, 'Exit status ($?).', '0'),
   new PromptElementType(
     'Git branch',
     // eslint-disable-next-line quotes
     "$(git branch 2>/dev/null | grep '*' | colrm 1 2)",
     [],
     true,
+    true,
     'Git branch.',
     'master',
   ),
   new PromptElementType(
     'IP Address',
-    '$(ip route get 1.1.1.1 | awk -F"src " \'NR == 1{ split($2, a," ");print a[1]}\')',
+    'ip route get 1.1.1.1 | awk -F"src " \'NR == 1{ split($2, a," ");print a[1]}\'',
     [],
+    true,
     true,
     'Private IP address.',
     '192.168.1.100',
   ),
   new PromptElementType(
     'Command',
-    (args) => `$(${args.command ?? ''})`,
+    (args) => args.command ?? '',
     [{ id: 'command', label: 'Command' }],
+    true,
     true,
     'A custom command.',
     'example command output',
   ),
-  new PromptElementType('␣', ' ', [], false, 'Space.', ' '),
-  new PromptElementType('~', '~', [], true, 'Tilde.', '~'),
-  new PromptElementType('!', '!', [], true, 'Exclamation mark.', '!'),
-  new PromptElementType('?', '?', [], true, 'Question mark.', '?'),
-  new PromptElementType('@', '@', [], true, 'Ampersat.', '@'),
-  new PromptElementType('#', '#', [], true, 'Hash.', '#'),
-  new PromptElementType('$', '\\\\$', [], true, 'Dollar sign.', '$'),
-  new PromptElementType('%', '%', [], true, 'Percent.', '%'),
-  new PromptElementType('^', '^', [], true, 'Caret.', '^'),
-  new PromptElementType('&', '&', [], true, 'Ampersand.', '&'),
-  new PromptElementType('*', '*', [], true, 'Asterisk.', '*'),
-  new PromptElementType('(', '(', [], true, 'Open parenthesis.', '('),
-  new PromptElementType(')', ')', [], true, 'Close parenthesis.', ')'),
-  new PromptElementType('{', '{', [], true, 'Open curly bracket.', '{'),
-  new PromptElementType('}', '}', [], true, 'Close curly bracket.', '}'),
-  new PromptElementType('[', '[', [], true, 'Open bracket.', '['),
-  new PromptElementType(']', ']', [], true, 'Close bracket.', ']'),
-  new PromptElementType('-', '-', [], true, 'Hyphen.', '-'),
-  new PromptElementType('_', '_', [], true, 'Underscore.', '_'),
-  new PromptElementType('+', '+', [], true, 'Plus.', '+'),
-  new PromptElementType('=', '=', [], true, 'Equal.', '='),
-  new PromptElementType('/', '/', [], true, 'Forward slash.', '/'),
-  new PromptElementType('\\', '\\\\', [], true, 'Backslash.', '\\'),
-  new PromptElementType('|', '|', [], true, 'Pipe.', '|'),
-  new PromptElementType(',', ',', [], true, 'Comma.', ','),
-  new PromptElementType('.', '.', [], true, 'Period.', '.'),
-  new PromptElementType(':', ':', [], true, 'Colon.', ':'),
-  new PromptElementType(';', ';', [], true, 'Semicolon.', ';'),
-  new PromptElementType('"', '"', [], true, 'Quotation mark.', '"'),
+  new PromptElementType('␣', ' ', [], false, false, 'Space.', ' '),
+  new PromptElementType('~', '~', [], true, false, 'Tilde.', '~'),
+  new PromptElementType('!', '!', [], true, false, 'Exclamation mark.', '!'),
+  new PromptElementType('?', '?', [], true, false, 'Question mark.', '?'),
+  new PromptElementType('@', '@', [], true, false, 'Ampersat.', '@'),
+  new PromptElementType('#', '#', [], true, false, 'Hash.', '#'),
+  new PromptElementType('$', '\\\\$', [], true, false, 'Dollar sign.', '$'),
+  new PromptElementType('%', '%', [], true, false, 'Percent.', '%'),
+  new PromptElementType('^', '^', [], true, false, 'Caret.', '^'),
+  new PromptElementType('&', '&', [], true, false, 'Ampersand.', '&'),
+  new PromptElementType('*', '*', [], true, false, 'Asterisk.', '*'),
+  new PromptElementType('(', '(', [], true, false, 'Open parenthesis.', '('),
+  new PromptElementType(')', ')', [], true, false, 'Close parenthesis.', ')'),
+  new PromptElementType('{', '{', [], true, false, 'Open curly bracket.', '{'),
+  new PromptElementType('}', '}', [], true, false, 'Close curly bracket.', '}'),
+  new PromptElementType('[', '[', [], true, false, 'Open bracket.', '['),
+  new PromptElementType(']', ']', [], true, false, 'Close bracket.', ']'),
+  new PromptElementType('-', '-', [], true, false, 'Hyphen.', '-'),
+  new PromptElementType('_', '_', [], true, false, 'Underscore.', '_'),
+  new PromptElementType('+', '+', [], true, false, 'Plus.', '+'),
+  new PromptElementType('=', '=', [], true, false, 'Equal.', '='),
+  new PromptElementType('/', '/', [], true, false, 'Forward slash.', '/'),
+  new PromptElementType('\\', '\\\\', [], true, false, 'Backslash.', '\\'),
+  new PromptElementType('|', '|', [], true, false, 'Pipe.', '|'),
+  new PromptElementType(',', ',', [], true, false, 'Comma.', ','),
+  new PromptElementType('.', '.', [], true, false, 'Period.', '.'),
+  new PromptElementType(':', ':', [], true, false, 'Colon.', ':'),
+  new PromptElementType(';', ';', [], true, false, 'Semicolon.', ';'),
+  new PromptElementType('"', '"', [], true, false, 'Quotation mark.', '"'),
   // eslint-disable-next-line quotes
-  new PromptElementType("'", "'", [], true, 'Single quote.', "'"),
-  new PromptElementType('<', '<', [], true, 'Less than.', '<'),
-  new PromptElementType('>', '>', [], true, 'Greater than.', '>'),
+  new PromptElementType("'", "'", [], true, false, 'Single quote.', "'"),
+  new PromptElementType('<', '<', [], true, false, 'Less than.', '<'),
+  new PromptElementType('>', '>', [], true, false, 'Greater than.', '>'),
   new PromptElementType(
     'Text',
     // https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
     (args) => (args.text ?? '').replace(/([$`\\!])/g, '\\$1'),
     [{ id: 'text', label: 'Text' }],
     true,
+    false,
     'A custom text.',
     (args) => args.text ?? '',
   ),
