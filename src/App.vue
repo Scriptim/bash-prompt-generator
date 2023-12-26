@@ -133,10 +133,14 @@ h3
 br
   user-select: none
 
+input[type="text"],
+input[type="number"]
+  border: 2px solid $color-dim
+
 .dark
   input[type="text"],
   input[type="number"]
-    background-color: $color-dim
+    background-color: $color-background
     color: $color-foreground
 
 @media screen and (max-width: $breakpoint-medium)
