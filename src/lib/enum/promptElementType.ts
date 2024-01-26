@@ -192,7 +192,7 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType(
     'Git branch',
     // eslint-disable-next-line quotes
-    "$(git branch 2>/dev/null | grep '*' | colrm 1 2)",
+    "git branch 2>/dev/null | grep '*' | colrm 1 2",
     [],
     true,
     true,
