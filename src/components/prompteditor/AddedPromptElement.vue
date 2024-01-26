@@ -43,12 +43,28 @@ export default defineComponent({
      * Displays the parameters of the element (e. g. text or date format).
      */
     parameterString() {
-      const parameters = prompt.state().elementById(this.id)?.parameters;
-      if (parameters === undefined || Object.keys(parameters).length === 0) {
+      const element = prompt.state().elementById(this.id);
+      const parameters = element?.parameters;
+      if (element === undefined || parameters === undefined || Object.keys(parameters).length === 0) {
         return '';
       }
 
-      const parameterString = Object.values(parameters).join(', ');
+      let parameterString;
+      if (element.type.name === 'Environment Variable') {
+        if (parameters.variable === undefined || parameters.variable.length === 0) {
+          return '';
+        }
+
+        parameterString = parameters.variable;
+        if (parameters.expansion === 'default') {
+          parameterString += `:-${parameters.default ?? ''}`;
+        } else if (parameters.expansion === 'alternative') {
+          parameterString += `:+${parameters.alternative ?? ''}`;
+        }
+      } else {
+        parameterString = Object.values(parameters).join(', ');
+      }
+
       if (parameterString.length === 0) {
         return '';
       }

@@ -258,12 +258,45 @@ export const PROMPT_ELEMENT_TYPES = [
   ),
   new PromptElementType(
     'Environment Variable',
-    (args) => ((args.variable ?? '').trim().length === 0 ? '' : `$\{${args.variable}}`),
-    [{ id: 'variable', label: 'Variable name (without $)' }],
+    (args) => {
+      const variable = (args.variable ?? '').trim();
+      if (variable.length === 0) {
+        return '';
+      }
+      let expansion = variable;
+      if (args.expansion === 'default') {
+        expansion += `:-${args.default ?? ''}`;
+      } else if (args.expansion === 'alternative') {
+        expansion += `:+${args.alternative ?? ''}`;
+      }
+      return `$\{${expansion}}`;
+    },
+    [
+      { id: 'variable', label: 'Variable name (without $)' },
+      // https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+      {
+        id: 'expansion',
+        label: 'Parameter Expansion',
+        parameters: [
+          { id: 'default', label: 'Default value if the variable is unset or null' },
+          { id: 'alternative', label: 'Alternative value if the variable is set and not null' },
+        ],
+        unselectLabel: 'Value of the variable',
+      },
+    ],
     true,
     false,
     'Value of an environment variable.',
-    (args) => ((args.variable ?? '').trim().length === 0 ? '' : `${args.variable} value`),
+    (args) => {
+      const variable = (args.variable ?? '').trim();
+      if (variable.length === 0) {
+        return '';
+      }
+      if (args.expansion === 'alternative') {
+        return args.alternative ?? '';
+      }
+      return `${variable} value`;
+    },
   ),
   new PromptElementType('␣', ' ', [], true, false, 'Space.', ' '),
   new PromptElementType('~', '~', [], true, false, 'Tilde.', '~'),

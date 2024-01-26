@@ -427,30 +427,52 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       // skip '$' or '${'
       cursor += curly ? 2 : 1;
 
-      const variableNameMatch = ps1.slice(cursor).match(/^[A-Z_][A-Z0-9_]*/);
+      const variableNameMatch = ps1.slice(cursor).match(/^[A-Z_][A-Z0-9_]*/i);
       if (variableNameMatch === null) {
         throw new PromptParserError('Missing environment variable name', ps1, cursor, 2);
       }
       const [variableName] = variableNameMatch;
       cursor += variableName.length;
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const element = new PromptElement(getPromptElementTypeByNameUnsafe('Environment Variable'));
+      element.parameters.variable = variableName;
+
       if (curly) {
-        if (ps1[cursor] !== '}') {
+        // if the variable name is followed by either ':-' or ':+', we have a parameter expansion
+        // we read the expansion parameters until we find a closing curly brace
+        // nested curly braces inside the expansion pattern are not supported (neither escaped nor unescaped)
+        if (ps1.substring(cursor, cursor + 2) === ':-') {
+          // parameter expansion with default value
+          element.parameters.expansion = 'default';
+          cursor += 2;
+          element.parameters.default = '';
+          while (ps1[cursor] !== '}') {
+            element.parameters.default += ps1[cursor];
+            cursor += 1;
+          }
+        } else if (ps1.substring(cursor, cursor + 2) === ':+') {
+          // parameter expansion with alternative value
+          element.parameters.expansion = 'alternative';
+          cursor += 2;
+          element.parameters.alternative = '';
+          while (ps1[cursor] !== '}') {
+            element.parameters.alternative += ps1[cursor];
+            cursor += 1;
+          }
+        } else if (ps1[cursor] !== '}') {
           throw new PromptParserError(
             'Missing closing curly brace for environment variable',
             ps1,
             openCursor,
             Math.min(10, variableName.length + 2),
           );
+        } else {
+          // skip '}'
+          cursor += 1;
         }
-
-        // skip '}'
-        cursor += 1;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const element = new PromptElement(getPromptElementTypeByNameUnsafe('Environment Variable'));
-      element.parameters.variable = variableName;
       elements.push(applyState(element, propertiesState));
     }
     // manual handling of custom text element (fallback)
