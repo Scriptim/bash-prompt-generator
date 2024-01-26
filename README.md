@@ -110,12 +110,12 @@ Some element types have special properties:
 * *Date (formatted)* requires a string specifying the date format which will be passed to [`strftime(3)`](https://linux.die.net/man/3/strftime "man 3 strftime").
 * *Command* requires a string specifying the command to be executed.
 The prompt will contain the standard output of the command.
-  * The *Git branch* and *IP Address* elements are functionally equivalent to a *Command* element with the command already filled in.
+  * The *Git Branch* and *IP Address* elements are functionally equivalent to a *Command* element with the command already filled in.
 * *Text* requires an arbitrary string that will be included as is in the prompt.
 
 ## License
 
-Copyright (C) 2023 Scriptim
+Copyright (C) 2017 - 2024 Scriptim
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
