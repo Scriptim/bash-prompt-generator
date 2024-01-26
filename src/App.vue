@@ -123,6 +123,9 @@ h3
   opacity: 0.6
   line-height: 1.5
 
+  &+.hint
+    margin-top: 1em
+
 .dark
   h2,
   h3

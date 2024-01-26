@@ -9,7 +9,7 @@
   <div class="ps1" :class="{ dark: darkMode }">
     <span>{{ ps1 }}</span>
   </div>
-  <div class="hint" v-if="hasAdvancedGitPromptElement">
+  <div class="hint" v-if="hasElement('Advanced Git Prompt')">
     The <code>Advanced Git Prompt</code> element requires some extra work: Copy the
     <a
       href="https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh"
@@ -22,6 +22,17 @@
     (as described in <code>git-prompt.sh</code>).
     By default the status will only contain the current branch name, however you can include more information using
     global or repository-local configuration options (which are also described in <code>git-prompt.sh</code>).
+  </div>
+  <div class="hint" v-if="hasElement('Working Directory') || hasElement('Working Directory (Basename)')">
+    You can limit the number of components in the working directory path by setting the
+    <a
+      href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-PROMPT_005fDIRTRIM"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <code>PROMPT_DIRTRIM</code>
+    </a>
+    environment variable in your <code>~/.bashrc</code> file.
   </div>
 </template>
 
@@ -251,12 +262,6 @@ export default defineComponent({
     darkMode(): boolean {
       return darkMode().enabled;
     },
-    /**
-     * Returns `true` if there exists at least one 'Advanced Git Prompt' element.
-     */
-    hasAdvancedGitPromptElement(): boolean {
-      return prompt.state().elements.some((element) => element.data.type.name === 'Advanced Git Prompt');
-    },
   },
   components: { IconButton },
   methods: {
@@ -265,6 +270,14 @@ export default defineComponent({
      */
     copyToClipboard() {
       navigator.clipboard.writeText(this.ps1);
+    },
+    /**
+     * Returns `true` if there exists at least one prompt element with the given name.
+     *
+     * @param name the case-insensitive name of the prompt element
+     */
+    hasElement(name: string): boolean {
+      return prompt.state().elements.some((element) => element.data.type.name.toLowerCase() === name.toLowerCase());
     },
   },
 });
