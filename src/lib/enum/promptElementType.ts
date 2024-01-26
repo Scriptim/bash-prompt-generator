@@ -51,9 +51,9 @@ export class PromptElementType {
    * Whether the prompt element is visible.
    *
    * This is used in order to decide whether a prompt element's display attributes, such as color, can be configured.
-   * Whitespace elements are not considered printable in this regard.
+   * Whitespace elements are considered visible if they can have a background (e.g. space, but not newline).
    */
-  printable: boolean;
+  visible: boolean;
 
   /**
    * Whether the prompt element displays the output of a command.
@@ -83,7 +83,7 @@ export class PromptElementType {
     name: string,
     char: string | ParameterizedString,
     parameters: Parameter[],
-    printable: boolean,
+    visible: boolean,
     command: boolean,
     description: string,
     preview: string | ParameterizedString,
@@ -91,7 +91,7 @@ export class PromptElementType {
     this.name = name;
     this.char = typeof char === 'string' ? () => char : char;
     this.parameters = parameters;
-    this.printable = printable;
+    this.visible = visible;
     this.command = command;
     this.description = description;
     this.preview = typeof preview === 'string' ? () => preview : preview;
@@ -239,7 +239,7 @@ export const PROMPT_ELEMENT_TYPES = [
     'Value of an environment variable.',
     (args) => ((args.variable ?? '').trim().length === 0 ? '' : `${args.variable} value`),
   ),
-  new PromptElementType('␣', ' ', [], false, false, 'Space.', ' '),
+  new PromptElementType('␣', ' ', [], true, false, 'Space.', ' '),
   new PromptElementType('~', '~', [], true, false, 'Tilde.', '~'),
   new PromptElementType('!', '!', [], true, false, 'Exclamation mark.', '!'),
   new PromptElementType('?', '?', [], true, false, 'Question mark.', '?'),

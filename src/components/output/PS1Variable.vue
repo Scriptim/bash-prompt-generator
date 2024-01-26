@@ -173,11 +173,11 @@ function generatePS1(elements: PromptElement[]): string {
   const outputElements: string[] = [];
 
   elements.forEach((element) => {
-    if (!element.type.printable) {
+    if (!element.type.visible) {
       outputElements.push(element.type.char(element.parameters));
       // skip any handling of escape sequences for invisible elements as they are not affected by them
-      // for instance, if two elements with identical properties are separated by only whitespace, we do not need to
-      // insert any reset escape codes in between them
+      // for instance, if two elements with identical properties are separated by only invisible elements, we do not
+      // need to insert any reset escape codes in between them
       return;
     }
 

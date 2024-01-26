@@ -15,7 +15,7 @@
         />
       </label>
     </div>
-    <div class="properties_color" v-if="element.type.printable">
+    <div class="properties_color" v-if="element.type.visible">
       <h3>Colors</h3>
       <br />
       <Popper placement="left-start" arrow>
@@ -54,7 +54,7 @@
         </template>
       </Popper>
     </div>
-    <div class="properties_attributes" v-if="element.type.printable">
+    <div class="properties_attributes" v-if="element.type.visible">
       <h3>Display Attributes</h3>
       <br />
       <label for="attribute-bold">
