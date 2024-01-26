@@ -22,6 +22,29 @@ type Parameter = {
 };
 
 /**
+ * A group of mutually exclusive {@link Parameter | parameters}. Only one of the parameters in the group can be set at a
+ * time.
+ */
+type ParameterGroup = {
+  /**
+   * The id of the parameter group that should be unique among all parameter groups and parameters.
+   */
+  id: string;
+  /**
+   * The label of the parameter group that will be displayed in the UI.
+   */
+  label: string;
+  /**
+   * The list of parameters in the group. By default, the first parameter in the list is active.
+   */
+  parameters: Parameter[];
+  /**
+   * The label of the option that applies none of the parameters in the group. Will be the default selection, if set.
+   */
+  unselectLabel?: string;
+};
+
+/**
  * A string that depends on string {@link Parameter | parameters}.
  */
 type ParameterizedString = (args: Record<string, string>) => string;
@@ -44,8 +67,11 @@ export class PromptElementType {
 
   /**
    * A (possibly empty) list of parameters that influence the behavior of the prompt element, e.g. a date format.
+   *
+   * A sublist of parameters is interpreted as a group of parameters that are mutually exclusive. Only one of the
+   * parameters in the group can be set at a time.
    */
-  parameters: Parameter[];
+  parameters: (Parameter | ParameterGroup)[];
 
   /**
    * Whether the prompt element is visible.
@@ -82,7 +108,7 @@ export class PromptElementType {
   constructor(
     name: string,
     char: string | ParameterizedString,
-    parameters: Parameter[],
+    parameters: (Parameter | ParameterGroup)[],
     visible: boolean,
     command: boolean,
     description: string,

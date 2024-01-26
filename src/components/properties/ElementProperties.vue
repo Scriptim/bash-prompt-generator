@@ -5,14 +5,52 @@
     <div class="properties_parameter" v-if="element.type.parameters.length > 0">
       <h3>Parameters</h3>
       <br />
-      <label v-for="parameter in element.type.parameters" :key="parameter.id" :for="parameter.id">
-        {{ parameter.label }}<br />
-        <input
-          type="text"
-          autocomplete="off"
-          :id="'parameter_' + parameter.id"
-          v-model="element.parameters[parameter.id]"
-        />
+      <label v-for="parameter in element.type.parameters" :key="parameter.id" :for="'parameter_' + parameter.id">
+        <template v-if="'parameters' in parameter">
+          <fieldset :id="'parameter_' + parameter.id">
+            <legend>{{ parameter.label }}</legend>
+            <label v-if="parameter.unselectLabel !== undefined" :for="'parameter_none_' + parameter.id">
+              <input
+              type="radio"
+              :id="'parameter_none_' + parameter.id"
+              :name="parameter.id"
+              value=""
+              v-model="element.parameters[parameter.id]"
+              />
+              {{ parameter.unselectLabel }}<br />
+            </label>
+            <label
+              v-for="subparameter in parameter.parameters"
+              :key="subparameter.id"
+              :for="'parameter_' + subparameter.id"
+            >
+              <input
+                type="radio"
+                :id="'parameter_' + subparameter.id"
+                :name="parameter.id"
+                :value="subparameter.id"
+                v-model="element.parameters[parameter.id]"
+              />
+              {{ subparameter.label }}<br />
+              <input
+                type="text"
+                autocomplete="off"
+                :id="'parameter_value_' + subparameter.id"
+                v-model="element.parameters[subparameter.id]"
+                :disabled="element.parameters[parameter.id] !== subparameter.id"
+              />
+            </label>
+          </fieldset>
+        </template>
+        <template v-else>
+          {{ parameter.label }}<br />
+          <input
+            type="text"
+            autocomplete="off"
+            :id="'parameter_' + parameter.id"
+            v-model="element.parameters[parameter.id]"
+          />
+        </template>
       </label>
     </div>
     <div class="properties_color" v-if="element.type.visible">
@@ -220,6 +258,9 @@ label
   span
     vertical-align: middle
 
+fieldset
+  margin-top: 0.2em
+
 input[type="checkbox"]
   width: 1.4em
   height: 1.4em
@@ -230,6 +271,7 @@ input[type="text"]
   height: 1.4em
   width: 20em
   padding: 0.2em 0.4em
+  margin-top: 0.2em
 
 input.color-picker-btn
   vertical-align: middle
@@ -239,4 +281,7 @@ input.color-picker-btn
 
   &.selected
     box-shadow: -0.02em -0.2em 0.2em 0 rgba(0, 0, 0, 0.3) inset
+
+input[disabled]
+  opacity: 0.7
 </style>

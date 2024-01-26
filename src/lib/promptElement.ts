@@ -40,7 +40,16 @@ export class PromptElement {
     this.type = type;
     this.parameters = {};
     type.parameters.forEach((parameter) => {
-      if (parameter.default !== undefined) {
+      if ('parameters' in parameter) {
+        // parameter group
+        this.parameters[parameter.id] = ''; // unselected
+        parameter.parameters.forEach((subParameter) => {
+          if (subParameter.default !== undefined) {
+            this.parameters[subParameter.id] = subParameter.default;
+          }
+        });
+      } else if ('default' in parameter && parameter.default !== undefined) {
+        // single parameter
         this.parameters[parameter.id] = parameter.default;
       }
     });
