@@ -36,8 +36,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import { defineComponent } from 'vue';
 import prompt from '@/lib/prompt';
 import { UniquePromptElement } from '@/lib/promptElement';
@@ -124,6 +122,7 @@ export default defineComponent({
       // split elements on carriage returns
       const crPartitions = [[]] as UniquePromptElement[][];
       while (elements.length > 0) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const element = elements.shift()!;
         if (element.data.type.preview(element.data.parameters) === '\r') {
           crPartitions.push([]);

@@ -321,14 +321,12 @@ function applyPromptCommand(ps1: PromptElement[], promptCommand: string): Prompt
       // the git prompt element is a parameterized command element so we need special handling here
       // we cannot use the above check for predefined commands because the command string is not constant
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       newElement = new PromptElement(getPromptElementTypeByNameUnsafe('Advanced Git Prompt'));
       const formatString = command.match(/__git_ps1\s+"(.*)"/)?.[1];
       if (formatString !== undefined) {
         newElement.parameters.format = formatString;
       }
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       newElement = new PromptElement(getPromptElementTypeByNameUnsafe('Command'));
       newElement.parameters.command = command;
     }
@@ -385,7 +383,6 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       // skip '}'
       cursor += 1;
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const element = new PromptElement(getPromptElementTypeByNameUnsafe('Date (formatted)'));
       element.parameters.dateformat = dateformat;
       elements.push(applyState(element, propertiesState));
@@ -413,7 +410,6 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       // skip ')'
       cursor += 1;
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const element = new PromptElement(getPromptElementTypeByNameUnsafe('Command'));
       element.parameters.command = command;
       elements.push(applyState(element, propertiesState));
@@ -434,7 +430,6 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       const [variableName] = variableNameMatch;
       cursor += variableName.length;
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const element = new PromptElement(getPromptElementTypeByNameUnsafe('Environment Variable'));
       element.parameters.variable = variableName;
 
@@ -479,7 +474,6 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
     else {
       // we create text elements with single characters only because the next char might be a special character
       // consecutive text elements will be merged later
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const element = new PromptElement(getPromptElementTypeByNameUnsafe('Text'));
       element.parameters.text = ps1[cursor];
       elements.push(applyState(element, propertiesState));
