@@ -121,6 +121,7 @@ h3
 
 .hint
   opacity: 0.6
+  line-height: 1.5
 
 .dark
   h2,
@@ -129,6 +130,13 @@ h3
 
   .hint
     opacity: 0.7
+
+a
+  color: darken($color-accent, 20%)
+
+.dark
+  a
+    color: lighten($color-accent, 20%)
 
 br
   user-select: none

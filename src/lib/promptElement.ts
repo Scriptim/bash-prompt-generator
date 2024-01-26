@@ -39,6 +39,11 @@ export class PromptElement {
   constructor(type: PromptElementType) {
     this.type = type;
     this.parameters = {};
+    type.parameters.forEach((parameter) => {
+      if (parameter.default !== undefined) {
+        this.parameters[parameter.id] = parameter.default;
+      }
+    });
     this.attributes = {
       bold: false,
       dim: false,

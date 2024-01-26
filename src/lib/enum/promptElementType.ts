@@ -15,6 +15,10 @@ type Parameter = {
    * The label of the parameter that will be displayed in the UI for the according input field.
    */
   label: string;
+  /**
+   * The default value of the parameter.
+   */
+  default?: string;
 };
 
 /**
@@ -198,6 +202,15 @@ export const PROMPT_ELEMENT_TYPES = [
     true,
     'Git branch.',
     'master',
+  ),
+  new PromptElementType(
+    'Advanced Git Prompt',
+    (args) => `__git_ps1 "${args.format ?? ''}"`,
+    [{ id: 'format', label: 'Format string (status placeholder: %s)', default: ' (%s)' }],
+    true,
+    true,
+    'Git prompt using the built-in __git_ps1 function.',
+    (args) => (args.format ?? ' (%s)').replaceAll('%s', 'master'),
   ),
   new PromptElementType(
     'IP Address',

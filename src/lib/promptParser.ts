@@ -317,6 +317,16 @@ function applyPromptCommand(ps1: PromptElement[], promptCommand: string): Prompt
     let newElement: PromptElement;
     if (predefinedCommand !== undefined) {
       newElement = new PromptElement(predefinedCommand);
+    } else if (command.startsWith('__git_ps1')) {
+      // the git prompt element is a parameterized command element so we need special handling here
+      // we cannot use the above check for predefined commands because the command string is not constant
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      newElement = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Advanced Git Prompt')!);
+      const formatString = command.match(/__git_ps1\s+"(.*)"/)?.[1];
+      if (formatString !== undefined) {
+        newElement.parameters.format = formatString;
+      }
     } else {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       newElement = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Command')!);

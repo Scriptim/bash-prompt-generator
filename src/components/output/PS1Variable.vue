@@ -9,6 +9,20 @@
   <div class="ps1" :class="{ dark: darkMode }">
     <span>{{ ps1 }}</span>
   </div>
+  <div class="hint" v-if="hasAdvancedGitPromptElement">
+    The <code>Advanced Git Prompt</code> element requires some extra work: Copy the
+    <a
+      href="https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <code>git-prompt.sh</code>
+    </a>
+    file to your home directory and <code>source</code> it in your <code>~/.bashrc</code> file
+    (as described in <code>git-prompt.sh</code>).
+    By default the status will only contain the current branch name, however you can include more information using
+    global or repository-local configuration options (which are also described in <code>git-prompt.sh</code>).
+  </div>
 </template>
 
 <script lang="ts">
@@ -236,6 +250,12 @@ export default defineComponent({
      */
     darkMode(): boolean {
       return darkMode().enabled;
+    },
+    /**
+     * Returns `true` if there exists at least one 'Advanced Git Prompt' element.
+     */
+    hasAdvancedGitPromptElement(): boolean {
+      return prompt.state().elements.some((element) => element.data.type.name === 'Advanced Git Prompt');
     },
   },
   components: { IconButton },
