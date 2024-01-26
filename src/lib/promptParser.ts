@@ -1,4 +1,4 @@
-import { PROMPT_ELEMENT_TYPES } from './enum/promptElementType';
+import { PROMPT_ELEMENT_TYPES, getPromptElementTypeByNameUnsafe } from './enum/promptElementType';
 import { ANSI } from './enum/ansi';
 import { PromptElement } from './promptElement';
 import { PropertiesState, defaultPropertiesState } from './promptElementProperties';
@@ -322,14 +322,14 @@ function applyPromptCommand(ps1: PromptElement[], promptCommand: string): Prompt
       // we cannot use the above check for predefined commands because the command string is not constant
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      newElement = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Advanced Git Prompt')!);
+      newElement = new PromptElement(getPromptElementTypeByNameUnsafe('Advanced Git Prompt'));
       const formatString = command.match(/__git_ps1\s+"(.*)"/)?.[1];
       if (formatString !== undefined) {
         newElement.parameters.format = formatString;
       }
     } else {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      newElement = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Command')!);
+      newElement = new PromptElement(getPromptElementTypeByNameUnsafe('Command'));
       newElement.parameters.command = command;
     }
     newElement.foregroundColor = element.foregroundColor;
@@ -386,7 +386,7 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       cursor += 1;
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const element = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Date (formatted)')!);
+      const element = new PromptElement(getPromptElementTypeByNameUnsafe('Date (formatted)'));
       element.parameters.dateformat = dateformat;
       elements.push(applyState(element, propertiesState));
     }
@@ -414,7 +414,7 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       cursor += 1;
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const element = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Command')!);
+      const element = new PromptElement(getPromptElementTypeByNameUnsafe('Command'));
       element.parameters.command = command;
       elements.push(applyState(element, propertiesState));
     }
@@ -449,7 +449,7 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       }
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const element = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Environment Variable')!);
+      const element = new PromptElement(getPromptElementTypeByNameUnsafe('Environment Variable'));
       element.parameters.variable = variableName;
       elements.push(applyState(element, propertiesState));
     }
@@ -458,7 +458,7 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       // we create text elements with single characters only because the next char might be a special character
       // consecutive text elements will be merged later
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const element = new PromptElement(PROMPT_ELEMENT_TYPES.find((e) => e.name === 'Text')!);
+      const element = new PromptElement(getPromptElementTypeByNameUnsafe('Text'));
       element.parameters.text = ps1[cursor];
       elements.push(applyState(element, propertiesState));
       cursor += 1;

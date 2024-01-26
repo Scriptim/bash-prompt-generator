@@ -194,7 +194,7 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType('Prompt Sign', '\\$', [], true, false, 'If the effective uid is 0, #, otherwise $.', '$'),
   new PromptElementType('Exit Status', '$?', [], true, false, 'Exit status ($?).', '0'),
   new PromptElementType(
-    'Git branch',
+    'Git Branch',
     // eslint-disable-next-line quotes
     "git branch 2>/dev/null | grep '*' | colrm 1 2",
     [],
@@ -285,6 +285,17 @@ export const PROMPT_ELEMENT_TYPES = [
 ];
 
 /**
+ * Find a prompt element type by its name. This function should only be used if the name is known to be valid.
+ *
+ * @param name The case-insensitive name of an existing (!) prompt element type.
+ * @returns the prompt element type with the given name
+ */
+export function getPromptElementTypeByNameUnsafe(name: string): PromptElementType {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return PROMPT_ELEMENT_TYPES.find((promptElementType) => promptElementType.name.toLowerCase() === name.toLowerCase())!;
+}
+
+/**
  * {@linkcode PROMPT_ELEMENT_TYPES_SEPARATORS} is a list labels of {@linkcode PromptElementType}s in
  * {@linkcode PROMPT_ELEMENT_TYPES} *before* which a separator should be inserted in the UI.
  *
@@ -296,7 +307,7 @@ export const PROMPT_ELEMENT_TYPES_SEPARATORS = [
   'Terminal',
   'History Number',
   'Prompt Sign',
-  'Git branch',
+  'Git Branch',
   '␣',
   'Text',
 ];
