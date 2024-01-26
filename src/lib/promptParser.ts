@@ -286,7 +286,6 @@ function applyPromptCommand(ps1: PromptElement[], promptCommand: string): Prompt
   const commands: Record<string, string> = {};
   varAssignments.forEach((assignment) => {
     const match = assignment.match(assignmentRegex);
-    console.log(match);
     if (match === null) {
       throw new PromptParserError(
         'Could not parse command assignments in prompt command',
@@ -301,8 +300,6 @@ function applyPromptCommand(ps1: PromptElement[], promptCommand: string): Prompt
     commands[variableName] = command;
   });
 
-  console.log('Commands', commands);
-
   // replace environment variables with their according commands
   return ps1.map((element) => {
     if (element.type.name !== 'Environment Variable') {
@@ -310,7 +307,6 @@ function applyPromptCommand(ps1: PromptElement[], promptCommand: string): Prompt
     }
 
     const command = commands[element.parameters.variable];
-    console.log(element, command);
     if (command === undefined) {
       // the environment variable is not defined in PROMPT_COMMAND so we keep it as is
       return element;
