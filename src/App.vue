@@ -11,12 +11,20 @@
       <div id="properties" :style="{ visibility: visibleState }">
         <ElementProperties></ElementProperties>
       </div>
-      <div id="output" :style="{ visibility: visibleState }">
+      <div id="output" :style="{ visibility: visibleState, height: visibleState === 'hidden' ? 0 : undefined }">
         <PS1Variable></PS1Variable>
         <br />
         <PromptPreview></PromptPreview>
       </div>
     </div>
+    <footer>If you like this project, please consider leaving a &#x2b50; on
+      <a
+        href="https://github.com/Scriptim/bash-prompt-generator"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub
+      </a>.</footer>
   </main>
 </template>
 
@@ -139,7 +147,7 @@ a
 
 .dark
   a
-    color: lighten($color-accent, 20%)
+    color: lighten($color-accent, 5%)
 
 br
   user-select: none
@@ -179,4 +187,10 @@ input[type="number"]
 
   .flex-wrapper
     padding: 0.8em
+
+footer
+  margin: 0
+  font-style: italic
+  text-align: center
+  padding: 4em 0.2em 2em
 </style>
