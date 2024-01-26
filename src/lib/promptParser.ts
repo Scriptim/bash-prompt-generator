@@ -462,10 +462,10 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
             openCursor,
             Math.min(10, variableName.length + 2),
           );
-        } else {
-          // skip '}'
-          cursor += 1;
         }
+
+        // skip '}'
+        cursor += 1;
       }
 
       elements.push(applyState(element, propertiesState));
