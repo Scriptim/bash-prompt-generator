@@ -219,16 +219,7 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType('Jobs', '\\j', [], true, false, 'The number of jobs currently managed by the shell.', '2'),
   new PromptElementType('Prompt Sign', '\\$', [], true, false, 'If the effective uid is 0, #, otherwise $.', '$'),
   new PromptElementType('Exit Status', '$?', [], true, false, 'Exit status ($?).', '0'),
-  new PromptElementType(
-    'Git Branch',
-    // eslint-disable-next-line quotes
-    "git branch 2>/dev/null | grep '*' | colrm 1 2",
-    [],
-    true,
-    true,
-    'Git branch.',
-    'master',
-  ),
+  new PromptElementType('Git Branch', 'git branch --show-current 2>/dev/null', [], true, true, 'Git branch.', 'master'),
   new PromptElementType(
     'Advanced Git Prompt',
     (args) => `__git_ps1 "${args.format ?? ''}"`,

@@ -313,7 +313,12 @@ function applyPromptCommand(ps1: PromptElement[], promptCommand: string): Prompt
     }
 
     // use the predefined command elements (e. g. 'Git branch') if possible
-    const predefinedCommand = PROMPT_ELEMENT_TYPES.find((e) => e.command && e.char({}) === command);
+    let predefinedCommand = PROMPT_ELEMENT_TYPES.find((e) => e.command && e.char({}) === command);
+    // backwards compatibility for the git branch command (replaces the old command with the new one)
+    // eslint-disable-next-line quotes
+    if (command === "git branch 2>/dev/null | grep '*' | colrm 1 2") {
+      predefinedCommand = getPromptElementTypeByNameUnsafe('Git Branch');
+    }
     let newElement: PromptElement;
     if (predefinedCommand !== undefined) {
       newElement = new PromptElement(predefinedCommand);
