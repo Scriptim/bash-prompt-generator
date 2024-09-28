@@ -70,6 +70,7 @@ export default defineComponent({
 </script>
 
 <style lang="sass">
+@use "sass:color"
 @import "@/assets/sass/_variables.sass"
 
 body, main
@@ -143,11 +144,11 @@ h3
     opacity: 0.7
 
 a
-  color: darken($color-accent, 20%)
+  color: color.adjust($color-accent, $lightness: -20%)
 
 .dark
   a
-    color: lighten($color-accent, 5%)
+    color: color.adjust($color-accent, $lightness: 5%)
 
 br
   user-select: none

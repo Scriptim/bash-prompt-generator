@@ -95,11 +95,12 @@ export default defineComponent({
 </script>
 
 <style lang="sass" scoped>
+@use "sass:color"
 @import "@/assets/sass/_variables.sass"
 
 .selected
   // darken the background color because the delete icon has the same color
-  background-color: darken($color-accent, 15%)
+  background-color: color.adjust($color-accent, $lightness: -15%)
 
 .parameter
   vertical-align: middle

@@ -84,17 +84,18 @@ export default defineComponent({
 </script>
 
 <style lang="sass" scoped>
+@use "sass:color"
 @import "@/assets/sass/_variables.sass"
 
 .color-picker
   text-align: center
   padding: 1em
-  background: lighten($color-background, 10%)
+  background: color.adjust($color-background, $lightness: 10%)
   box-shadow: 0 0 0.8em 0.2em rgba(0, 0, 0, 0.2)
   z-index: 2
 
   &.dark
-    background: lighten($color-foreground, 10%)
+    background: color.adjust($color-foreground, $lightness: 10%)
 
 .color-picker_color4
   margin-bottom: 0.4em

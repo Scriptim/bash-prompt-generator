@@ -239,12 +239,12 @@ export default defineComponent({
 
 .properties-wrapper
   text-align: left
-  // lighten($color-background, 10%)
+  // color.adjust($color-background, $lightness: 10%)
   --popper-theme-background-color: #ffffff
   --popper-theme-background-color-hover: #ffffff
 
   &.dark
-    // lighten($color-foreground, 10%)
+    // color.adjust($color-foreground, $lightness: 10%)
     --popper-theme-background-color: #37414f
     --popper-theme-background-color-hover: #37414f
 
