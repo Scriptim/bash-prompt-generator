@@ -54,8 +54,9 @@ function readUnparameterized(ps1: string, cursor: number): { element: PromptElem
  *
  * The escape codes are applied to the given properties state.
  *
- * Escape will be read until the first occurrence of `m\]` which terminates the escape code sequence. The cursor will be
- * positioned *before* that terminator. The caller is responsible for consuming the enclosing `\[\e[` and `m\]`.
+ * Escape will be read until the first occurrence of `m` which terminates the escape code sequence. The cursor will be
+ * positioned *before* that terminator. The caller is responsible for consuming the enclosing `\e[` and `m`, as well as
+ * `\[` and `\]` if present.
  *
  * @param ps1 The prompt string given by the user.
  * @param cursor The position in the prompt string to start reading from.
@@ -71,7 +72,7 @@ function readEscapeCodes(
   // read escape codes
   const escapeCodes: (typeof ANSI)[keyof typeof ANSI][] = [];
   let localCursor = cursor;
-  while (!ps1.startsWith('m\\]', localCursor)) {
+  while (!ps1.startsWith('m', localCursor)) {
     const escapeCode = parseInt(ps1.substring(localCursor), 10);
     if (Number.isNaN(escapeCode) || escapeCode < 0) {
       throw new PromptParserError('Invalid escape code', ps1, localCursor);
@@ -367,14 +368,26 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       cursor = unparameterizedElement.newCursor;
     }
     // handling of escape sequences that will affect the following elements
-    else if (ps1.startsWith('\\[\\e[', cursor)) {
-      // skip '\[\e['
-      cursor += 5;
+    else if (
+      ps1.startsWith('\\[\\e[', cursor) ||
+      ps1.startsWith('\\[\\033[', cursor) ||
+      ps1.startsWith('\\[\\x1b[', cursor) ||
+      ps1.startsWith('\\e[', cursor) ||
+      ps1.startsWith('\\033[', cursor) ||
+      ps1.startsWith('\\x1b[', cursor)
+    ) {
+      const nonprintableEnclosure = ps1.startsWith('\\[', cursor);
+      // skip '\['
+      if (nonprintableEnclosure) {
+        cursor += 2;
+      }
+      // skip '\e[' or '\033[' or '\x1b['
+      cursor += ps1.startsWith('\\e[', cursor) ? 3 : 5;
       const escapeCodes = readEscapeCodes(ps1, cursor, propertiesState);
       propertiesState = escapeCodes.state;
       cursor = escapeCodes.newCursor;
-      // skip 'm\]'
-      cursor += 3;
+      // skip 'm' or 'm\]'
+      cursor += nonprintableEnclosure ? 3 : 1;
     }
     // manual handling of formatted date element
     else if (ps1.startsWith('\\D{', cursor)) {
