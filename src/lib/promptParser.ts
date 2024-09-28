@@ -73,18 +73,17 @@ function readEscapeCodes(
   const escapeCodes: (typeof ANSI)[keyof typeof ANSI][] = [];
   let localCursor = cursor;
   while (!ps1.startsWith('m', localCursor)) {
-    const escapeCode = parseInt(ps1.substring(localCursor), 10);
-    if (Number.isNaN(escapeCode) || escapeCode < 0) {
-      throw new PromptParserError('Invalid escape code', ps1, localCursor);
-    }
-
-    escapeCodes.push(escapeCode);
-    localCursor += escapeCode.toString().length;
-
     // we consume the separator ';' if it is present
-    // otherwise the loop will terminate ('m\]') or throw an error in the next iteration
     if (ps1.startsWith(';', localCursor)) {
       localCursor += 1;
+    } else {
+      const escapeCode = parseInt(ps1.substring(localCursor), 10);
+      if (Number.isNaN(escapeCode) || escapeCode < 0) {
+        throw new PromptParserError('Invalid escape code', ps1, localCursor);
+      }
+
+      escapeCodes.push(escapeCode);
+      localCursor += escapeCode.toString().length;
     }
 
     if (localCursor >= ps1.length) {
