@@ -1,6 +1,6 @@
 <template>
-  <span :title="title">
-    <component :is="icon" class="icon-button"></component>
+  <span :title="title" class="icon-button">
+    <component :is="icon" class="icon-button-icon"></component>
   </span>
 </template>
 
@@ -60,19 +60,24 @@ export default defineComponent({
 @import "@/assets/sass/_variables.sass"
 
 .icon-button
+  margin-left: 0.5em
+
+.icon-button-icon
   display: inline-block
   color: $color-accent
   width: 2em
   height: 2em
   padding: 0.02em // catch misclicks
-  margin: 0 0.2em
   vertical-align: bottom
   cursor: pointer
 
 .inline
+
   .icon-button
+    margin-left: 0.2em
+
+  .icon-button-icon
     width: 1.2em
     height: 1.2em
-    margin-left: 0.4em
     vertical-align: middle
 </style>

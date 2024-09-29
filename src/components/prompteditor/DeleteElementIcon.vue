@@ -21,9 +21,5 @@ export default defineComponent({
 @import "@/assets/sass/_variables.sass"
 
 .icon-button
-  width: 1.2em
-  height: 1.2em
-  padding: 0.02em // catch misclicks
-  margin-left: 0.4em
-  vertical-align: middle
+  margin-left: 0.6em
 </style>

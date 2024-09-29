@@ -254,6 +254,9 @@ export default defineComponent({
 h3
   margin: 0.7em 0 0.3em
 
+.icon-button
+  margin-left: 0
+
 label
   display: inline-block
   margin: 0.4em 0
