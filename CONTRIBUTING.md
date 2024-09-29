@@ -26,7 +26,7 @@ Before finalizing your pull request, make sure to follow the instructions in the
 
 To set up your development environment, you need to have [Node.js](https://nodejs.org/ "Node.js") installed.
 After cloning your fork, navigate to the project directory and run `npm install` to install the required dependencies.
-You can the run `npm run serve` to start the development server which make the Bash Prompt Generator available locally.
+You can the run `npm run serve` to start the development server which makes the Bash Prompt Generator available locally.
 Any changes you make to the source code should immediately be reflected in the browser.
 Before committing your changes, run `npm run lint` to verify the code style.
 
