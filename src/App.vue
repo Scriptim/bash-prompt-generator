@@ -11,25 +11,26 @@
       <div id="properties" :style="{ visibility: visibleState }">
         <ElementProperties></ElementProperties>
       </div>
-      <div id="output" :style="{ visibility: visibleState, height: visibleState === 'hidden' ? 0 : undefined }">
+      <div id="output" :style="{ display: visibleState === 'hidden' ? 'none' : 'block' }">
         <PS1Variable></PS1Variable>
         <br />
         <PromptPreview></PromptPreview>
       </div>
     </div>
-    <footer>If you like this project, please consider leaving a &#x2b50; on
-      <a
-        href="https://github.com/Scriptim/bash-prompt-generator"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GitHub
-      </a>.</footer>
   </main>
+  <footer>
+    If you like this project, please consider leaving a <StarIcon class="icon"></StarIcon> on
+    <a
+      href="https://github.com/Scriptim/bash-prompt-generator"
+      target="_blank"
+      rel="noopener noreferrer"
+    >GitHub</a>.
+  </footer>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { StarIcon } from '@heroicons/vue/24/solid';
 import prompt from '@/lib/prompt';
 import SiteHeader from './components/SiteHeader.vue';
 import ElementSelection from './components/elementselection/ElementSelection.vue';
@@ -42,6 +43,7 @@ import darkMode from './lib/darkMode';
 export default defineComponent({
   name: 'App',
   components: {
+    StarIcon,
     SiteHeader,
     ElementSelection,
     PromptElements,
@@ -73,6 +75,10 @@ export default defineComponent({
 @use "sass:color"
 @import "@/assets/sass/_variables.sass"
 
+html, body
+  height: 100%
+  margin: 0
+
 body, main
   margin: 0
   box-sizing: border-box
@@ -82,10 +88,15 @@ body
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 
-main
+#app
+  display: flex
+  flex-direction: column
+  min-height: 100vh
   color: $color-foreground
   background-color: $color-background
-  min-height: 100vh
+
+main
+  flex-grow: 1
 
   &.dark
     color: $color-dim
@@ -190,8 +201,16 @@ input[type="number"]
     padding: 0.8em
 
 footer
-  margin: 0
+  padding: 2em 0.2em
+  color: $color-background
+  background-color: #212121
   font-style: italic
   text-align: center
-  padding: 4em 0.2em 2em
+
+  a
+    color: $color-accent
+
+  .icon
+    height: 1.2em
+    vertical-align: text-bottom
 </style>
