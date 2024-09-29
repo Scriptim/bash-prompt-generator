@@ -1,0 +1,20 @@
+name: Question
+description: Ask a question.
+labels: ['question']
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: The question.
+      placeholder: Ask your question here.
+    validations:
+      required: true
+  - type: checkboxes
+    id: duplicate
+    attributes:
+      label: Not a duplicate
+      description: Check this box if you have confirmed that this question has not been asked before.
+      options:
+        - label: This is not a duplicate
+          required: true

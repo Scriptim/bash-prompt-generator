@@ -1,0 +1,27 @@
+name: Feature
+description: Request a feature.
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of what the wanted feature is.
+      placeholder: Describe the feature you want to see implemented.
+    validations:
+      required: true
+  - type: checkboxes
+    id: duplicate
+    attributes:
+      label: Not a duplicate
+      description: Check this box if you have confirmed that this feature has not been requested before.
+      options:
+        - label: This is not a duplicate
+          required: true
+  - type: checkboxes
+    id: want-to-implement
+    attributes:
+      label: Want to Implement
+      description: Check this box if you are willing to implement the feature.
+      options:
+        - label: I want to implement this feature

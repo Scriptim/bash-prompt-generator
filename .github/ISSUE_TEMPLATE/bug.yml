@@ -1,0 +1,40 @@
+name: Bug
+description: Report a bug.
+labels: ['bug']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe the bug here.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: The steps to reproduce the behavior.
+      placeholder: Describe the steps to reproduce the bug here.
+    validations:
+      required: true
+  - type: checkboxes
+    id: duplicate
+    attributes:
+      label: Not a duplicate
+      description: Check this box if you have confirmed that this bug has not been reported before.
+      options:
+        - label: This is not a duplicate
+          required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      description: The platform where the bug was found.
+      placeholder: On which browser, OS, or device did you find the bug?
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Any additional information that may help in resolving the bug.
+      placeholder: Add any other context about the bug or ideas on how to resolve it.
