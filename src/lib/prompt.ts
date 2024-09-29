@@ -20,7 +20,7 @@ const prompt = defineStore({
         JSON.parse(state, (key, value) => (key === 'type' ? getPromptElementTypeByNameUnsafe(value) : value)),
     },
     // we don't want to persist the selected element because it is only used for the UI
-    paths: ['elementsIdCounter', 'elements'],
+    pick: ['elementsIdCounter', 'elements'],
   },
   state: () => ({
     /**

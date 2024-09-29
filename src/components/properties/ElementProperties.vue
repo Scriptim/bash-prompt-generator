@@ -5,14 +5,14 @@
     <div class="properties_parameter" v-if="element.type.parameters.length > 0">
       <h3>Parameters</h3>
       <br />
-      <label v-for="parameter in element.type.parameters" :key="parameter.id" :for="'parameter_' + parameter.id">
+      <label v-for="parameter in element.type.parameters" :key="parameter.id" :for="`parameter_${parameter.id}`">
         <template v-if="'parameters' in parameter">
-          <fieldset :id="'parameter_' + parameter.id">
+          <fieldset :id="`parameter_${parameter.id}`">
             <legend>{{ parameter.label }}</legend>
-            <label v-if="parameter.unselectLabel !== undefined" :for="'parameter_none_' + parameter.id">
+            <label v-if="parameter.unselectLabel !== undefined" :for="`parameter_none_${parameter.id}`">
               <input
               type="radio"
-              :id="'parameter_none_' + parameter.id"
+              :id="`parameter_none_${parameter.id}`"
               :name="parameter.id"
               value=""
               v-model="element.parameters[parameter.id]"
@@ -22,11 +22,11 @@
             <label
               v-for="subparameter in parameter.parameters"
               :key="subparameter.id"
-              :for="'parameter_' + subparameter.id"
+              :for="`parameter_${subparameter.id}`"
             >
               <input
                 type="radio"
-                :id="'parameter_' + subparameter.id"
+                :id="`parameter_${subparameter.id}`"
                 :name="parameter.id"
                 :value="subparameter.id"
                 v-model="element.parameters[parameter.id]"
@@ -35,7 +35,7 @@
               <input
                 type="text"
                 autocomplete="off"
-                :id="'parameter_value_' + subparameter.id"
+                :id="`parameter_value_${subparameter.id}`"
                 v-model="element.parameters[subparameter.id]"
                 :disabled="element.parameters[parameter.id] !== subparameter.id"
               />
@@ -47,7 +47,7 @@
           <input
             type="text"
             autocomplete="off"
-            :id="'parameter_' + parameter.id"
+            :id="`parameter_${parameter.id}`"
             v-model="element.parameters[parameter.id]"
           />
         </template>

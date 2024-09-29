@@ -13,7 +13,7 @@ export default () =>
         serialize: (state) => state.enabled.toString(),
         deserialize: (state) => ({ enabled: state === 'true' }),
       },
-      paths: ['enabled'],
+      pick: ['enabled'],
     },
     state: () => ({
       /**

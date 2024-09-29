@@ -7,17 +7,17 @@
       v-for="element in elements"
       :key="element.id"
       :style="{
-        backgroundColor: (element.data.attributes.reverse
+        backgroundColor: `${element.data.attributes.reverse
           ? element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')
-          : element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')) + ' !important',
+          : element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')} !important`,
       }"
     >
       <span
         v-if="element.data.type.preview(element.data.parameters) !== '\n'"
         :style="{
-          color: (element.data.attributes.reverse
+          color: `${element.data.attributes.reverse
             ? element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')
-            : element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')) + ' !important',
+            : element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')} !important`,
         }"
         :class="{
           'preview-bold': element.data.attributes.bold,
