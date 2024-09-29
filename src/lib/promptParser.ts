@@ -35,6 +35,14 @@ const unparameterized = PROMPT_ELEMENT_TYPES.filter((element) => element.paramet
  * @returns The prompt element that was read and the cursor position after that element, or `null` on failure.
  */
 function readUnparameterized(ps1: string, cursor: number): { element: PromptElement; newCursor: number } | null {
+  // manual handling of the 'Set Window Title' element if it uses octal or hexadecimal escape syntax instead of '\e'
+  if (ps1.startsWith('\\[\\033]0;', cursor) || ps1.startsWith('\\[\\x1b]0;', cursor)) {
+    return {
+      element: new PromptElement(getPromptElementTypeByNameUnsafe('Set Window Title')),
+      newCursor: cursor + 9,
+    };
+  }
+
   // eslint-disable-next-line no-restricted-syntax
   for (const elementType of unparameterized) {
     const char = elementType.char({});
