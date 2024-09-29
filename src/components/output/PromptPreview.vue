@@ -3,35 +3,46 @@
   <IconButton icon="LightBulbIcon" title="Toggle dark/light preview" @click="togglePreview"></IconButton>
   <br />
   <div class="preview" :class="{ light, dark: !light }">
-    <span
-      v-for="element in elements"
-      :key="element.id"
-      :style="{
-        backgroundColor: `${element.data.attributes.reverse
-          ? element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')
-          : element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')} !important`,
-      }"
-    >
+    <div class="preview-head">
+      <span v-for="element in elements.windowTitle" :key="element.id">
+        {{ element.data.type.preview(element.data.parameters) }}
+      </span>
+      <span class="preview-window-controls">
+        <MinusCircleIcon class="icon"></MinusCircleIcon>
+        <XCircleIcon class="icon"></XCircleIcon>
+      </span>
+    </div>
+    <div class="preview-body">
       <span
-        v-if="element.data.type.preview(element.data.parameters) !== '\n'"
+        v-for="element in elements.prompt"
+        :key="element.id"
         :style="{
-          color: `${element.data.attributes.reverse
-            ? element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')
-            : element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')} !important`,
+          backgroundColor: `${element.data.attributes.reverse
+            ? element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')
+            : element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')} !important`,
         }"
-        :class="{
-          'preview-bold': element.data.attributes.bold,
-          'preview-dim': element.data.attributes.dim,
-          'preview-italic': element.data.attributes.italic,
-          'preview-underline': element.data.attributes.underline,
-          'preview-blink': element.data.attributes.blink,
-          'preview-overline': element.data.attributes.overline,
-        }"
-        >{{ element.data.type.preview(element.data.parameters) }}</span
       >
-      <br v-else />
-    </span>
-    <span class="cursor">&#9608;</span>
+        <span
+          v-if="element.data.type.preview(element.data.parameters) !== '\n'"
+          :style="{
+            color: `${element.data.attributes.reverse
+              ? element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')
+              : element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')} !important`,
+          }"
+          :class="{
+            'preview-bold': element.data.attributes.bold,
+            'preview-dim': element.data.attributes.dim,
+            'preview-italic': element.data.attributes.italic,
+            'preview-underline': element.data.attributes.underline,
+            'preview-blink': element.data.attributes.blink,
+            'preview-overline': element.data.attributes.overline,
+          }"
+          >{{ element.data.type.preview(element.data.parameters) }}</span
+        >
+        <br v-else />
+      </span>
+      <span class="cursor">&#9608;</span>
+    </div>
   </div>
 </template>
 
@@ -39,6 +50,7 @@
 import { defineComponent } from 'vue';
 import prompt from '@/lib/prompt';
 import { UniquePromptElement } from '@/lib/promptElement';
+import { MinusCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid';
 import IconButton from '../ui/IconButton.vue';
 
 /**
@@ -102,6 +114,8 @@ export default defineComponent({
   name: 'PromptPreview',
   components: {
     IconButton,
+    MinusCircleIcon,
+    XCircleIcon,
   },
   data() {
     return {
@@ -119,21 +133,39 @@ export default defineComponent({
      */
     elements: () => {
       const elements = [...prompt.state().elements];
+
       // split elements on carriage returns
-      const crPartitions = [[]] as UniquePromptElement[][];
+      const crPartitions = {
+        prompt: [[]] as UniquePromptElement[][],
+        windowTitle: [[]] as UniquePromptElement[][],
+      };
+      // whether an operating system command ('Set Window Title') has been encountered and awaits an ending bell
+      let operatingSystemCommand: boolean = false;
+
       while (elements.length > 0) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const element = elements.shift()!;
         if (element.data.type.preview(element.data.parameters) === '\r') {
-          crPartitions.push([]);
+          (operatingSystemCommand ? crPartitions.windowTitle : crPartitions.prompt).push([]);
+        } else if (element.data.type.name === 'Set Window Title') {
+          // any previous window title is overwritten by the new one
+          crPartitions.windowTitle = [[]];
+          operatingSystemCommand = true;
+        } else if (element.data.type.name === 'Bell' && operatingSystemCommand) {
+          operatingSystemCommand = false;
+        } else if (operatingSystemCommand) {
+          crPartitions.windowTitle[crPartitions.windowTitle.length - 1].push(element);
         } else {
-          crPartitions[crPartitions.length - 1].push(element);
+          crPartitions.prompt[crPartitions.prompt.length - 1].push(element);
         }
       }
 
       // merge partitions from left to right as the third partition may overlay elements from the second partition which
       // again may overlay elements from the first partition
-      return crPartitions.reduce(mergeCrPartitions);
+      return {
+        prompt: crPartitions.prompt.reduce(mergeCrPartitions),
+        windowTitle: crPartitions.windowTitle.reduce(mergeCrPartitions),
+      };
     },
   },
   methods: {
@@ -167,21 +199,55 @@ h3
 .preview
   display: inline-block
   margin: 1em 0 2em 0
-  padding: 1em
   font-family: 'Roboto Mono', 'Noto Sans Mono', monospace
   text-align: left
   line-height: 1.5
   min-height: 1.5em
   word-break: break-all
   white-space: pre-wrap
+  border: 0.1em solid $color-dim
+  border-top-left-radius: 0.5em
+  border-top-right-radius: 0.5em
 
   &.light
-    background-color: #fafafa !important
     color: #212121 !important
 
+    .preview-head
+      background-color: #e0e0e0 !important
+
+    .preview-body
+      background-color: #fafafa !important
+
   &.dark
-    background-color: #212121 !important
     color: #fafafa !important
+
+    .preview-head
+      background-color: #111111 !important
+
+    .preview-body
+      background-color: #212121 !important
+
+.preview-head
+  display: block
+  padding: 0.5em 1em
+  border-bottom: 0.1em solid $color-dim
+  border-radius: inherit
+
+.preview-window-controls
+  float: right
+  margin-left: 1.5em
+  // opacity: 0.7
+  color: $color-button
+
+  .icon
+    margin: 0 0.1em
+    height: 1.2em
+    vertical-align: middle
+
+
+.preview-body
+  padding: 1em
+  padding-right: 10em
 
 // display attributes
 
