@@ -4,9 +4,11 @@
   <br />
   <div class="preview" :class="{ light, dark: !light }">
     <div class="preview-head">
+      <span v-if="!elements.windowTitleSet">Terminal</span>
       <span v-for="element in elements.windowTitle" :key="element.id">
         {{ element.data.type.preview(element.data.parameters) }}
       </span>
+      <span>&nbsp;</span> <!-- Ensure there is at least one character even if the title is empty -->
       <span class="preview-window-controls">
         <MinusCircleIcon class="icon"></MinusCircleIcon>
         <XCircleIcon class="icon"></XCircleIcon>
@@ -141,6 +143,7 @@ export default defineComponent({
       };
       // whether an operating system command ('Set Window Title') has been encountered and awaits an ending bell
       let operatingSystemCommand: boolean = false;
+      let windowTitleSet: boolean = false;
 
       while (elements.length > 0) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -151,6 +154,7 @@ export default defineComponent({
           // any previous window title is overwritten by the new one
           crPartitions.windowTitle = [[]];
           operatingSystemCommand = true;
+          windowTitleSet = true;
         } else if (element.data.type.name === 'Bell' && operatingSystemCommand) {
           operatingSystemCommand = false;
         } else if (operatingSystemCommand) {
@@ -165,6 +169,7 @@ export default defineComponent({
       return {
         prompt: crPartitions.prompt.reduce(mergeCrPartitions),
         windowTitle: crPartitions.windowTitle.reduce(mergeCrPartitions),
+        windowTitleSet
       };
     },
   },
@@ -242,8 +247,7 @@ h3
   .icon
     margin: 0 0.1em
     height: 1.2em
-    vertical-align: middle
-
+    vertical-align: text-bottom
 
 .preview-body
   padding: 1em
