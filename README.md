@@ -112,6 +112,7 @@ Some element types have special properties:
 The prompt will contain the standard output of the command.
   * The *Git Branch* and *IP Address* elements are functionally equivalent to a *Command* element with the command already filled in.
 * *Text* requires an arbitrary string that will be included as is in the prompt.
+* *Environment Variable* requires the name of an environment variable and configuring the [parameter expansion](https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html "GNU Bash Manual: Shell Parameter Expansion").
 
 ## License
 
