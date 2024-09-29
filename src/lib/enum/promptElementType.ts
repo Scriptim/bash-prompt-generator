@@ -289,6 +289,7 @@ export const PROMPT_ELEMENT_TYPES = [
       return `${variable} value`;
     },
   ),
+  new PromptElementType('Set Window Title', '\\[\\e]0;', [], false, false, 'Set the terminal window title.', ''),
   new PromptElementType('␣', ' ', [], true, false, 'Space.', ' '),
   new PromptElementType('~', '~', [], true, false, 'Tilde.', '~'),
   new PromptElementType('!', '!', [], true, false, 'Exclamation mark.', '!'),

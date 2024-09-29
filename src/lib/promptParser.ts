@@ -358,6 +358,8 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
 
   let cursor = 0;
   let propertiesState: PropertiesState = defaultPropertiesState();
+  // whether an operating system command ('Set Window Title') has been encountered and awaits an ending bell
+  let operatingSystemCommand: boolean = false;
 
   while (cursor < ps1.length) {
     // unparameterized elements are the most common, so we check them first
@@ -365,6 +367,16 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
     if (unparameterizedElement !== null) {
       elements.push(applyState(unparameterizedElement.element, propertiesState));
       cursor = unparameterizedElement.newCursor;
+
+      if (unparameterizedElement.element.type.name === 'Set Window Title') {
+        operatingSystemCommand = true;
+      } else if (unparameterizedElement.element.type.name === 'Bell' && operatingSystemCommand) {
+        operatingSystemCommand = false;
+        // skip '\]'
+        if (ps1.startsWith('\\]', cursor)) {
+          cursor += 2;
+        }
+      }
     }
     // handling of escape sequences that will affect the following elements
     else if (

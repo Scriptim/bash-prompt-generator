@@ -9,6 +9,11 @@
   <div class="ps1" :class="{ dark: darkMode }">
     <span>{{ ps1 }}</span>
   </div>
+  <div class="hint" v-if="hasElement('Set Window Title')">
+    Elements between the <code>Set Window Title</code> and the next <code>Bell</code> element are used to modify the
+    window title of the terminal, if supported.
+    Any styling properties of those elements are ignored.
+  </div>
   <div class="hint" v-if="hasElement('Advanced Git Prompt')">
     The <code>Advanced Git Prompt</code> element requires some extra work: Copy the
     <a
@@ -179,6 +184,8 @@ function generatePS1(elements: PromptElement[]): string {
   // the initial state of the properties is that all colors and attributes are not set
   // this might actually be false if any escape codes are printed before the prompt but we ignore that
   let propertiesState: PropertiesState = defaultPropertiesState();
+  // whether an operating system command ('Set Window Title') has been encountered and awaits an ending bell
+  let operatingSystemCommand: boolean = false;
 
   const commands: string[] = [];
   const outputElements: string[] = [];
@@ -186,6 +193,15 @@ function generatePS1(elements: PromptElement[]): string {
   elements.forEach((element) => {
     if (!element.type.visible) {
       outputElements.push(element.type.char(element.parameters));
+
+      if (element.type.name === 'Set Window Title') {
+        operatingSystemCommand = true;
+      } else if (element.type.name === 'Bell' && operatingSystemCommand) {
+        operatingSystemCommand = false;
+        // end of non-printable operating system command
+        outputElements.push('\\]');
+      }
+
       // skip any handling of escape sequences for invisible elements as they are not affected by them
       // for instance, if two elements with identical properties are separated by only invisible elements, we do not
       // need to insert any reset escape codes in between them
@@ -209,15 +225,20 @@ function generatePS1(elements: PromptElement[]): string {
     };
 
     const escapeCodes = generateEscapeCodes(propertiesState, newPropertiesState);
+
+    // ignore escape codes within operating system commands
+    if (!operatingSystemCommand) {
+      outputElements.push(escapeCodes);
+      propertiesState = newPropertiesState;
+    }
+
     if (element.type.command) {
       const commandVariable = `PS1_CMD${commands.length + 1}`;
       commands.push(`${commandVariable}=$(${element.type.char(element.parameters)})`);
-      outputElements.push(`${escapeCodes}$\{${commandVariable}}`);
+      outputElements.push(`$\{${commandVariable}}`);
     } else {
-      outputElements.push(`${escapeCodes}${element.type.char(element.parameters)}`);
+      outputElements.push(`${element.type.char(element.parameters)}`);
     }
-
-    propertiesState = newPropertiesState;
   });
 
   // reset all attributes at the end if there are any set

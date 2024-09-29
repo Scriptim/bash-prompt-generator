@@ -42,6 +42,11 @@ export default defineComponent({
      */
     pushToPrompt(index: number) {
       prompt.state().push(new PromptElement(PROMPT_ELEMENT_TYPES[index]));
+
+      // append an additional bell element which ends the operating system command setting the window title
+      if (PROMPT_ELEMENT_TYPES[index].name === 'Set Window Title') {
+        this.pushToPrompt(PROMPT_ELEMENT_TYPES.findIndex((element) => element.name === 'Bell'));
+      }
     },
     /**
      * Whether to add a separator before the given element type, as specified in `PROMPT_ELEMENT_TYPES_SEPARATORS`
