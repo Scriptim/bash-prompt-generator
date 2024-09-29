@@ -130,10 +130,13 @@
         <span>Overline</span>
       </label>
     </div>
-    <div class="properties_actions">
+    <div class="properties_actions" v-if="element.type.visible">
       <h3>Actions</h3>
       <br />
       <IconButton icon="Square2StackIcon" title="Duplicate element" @click="duplicate"></IconButton>
+    </div>
+    <div class="hint" v-if="!element.type.visible">
+      <p>This element does not have any properties.</p>
     </div>
   </div>
   <EmptyState :empty="empty">
