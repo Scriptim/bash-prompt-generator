@@ -56,7 +56,7 @@ If you choose to import your existing prompt, paste the output of `echo $PS1` (e
 
 ### Your Prompt
 
-The *Your Prompt* sections lists all elements that are currently part of your prompt.
+The *Your Prompt* section lists all elements that are currently part of your prompt.
 
 ![Your Prompt](./docs/bash_prompt_generator_your_prompt.png)
 
