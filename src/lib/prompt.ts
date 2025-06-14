@@ -5,8 +5,7 @@ import { PromptElementType, getPromptElementTypeByNameUnsafe } from './enum/prom
 /**
  * The prompt store holding the global state of the current prompt.
  */
-const prompt = defineStore({
-  id: 'prompt',
+const prompt = defineStore('prompt', {
   persist: {
     // don't use 'prompt' as key because it has been used by the old prompt store
     // and would cause conflicts when loading the old persisted data

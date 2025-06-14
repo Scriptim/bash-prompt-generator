@@ -4,8 +4,7 @@ import { defineStore } from 'pinia';
  * The dark mode store holding whether the dark mode is currently enabled.
  */
 export default () =>
-  defineStore({
-    id: 'darkMode',
+  defineStore('darkMode', {
     persist: {
       key: 'darkMode-pinia',
       // store a simple boolean value instead of the whole store object
