@@ -1,4 +1,5 @@
 import { timeFormat } from 'd3-time-format';
+import { findNerdFontGlyphByName } from './nerdfontglyph';
 
 /**
  * A parameter for a {@link PromptElementType}, e.g. a date format. Parameters are specified by the user in the UI.
@@ -299,7 +300,7 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType('$', '\\\\$', [], true, false, 'Dollar sign.', '$'),
   new PromptElementType('%', '%', [], true, false, 'Percent.', '%'),
   new PromptElementType('^', '^', [], true, false, 'Caret.', '^'),
-  new PromptElementType('&', '&', [], true, false, 'Ampersand.', '&'),
+  new PromptElementType('&', '&', [], true, false, 'Ampersand.', '&amp;'),
   new PromptElementType('*', '*', [], true, false, 'Asterisk.', '*'),
   new PromptElementType('(', '(', [], true, false, 'Open parenthesis.', '('),
   new PromptElementType(')', ')', [], true, false, 'Close parenthesis.', ')'),
@@ -318,11 +319,11 @@ export const PROMPT_ELEMENT_TYPES = [
   new PromptElementType('.', '.', [], true, false, 'Period.', '.'),
   new PromptElementType(':', ':', [], true, false, 'Colon.', ':'),
   new PromptElementType(';', ';', [], true, false, 'Semicolon.', ';'),
-  new PromptElementType('"', '"', [], true, false, 'Quotation mark.', '"'),
+  new PromptElementType('"', '"', [], true, false, 'Quotation mark.', '&quot;'),
   // eslint-disable-next-line quotes
-  new PromptElementType("'", "'", [], true, false, 'Single quote.', "'"),
-  new PromptElementType('<', '<', [], true, false, 'Less than.', '<'),
-  new PromptElementType('>', '>', [], true, false, 'Greater than.', '>'),
+  new PromptElementType("'", "'", [], true, false, 'Single quote.', '&apos;'),
+  new PromptElementType('<', '<', [], true, false, 'Less than.', '&lt;'),
+  new PromptElementType('>', '>', [], true, false, 'Greater than.', '&gt;'),
   new PromptElementType(
     'Text',
     // https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
@@ -333,13 +334,32 @@ export const PROMPT_ELEMENT_TYPES = [
     'A custom text.',
     (args) => args.text ?? '',
   ),
+  new PromptElementType(
+    'Nerd Font Glyph',
+    (args) => {
+      if (args.glyph === undefined) return '';
+      const glyph = findNerdFontGlyphByName(args.glyph);
+      if (glyph === undefined) return '';
+      return String.fromCodePoint(glyph.code);
+    },
+    [{ id: 'glyph', label: 'Glyph' }],
+    true,
+    false,
+    'A glyph from a Nerd Font.',
+    (args) => {
+      if (args.glyph === undefined) return '';
+      const glyph = findNerdFontGlyphByName(args.glyph);
+      if (glyph === undefined) return '';
+      return String.fromCodePoint(glyph.code);
+    },
+  ),
 ];
 
 /**
  * Find a prompt element type by its name. This function should only be used if the name is known to be valid.
  *
  * @param name The case-insensitive name of an existing (!) prompt element type.
- * @returns the prompt element type with the given name
+ * @returns The prompt element type with the given name.
  */
 export function getPromptElementTypeByNameUnsafe(name: string): PromptElementType {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -197,6 +197,7 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 @import "@/assets/sass/_variables.sass"
+@import "https://www.nerdfonts.com/assets/css/webfont.css"
 
 h3
   display: inline-block
@@ -204,7 +205,7 @@ h3
 .preview
   display: inline-block
   margin: 1em 0 2em 0
-  font-family: 'Roboto Mono', 'Noto Sans Mono', monospace
+  font-family: 'NerdFontsSymbols Nerd Font', 'Roboto Mono', 'Noto Sans Mono', monospace
   text-align: left
   line-height: 1.5
   min-height: 1.5em

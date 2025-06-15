@@ -20,9 +20,7 @@
       href="https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh"
       target="_blank"
       rel="noopener noreferrer"
-    >
-      <code>git-prompt.sh</code>
-    </a>
+    ><code>git-prompt.sh</code></a>
     file to your home directory and <code>source</code> it in your <code>~/.bashrc</code> file
     (as described in <code>git-prompt.sh</code>).
     By default the status will only contain the current branch name, however you can include more information using
@@ -34,10 +32,17 @@
       href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-PROMPT_005fDIRTRIM"
       target="_blank"
       rel="noopener noreferrer"
-    >
-      <code>PROMPT_DIRTRIM</code>
-    </a>
+    ><code>PROMPT_DIRTRIM</code></a>
     environment variable in your <code>~/.bashrc</code> file.
+  </div>
+  <div class="hint" v-if="hasElement('Nerd Font Glyph')">
+    For <code>Nerd Font Glyph</code> elements to be properly displayed, you need to have a
+    <a
+      href="https://www.nerdfonts.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Nerd Font</a>
+    installed and configured in your terminal.
   </div>
 </template>
 
@@ -306,6 +311,7 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 @import "@/assets/sass/_variables.sass"
+@import "https://www.nerdfonts.com/assets/css/webfont.css"
 
 .ps1
   display: inline-block
@@ -313,7 +319,7 @@ export default defineComponent({
   padding: 1em
   color: $color-background
   background-color: $color-foreground
-  font-family: 'Roboto Mono', 'Noto Sans Mono', monospace
+  font-family: 'NerdFontsSymbols Nerd Font', 'Roboto Mono', 'Noto Sans Mono', monospace
   line-height: 1.5
   min-height: 1.5em
   word-break: break-all

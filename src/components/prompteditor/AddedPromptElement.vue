@@ -97,6 +97,7 @@ export default defineComponent({
 <style lang="sass" scoped>
 @use "sass:color"
 @import "@/assets/sass/_variables.sass"
+@import "https://www.nerdfonts.com/assets/css/webfont.css"
 
 .selected
   // darken the background color because the delete icon has the same color
@@ -104,5 +105,5 @@ export default defineComponent({
 
 .parameter
   vertical-align: middle
-  font-family: monospace
+  font-family: 'NerdFontsSymbols Nerd Font', monospace
 </style>

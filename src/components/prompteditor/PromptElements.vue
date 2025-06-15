@@ -124,6 +124,7 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 @import "@/assets/sass/_variables.sass"
+@import "https://www.nerdfonts.com/assets/css/webfont.css"
 
 .sortable-ghost
   opacity: 0.4
@@ -142,7 +143,7 @@ hr
     width: 90%
     max-width: 24em
     font-size: 1.1em
-    font-family: monospace
+    font-family: 'NerdFontsSymbols Nerd Font', monospace
     margin-top: 0.1em
     margin-bottom: 0.8em
 

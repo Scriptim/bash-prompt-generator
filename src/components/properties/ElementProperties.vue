@@ -11,11 +11,11 @@
             <legend>{{ parameter.label }}</legend>
             <label v-if="parameter.unselectLabel !== undefined" :for="`parameter_none_${parameter.id}`">
               <input
-              type="radio"
-              :id="`parameter_none_${parameter.id}`"
-              :name="parameter.id"
-              value=""
-              v-model="element.parameters[parameter.id]"
+                type="radio"
+                :id="`parameter_none_${parameter.id}`"
+                :name="parameter.id"
+                value=""
+                v-model="element.parameters[parameter.id]"
               />
               {{ parameter.unselectLabel }}<br />
             </label>
@@ -50,6 +50,19 @@
             :id="`parameter_${parameter.id}`"
             v-model="element.parameters[parameter.id]"
           />
+        </template>
+        <template v-if="element.type.name === 'Nerd Font Glyph'">
+          <ul class="nerd-font-glyph-suggestions">
+            <li
+              v-for="glyph in nerdFontGlyphSuggestions"
+              :key="glyph.name"
+              :class="{ selected: element.parameters.glyph === glyph.name }"
+            >
+              <button type="button" :title="glyph.name" @click="setTextParameter(parameter.id, glyph.name)">
+                <i :class="`nf ${glyph.name}`"></i>
+              </button>
+            </li>
+          </ul>
         </template>
       </label>
     </div>
@@ -152,6 +165,8 @@ import prompt from '@/lib/prompt';
 import { Color } from '@/lib/enum/color';
 import { PromptElement } from '@/lib/promptElement';
 import darkMode from '@/lib/darkMode';
+import { fuzzySearchNerdFontGlyphs, NerdFontGlyph } from '@/lib/enum/nerdfontglyph';
+import debounce from 'lodash.debounce';
 import EmptyState from '../base/EmptyState.vue';
 import ColorPicker from '../ui/ColorPicker.vue';
 import IconButton from '../ui/IconButton.vue';
@@ -180,6 +195,10 @@ export default defineComponent({
        * Setting any of the properties will modify this (and only this) element.
        */
       element: prompt.refs().selectedElement,
+      /**
+       * Nerd Font glyph suggestions based on the current parameter input value.
+       */
+      nerdFontGlyphSuggestions: [] as NerdFontGlyph[],
     };
   },
   computed: {
@@ -200,6 +219,17 @@ export default defineComponent({
     },
   },
   methods: {
+    /**
+     * Sets the value of a text parameter for the currently selected element.
+     *
+     * @param parameterId the ID of the parameter to set
+     * @param value the value to set for the parameter
+     */
+    setTextParameter(parameterId: string, value: string) {
+      if (this.element && this.element.parameters) {
+        this.element.parameters[parameterId] = value;
+      }
+    },
     /**
      * Sets the foreground color of the currently selected element.
      *
@@ -233,12 +263,38 @@ export default defineComponent({
         prompt.state().push(element);
       }
     },
+    /**
+     * Updates the list of Nerd Font glyph suggestions based on the provided name.
+     *
+     * @param name the name of the Nerd Font glyph to search for
+     */
+    updateNerdFontGlyphSuggestions(name: string) {
+      this.nerdFontGlyphSuggestions = fuzzySearchNerdFontGlyphs(name);
+    },
+    /**
+     * Debounced version of `updateNerdFontGlyphSuggestions` to avoid excessive calls while typing.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    updateNerdFontGlyphSuggestionsDebounced(name: string) {
+      // This will be replaced in `created()`
+    },
+  },
+  created() {
+    this.updateNerdFontGlyphSuggestionsDebounced = debounce(this.updateNerdFontGlyphSuggestions, 50);
+  },
+  watch: {
+    'element.parameters.glyph': function watchGlyphParameter(newVal: string) {
+      if (this.element && this.element.type.name === 'Nerd Font Glyph') {
+        this.updateNerdFontGlyphSuggestionsDebounced(newVal || '');
+      }
+    },
   },
 });
 </script>
 
 <style lang="sass" scoped>
 @import "@/assets/sass/_variables.sass"
+@import "https://www.nerdfonts.com/assets/css/webfont.css"
 
 .properties-wrapper
   text-align: left
@@ -278,6 +334,7 @@ input[type="text"]
   width: 20em
   padding: 0.2em 0.4em
   margin-top: 0.2em
+  font-family: 'NerdFontsSymbols Nerd Font', monospace
 
 input.color-picker-btn
   vertical-align: middle
@@ -290,4 +347,27 @@ input.color-picker-btn
 
 input[disabled]
   opacity: 0.7
+
+.nerd-font-glyph-suggestions
+  list-style: none
+  padding: 0
+  margin: 1em 0 0
+
+  li
+    display: inline-block
+    margin: 0.1em
+
+    &.selected
+      color: $color-accent
+
+    button
+      font-size: 1.5em
+      padding: 0.2em
+      background: none
+      border: none
+      color: inherit
+      cursor: pointer
+
+      i
+        vertical-align: middle
 </style>
