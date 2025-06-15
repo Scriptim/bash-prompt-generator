@@ -43084,6 +43084,27 @@ export function findNerdFontGlyphByName(name: string): NerdFontGlyph | undefined
   return NERD_FONT_GLYPHS.find((glyph) => glyph.name.toLowerCase() === name.toLowerCase());
 }
 
+const codeRange = NERD_FONT_GLYPHS.reduce(
+  (range, glyph) => ({
+    min: Math.min(range.min, glyph.code),
+    max: Math.max(range.max, glyph.code),
+  }),
+  { min: Infinity, max: -Infinity },
+);
+
+/**
+ * Find a Nerd Font glyph by its code point.
+ *
+ * @param code The code point of the glyph.
+ * @returns The glyph with the given code point or `undefined` if no such glyph exists.
+ */
+export function findNerdFontGlyphByCode(code: number): NerdFontGlyph | undefined {
+  if (code < codeRange.min || code > codeRange.max) {
+    return undefined;
+  }
+  return NERD_FONT_GLYPHS.find((glyph) => glyph.code === code);
+}
+
 const fuse = new Fuse(NERD_FONT_GLYPHS, {
   keys: ['name'],
 });

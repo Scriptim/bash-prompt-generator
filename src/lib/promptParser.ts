@@ -3,6 +3,7 @@ import { ANSI } from './enum/ansi';
 import { PromptElement } from './promptElement';
 import { PropertiesState, defaultPropertiesState } from './promptElementProperties';
 import { COLORS } from './enum/color';
+import { findNerdFontGlyphByCode } from './enum/nerdfontglyph';
 
 /**
  * Thrown when the prompt parser encounters an error.
@@ -370,6 +371,9 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
   let operatingSystemCommand: boolean = false;
 
   while (cursor < ps1.length) {
+    // we need to segment graphemes to handle Nerd Font glyphs consisting of multiple code units correctly
+    const grapheme = new Intl.Segmenter().segment(ps1.slice(cursor))[Symbol.iterator]().next().value?.segment ?? '';
+
     // unparameterized elements are the most common, so we check them first
     const unparameterizedElement = readUnparameterized(ps1, cursor);
     if (unparameterizedElement !== null) {
@@ -506,6 +510,14 @@ export function parsePrompt(ps1: string, promptCommand: string): PromptElement[]
       }
 
       elements.push(applyState(element, propertiesState));
+    }
+    // manual handling of Nerd Font glyphs
+    else if (findNerdFontGlyphByCode(grapheme.codePointAt(0) ?? 0) !== undefined) {
+      const glyph = findNerdFontGlyphByCode(grapheme.codePointAt(0) ?? 0)!;
+      const element = new PromptElement(getPromptElementTypeByNameUnsafe('Nerd Font Glyph'));
+      element.parameters.glyph = glyph.name;
+      elements.push(applyState(element, propertiesState));
+      cursor += grapheme.length;
     }
     // manual handling of custom text element (fallback)
     else {
