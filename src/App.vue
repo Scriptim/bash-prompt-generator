@@ -198,7 +198,7 @@ input[type="number"]
 
 footer
   padding: 2em 0.2em
-  color: $color-background
+  color: $color-dim
   background-color: #212121
   font-style: italic
   text-align: center
