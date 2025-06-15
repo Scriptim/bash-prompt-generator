@@ -19,7 +19,7 @@ export default defineComponent({
   props: {
     /**
      * Whether the current state is empty.
-     * 
+     *
      * The component is displayed iff this is `true`.
      */
     empty: {

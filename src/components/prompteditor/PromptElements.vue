@@ -24,7 +24,7 @@
     <p>Alternatively, you can paste your existing <code>PS1</code> string to import it:</p>
     <label for="import-ps1" class="import-prompt">
       <code>$PS1</code>
-      <br>
+      <br />
       <input
         type="text"
         id="import-ps1"
@@ -34,10 +34,10 @@
         spellcheck="false"
       />
     </label>
-    <br>
+    <br />
     <label for="import-prompt_command" class="import-prompt">
       <code>$PROMPT_COMMAND</code>&nbsp;<small>(optional)</small>
-      <br>
+      <br />
       <input
         type="text"
         id="import-prompt_command"
@@ -47,7 +47,7 @@
         spellcheck="false"
       />
     </label>
-    <br>
+    <br />
     <IconButton icon="ArrowDownOnSquareIcon" title="Import prompt" @click="importPS1" />
     <p v-if="promptInputError" class="import-error">{{ promptInputError }}</p>
   </EmptyState>

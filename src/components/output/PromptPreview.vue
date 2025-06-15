@@ -8,7 +8,8 @@
       <span v-for="element in elements.windowTitle" :key="element.id">
         {{ element.data.type.preview(element.data.parameters) }}
       </span>
-      <span>&nbsp;</span> <!-- Ensure there is at least one character even if the title is empty -->
+      <!-- Ensure there is at least one character even if the title is empty -->
+      <span>&nbsp;</span>
       <span class="preview-window-controls">
         <MinusCircleIcon class="icon"></MinusCircleIcon>
         <XCircleIcon class="icon"></XCircleIcon>
@@ -19,17 +20,21 @@
         v-for="element in elements.prompt"
         :key="element.id"
         :style="{
-          backgroundColor: `${element.data.attributes.reverse
-            ? element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')
-            : element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')} !important`,
+          backgroundColor: `${
+            element.data.attributes.reverse
+              ? element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')
+              : element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')
+          } !important`,
         }"
       >
         <span
           v-if="element.data.type.preview(element.data.parameters) !== '\n'"
           :style="{
-            color: `${element.data.attributes.reverse
-              ? element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')
-              : element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')} !important`,
+            color: `${
+              element.data.attributes.reverse
+                ? element.data.backgroundColor?.hex ?? (light ? '#fafafa' : '#212121')
+                : element.data.foregroundColor?.hex ?? (light ? '#212121' : '#fafafa')
+            } !important`,
           }"
           :class="{
             'preview-bold': element.data.attributes.bold,
@@ -169,7 +174,7 @@ export default defineComponent({
       return {
         prompt: crPartitions.prompt.reduce(mergeCrPartitions),
         windowTitle: crPartitions.windowTitle.reduce(mergeCrPartitions),
-        windowTitleSet
+        windowTitleSet,
       };
     },
   },

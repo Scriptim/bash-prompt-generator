@@ -54,10 +54,7 @@ export default defineComponent({
      * Opens the usage instructions in the README.md file on GitHub.
      */
     openHelp(): void {
-      window.open(
-        'https://github.com/Scriptim/bash-prompt-generator#how-to-use',
-        '_blank',
-      );
+      window.open('https://github.com/Scriptim/bash-prompt-generator#how-to-use', '_blank');
     },
     /**
      * Toggles the dark mode.

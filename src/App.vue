@@ -20,11 +20,7 @@
   </main>
   <footer>
     If you like this project, please consider leaving a <StarIcon class="icon"></StarIcon> on
-    <a
-      href="https://github.com/Scriptim/bash-prompt-generator"
-      target="_blank"
-      rel="noopener noreferrer"
-    >GitHub</a>.
+    <a href="https://github.com/Scriptim/bash-prompt-generator" target="_blank" rel="noopener noreferrer">GitHub</a>.
   </footer>
 </template>
 

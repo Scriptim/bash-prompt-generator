@@ -43111,7 +43111,7 @@ const fuse = new Fuse(NERD_FONT_GLYPHS, {
 
 /**
  * Find Nerd Font glyphs by a fuzzy search on their names.
- * 
+ *
  * @param name The case-insensitive name to search for.
  * @returns A limited list of glyphs that match the search term, sorted by score.
  */

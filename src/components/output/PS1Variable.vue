@@ -11,8 +11,7 @@
   </div>
   <div class="hint" v-if="hasElement('Set Window Title')">
     Elements between the <code>Set Window Title</code> and the next <code>Bell</code> element are used to modify the
-    window title of the terminal, if supported.
-    Any styling properties of those elements are ignored.
+    window title of the terminal, if supported. Any styling properties of those elements are ignored.
   </div>
   <div class="hint" v-if="hasElement('Advanced Git Prompt')">
     The <code>Advanced Git Prompt</code> element requires some extra work: Copy the
@@ -20,11 +19,12 @@
       href="https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh"
       target="_blank"
       rel="noopener noreferrer"
-    ><code>git-prompt.sh</code></a>
-    file to your home directory and <code>source</code> it in your <code>~/.bashrc</code> file
-    (as described in <code>git-prompt.sh</code>).
-    By default the status will only contain the current branch name, however you can include more information using
-    global or repository-local configuration options (which are also described in <code>git-prompt.sh</code>).
+      ><code>git-prompt.sh</code>
+    </a>
+    file to your home directory and <code>source</code> it in your <code>~/.bashrc</code> file (as described in
+    <code>git-prompt.sh</code>). By default the status will only contain the current branch name, however you can
+    include more information using global or repository-local configuration options (which are also described in
+    <code>git-prompt.sh</code>).
   </div>
   <div class="hint" v-if="hasElement('Working Directory') || hasElement('Working Directory (Basename)')">
     You can limit the number of components in the working directory path by setting the
@@ -32,16 +32,13 @@
       href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-PROMPT_005fDIRTRIM"
       target="_blank"
       rel="noopener noreferrer"
-    ><code>PROMPT_DIRTRIM</code></a>
+      ><code>PROMPT_DIRTRIM</code>
+    </a>
     environment variable in your <code>~/.bashrc</code> file.
   </div>
   <div class="hint" v-if="hasElement('Nerd Font Glyph')">
     For <code>Nerd Font Glyph</code> elements to be properly displayed, you need to have a
-    <a
-      href="https://www.nerdfonts.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >Nerd Font</a>
+    <a href="https://www.nerdfonts.com/" target="_blank" rel="noopener noreferrer">Nerd Font</a>
     installed and configured in your terminal.
   </div>
 </template>

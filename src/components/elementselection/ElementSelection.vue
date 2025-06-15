@@ -54,7 +54,7 @@ export default defineComponent({
      */
     separate(element: PromptElementType) {
       return PROMPT_ELEMENT_TYPES_SEPARATORS.includes(element.name);
-    }
+    },
   },
 });
 </script>

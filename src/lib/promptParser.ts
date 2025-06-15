@@ -296,12 +296,7 @@ function applyPromptCommand(ps1: PromptElement[], promptCommand: string): Prompt
   varAssignments.forEach((assignment) => {
     const match = assignment.match(assignmentRegex);
     if (match === null) {
-      throw new PromptParserError(
-        'Could not parse command assignments in prompt command',
-        promptCommand,
-        0,
-        10
-      );
+      throw new PromptParserError('Could not parse command assignments in prompt command', promptCommand, 0, 10);
     }
 
     const variableName = match[1];
